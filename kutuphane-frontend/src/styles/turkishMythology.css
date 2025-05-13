@@ -1,0 +1,264 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Forum&display=swap');
+
+body {
+    background: linear-gradient(to bottom, #f5f5dc, #e0d8c3);
+    color: #2e1d0e;
+    font-family: 'Forum', serif;
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-image: url('file:///C:/Users/Baran%20G%C3%9CLEGEN/OneDrive/Masa%C3%BCst%C3%BC/Blessed_by_the_Gods_Ancient_Rome_competition_by_OzzyY2KX-1-800x445.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Forum', serif;
+    color: #3a2e1e;
+    text-shadow: none;
+}
+
+.container {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: auto;
+    background-color: #fdfaf5; /* Neredeyse opak, açık mermer rengi */
+    color: #2e1d0e;
+    border: 2px solid #bfa46f;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(139, 69, 19, 0.2);
+    backdrop-filter: blur(5px); /* Eğer destekliyorsa blur efekti */
+    -webkit-backdrop-filter: blur(5px); /* Safari için */
+}
+
+
+.container .title {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #3a2e1e;
+}
+
+select, input, button {
+    margin: 0.5rem 0;
+    padding: 0.6rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #a1865e;
+    background-color: #fffaf0;
+    color: #2e1d0e;
+    font-family: 'Forum', serif;
+}
+
+button {
+    background-color: #8b0000;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #d2b48c;
+    color: #000;
+}
+
+ul {
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+
+li {
+    display: flex; /* İçindeki öğeleri hizalamak için flex yapısı */
+    justify-content: space-between; /* Öğeleri yatayda aralarına boşluk bırakarak hizalar */
+    align-items: center; /* Öğeleri dikeyde ortalar */
+    padding: 10px 15px;
+    margin: 5px;
+    background-color: rgba(253, 250, 245, 0.95);
+    border: 1px solid #bfa46f;
+    border-radius: 8px;
+    color: #2e1d0e;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+li span {
+    flex-grow: 1; /* Verinin mümkün olduğunca fazla yer kaplamasını sağlar */
+}
+
+.action-buttons {
+    display: flex;
+    gap: 5px; /* Butonlar arasında boşluk */
+}
+
+
+/* Eğer veriler <div class="data-block"> içinde geliyorsa: */
+.data-block {
+    display: flex; /* İçindeki öğeleri hizalamak için flex yapısı */
+    justify-content: space-between; /* Öğeleri yatayda aralarına boşluk bırakarak hizalar */
+    align-items: center; /* Öğeleri dikeyde ortalar */
+    background-color: rgba(253, 250, 245, 0.95);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    border: 1px solid #bfa46f;
+    color: #2e1d0e;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.data-block-info {
+    flex-grow: 1; /* Veri içeriğinin daha fazla yer kaplamasını sağlar */
+}
+
+.data-block .action-buttons {
+    display: flex;
+    gap: 5px; /* Butonlar arasında boşluk */
+}
+
+
+.mythological-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.container .myth-icon-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+.container .myth-icon-container img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #a1865e;
+    border-radius: 8px;
+}
+
+.mythological-decor {
+    background: url('file:///C:/Users/Baran%20G%C3%9CLEGEN/OneDrive/Masa%C3%BCst%C3%BC/image-1.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    margin: 0 auto;
+    border: 3px solid #bfa46f;
+    box-shadow: 0 0 10px rgba(160, 82, 45, 0.4);
+}
+
+.myth-logo {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    z-index: 1000;
+}
+
+.myth-logo img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    border: 2px solid #bfa46f;
+    box-shadow: 0 0 10px #c2b280;
+}
+.ilayada-container {
+    padding: 2rem;
+    background-color: transparent; /* Şeffaf arka plan */
+    color: #FFD700; /* Yazı rengi altın sarısı */
+    border-radius: 10px;
+    border: 2px solid #8B0000; /* Koyu kırmızı/altın rengi sınır */
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); /* Işıklı bir etki */
+    margin-bottom: 2rem; /* Alt boşluk */
+    font-family: 'Cinzel', serif;
+}
+
+.ilayada-container h1 {
+    text-align: center;
+    text-shadow: 2px 2px 4px #000;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem; /* Başlık boyutu */
+}
+.module-container {
+    background-color: rgba(255, 248, 240, 0.85); /* Parşömen hissi */
+    border: 2px solid #bfa46f;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+    box-shadow: 0 0 15px rgba(139, 69, 19, 0.2);
+    backdrop-filter: blur(4px);
+}
+
+.module-title {
+    font-family: 'Forum', serif;
+    font-size: 2rem;
+    color: #4b2e0e;
+    text-align: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #a1865e;
+    padding-bottom: 0.5rem;
+}
+
+.module-description {
+    font-family: 'Forum', serif;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #3a2c14;
+    text-align: left;
+}
+
+.myth-button {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-family: 'Forum', serif;
+    color: white;
+    border: 1px solid #d4af7f;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease;
+}
+
+.myth-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.module-container {
+    background-color: rgba(255, 248, 240, 0.85);
+    border: 2px solid #bfa46f;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(139, 69, 19, 0.2);
+    backdrop-filter: blur(4px);
+}
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+    background-color: transparent;
+}
+.data-block {
+    display: flex; /* İçindeki öğeleri yatayda hizalamak için */
+    justify-content: space-between; /* Öğeleri yatayda aralarına boşluk bırakarak hizalar */
+    align-items: center; /* Öğeleri dikeyde ortalar */
+    /* Diğer stil tanımlamaları */
+}
+
+.data-block-info {
+    flex-grow: 1; /* Yazının mümkün olduğunca fazla yer kaplamasını sağlar */
+}
+
+.data-block .action-buttons { /* .data-block içindeki butonlar için */
+    display: flex;
+    gap: 5px; /* Butonlar arasında boşluk */
+}
