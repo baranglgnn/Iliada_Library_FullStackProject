@@ -75,4 +75,9 @@ public class LibrarysController {
         }
     }
 
+    @GetMapping("/searchLibrary")
+    public List<Librarys> searchLibraryByName(@RequestParam("name") String keyword) {
+        return libService.findAllLibrariesByName(keyword);
+    }
+
 }

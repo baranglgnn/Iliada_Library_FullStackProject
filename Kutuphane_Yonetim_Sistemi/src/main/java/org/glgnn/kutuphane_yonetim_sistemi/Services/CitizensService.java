@@ -15,5 +15,6 @@ public interface CitizensService {
     Citizens updateCitizen(Long id,Citizens citizen);
     Citizens addCitizen(Citizens citizen);
     Long getCitizenIdByTc(String tcNo);
+    List<Citizens> getCitizensByName(String keyword);
 
 }

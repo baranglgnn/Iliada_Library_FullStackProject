@@ -6,6 +6,8 @@ import org.glgnn.kutuphane_yonetim_sistemi.Entities.Librarys;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.Library_authorRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.Library_authorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +35,7 @@ public class Library_authorServiceImpl implements Library_authorService {
     }
 
     @Override
-    public List<Library_author> getAllLibraryAuthors() {
-        return library_authorRepo.findAllLibraryAuthors();
+    public Page<Library_author> getAllLibraryAuthors(Pageable pageable) {
+        return library_authorRepo.findAllLibraryAuthors(pageable);
     }
 }

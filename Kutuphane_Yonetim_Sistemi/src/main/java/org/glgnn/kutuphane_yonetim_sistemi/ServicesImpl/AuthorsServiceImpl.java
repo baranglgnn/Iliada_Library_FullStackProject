@@ -69,4 +69,9 @@ public class AuthorsServiceImpl implements AuthorsService {
                 })
                 .orElseGet(() -> authorRepo.save(new Authors(authors.getName())));
     }
+
+    @Override
+    public List<Authors> getAuthorsByName(String keyword) {
+        return authorRepo.findByNameStartingWith(keyword);
+    }
 }

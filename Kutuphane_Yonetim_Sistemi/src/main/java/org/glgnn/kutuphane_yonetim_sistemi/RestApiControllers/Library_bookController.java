@@ -3,6 +3,8 @@ package org.glgnn.kutuphane_yonetim_sistemi.RestApiControllers;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Library_book;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.Library_bookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +42,8 @@ public class Library_bookController {
     }
 
     @GetMapping("/getAllLibraryBook")
-    public ResponseEntity<List<Library_book>> getAllLibraryBooks() {
-        List<Library_book> libraryBooks = library_bookService.getAllLibraryBooks();
+    public ResponseEntity<Page<Library_book>> getAllLibraryBooks(Pageable pageable) {
+        Page<Library_book> libraryBooks = library_bookService.getAllLibraryBooks(pageable);
         return ResponseEntity.ok(libraryBooks);
     }
 }

@@ -57,4 +57,8 @@ public class Users {
     public void setRole(Role role) {
         this.role = role;
     }
+    @Override
+    public String toString() {
+        return this.email;  // veya istediğin başka bir alan
+    }
 }

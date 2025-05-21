@@ -3,11 +3,8 @@ package org.glgnn.kutuphane_yonetim_sistemi.RestApiControllers;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Authors;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.AuthorsService;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,35 +17,30 @@ public class AuthorsController {
     public final AuthorsService authorsService;
     public final UserService userService;
 
-    @Autowired
     public AuthorsController(AuthorsService authorsService, UserService userService) {
         this.authorsService = authorsService;
         this.userService = userService;
     }
-    @GetMapping("/getAllAuthor")
-    public ResponseEntity<Page<Authors>> getAllActiveAuthorsPageable(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sortBy) {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+    @GetMapping("/getAllAuthor")
+    public ResponseEntity<Page<Authors>> getAllActiveAuthorsPageable(Pageable pageable) {
         Page<Authors> authorPage = authorsService.getAllActiveAuthors(pageable);
         return ResponseEntity.ok(authorPage);
+
     }
     @GetMapping("/getAuthor/{id}")
     public Authors getAuthorById(@PathVariable Long id)
     {
         return authorsService.getAuthorById(id);
     }
-    public ResponseEntity<Page<Authors>> getAllDeletedAuthorsPageable(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sortBy) {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        Page<Authors> authorPage = authorsService.deletedAuthors(pageable);
+    @GetMapping("/getDeletedAuthors")
+    public ResponseEntity<Page<Authors>> getAllDeletedAuthorsPageable(Pageable pageable)
+    {
+        Page<Authors> authorPage = authorsService.getAllActiveAuthors(pageable);
         return ResponseEntity.ok(authorPage);
     }
+
     @PostMapping("/deleteAuthor/{id}")
     public ResponseEntity<?> deleteAuthor(@PathVariable Long id){
         try{
@@ -76,6 +68,11 @@ public class AuthorsController {
         {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Hata: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/searchAuthors")
+    public List<Authors> searchAuthorByName(@RequestParam("name") String keyword) {
+        return authorsService.getAuthorsByName(keyword);
     }
 
 

@@ -67,4 +67,9 @@ public class LibrarysServiceImpl implements LibrarysService {
         deletedLibrary.setStatus(false);
         return librarysRepo.save(deletedLibrary);
     }
+
+    @Override
+    public List<Librarys> findAllLibrariesByName(String keyword) {
+        return librarysRepo.findByNameStartingWithLibrays(keyword);
+    }
 }

@@ -15,6 +15,7 @@ public interface AuthorsService {
     Authors deleteAuthor(Long id);
     Authors saveAuthor(Authors author);
     Authors updateAuthor(Long id, Authors author);
+    List<Authors> getAuthorsByName(String keyword);
 
 
 }

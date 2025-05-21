@@ -1,6 +1,7 @@
 package org.glgnn.kutuphane_yonetim_sistemi.RestApiControllers;
 
 
+import org.glgnn.kutuphane_yonetim_sistemi.Entities.Books;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Citizens;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.CitizensService;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.UserService;
@@ -81,6 +82,8 @@ public class CitizensController {
         return ResponseEntity.ok(id);
     }
 
-
-
+    @GetMapping("/searchCitizen")
+    public List<Citizens> searchCitizenByFullname(@RequestParam("fullname") String keyword) {
+        return citizService.getCitizensByName(keyword);
+    }
 }

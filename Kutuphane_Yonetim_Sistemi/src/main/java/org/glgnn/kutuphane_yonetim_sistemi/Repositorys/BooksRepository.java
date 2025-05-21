@@ -3,6 +3,8 @@ import org.glgnn.kutuphane_yonetim_sistemi.Entities.Books;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
@@ -16,5 +18,7 @@ public interface BooksRepository extends JpaRepository<Books, Long> {
     List<Books> findByStatusFalse();
     List<Books> findByAuthorId(Long authorId);
     Books save(Books book);
+    @Query("SELECT b FROM Books b WHERE LOWER(b.title) LIKE LOWER(CONCAT(:keyword, '%')) AND b.status = true")
+    List<Books> findByTitleStartingWith(@Param("keyword") String keyword);
 
 }

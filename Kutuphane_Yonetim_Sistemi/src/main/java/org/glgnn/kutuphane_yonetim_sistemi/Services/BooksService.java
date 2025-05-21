@@ -16,6 +16,7 @@ public interface BooksService {
     Books deleteBook(Long id);
     List<Books> getAllBooksSorted();
     List<Books> GetBooksByAuthor(Long authorId);
+    List<Books> findBooksByTitlePrefix(String keyword);
 
 
 }

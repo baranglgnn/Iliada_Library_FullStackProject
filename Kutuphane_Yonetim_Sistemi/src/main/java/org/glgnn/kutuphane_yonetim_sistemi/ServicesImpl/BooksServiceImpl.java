@@ -57,6 +57,10 @@ public class BooksServiceImpl implements BooksService {
         return booksRepo.findByAuthorId(authorId);
     }
 
+    @Override
+    public List<Books> findBooksByTitlePrefix(String keyword) {
+        return booksRepo.findByTitleStartingWith(keyword);
+    }
 
 
     @Override
@@ -71,12 +75,6 @@ public class BooksServiceImpl implements BooksService {
                 .orElseThrow(() -> new RuntimeException("Kitap bulunamadı!"));
     }
 
-//integer
-    //string
-    //boolean
-
-int a;
-    Authors b;
 
 
     @Override

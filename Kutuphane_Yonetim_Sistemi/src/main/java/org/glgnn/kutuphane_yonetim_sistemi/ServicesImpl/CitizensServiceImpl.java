@@ -76,5 +76,10 @@ public class CitizensServiceImpl implements CitizensService {
         return citizen.getId();
     }
 
+    @Override
+    public List<Citizens> getCitizensByName(String keyword) {
+        return citizensRepo.findByfullNameStartingWith(keyword);
+    }
+
 }
 

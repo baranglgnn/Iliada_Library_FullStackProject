@@ -69,6 +69,8 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
 
                         // Kitap listesine GET metodu ile herkese izin ver
+                        .requestMatchers(HttpMethod.GET, "/books/searchBooks").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/books/getAllBooks").permitAll()
 
                         .requestMatchers("/getIdByTc/**").authenticated()

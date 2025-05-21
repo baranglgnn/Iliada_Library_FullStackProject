@@ -2,6 +2,8 @@ package org.glgnn.kutuphane_yonetim_sistemi.Repositorys;
 
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Library_author;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Librarys;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,6 +18,6 @@ public interface Library_authorRepository extends JpaRepository<Library_author, 
     List<Librarys> findLibrariesByAuthorId(@Param("authorId") Long authorId);
     boolean existsByLibraryIdAndAuthorId(Long id, Long id1);
     @Query("SELECT la FROM Library_author la JOIN FETCH la.author a JOIN FETCH la.library l")
-    List<Library_author> findAllLibraryAuthors();
+    Page<Library_author> findAllLibraryAuthors(Pageable pageable);
 }
 

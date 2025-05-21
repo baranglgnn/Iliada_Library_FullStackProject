@@ -14,4 +14,5 @@ public interface LibrarysService {
     Librarys saveLibrary(String name, String address);
     Librarys updateLibrary(Long id,Librarys library);
     Librarys deleteLibraryById(Long id);
+    List<Librarys> findAllLibrariesByName(String keyword);
 }

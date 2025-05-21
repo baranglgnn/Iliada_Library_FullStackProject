@@ -81,5 +81,9 @@ public class BooksController {
             return ResponseEntity.badRequest().body("Hata"+e.getMessage());
         }
     }
+    @GetMapping("/searchBooks")
+    public List<Books> searchBooksByTitle(@RequestParam("title") String keyword) {
+        return bookService.findBooksByTitlePrefix(keyword);
+    }
 
 }

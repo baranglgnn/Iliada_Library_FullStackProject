@@ -8,6 +8,8 @@ import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.Library_bookRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.LibrarysRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.Library_bookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -74,8 +76,8 @@ public class Library_bookServiceImpl implements Library_bookService {
 
     @Override
     @Transactional
-    public List<Library_book> getAllLibraryBooks() {
-        return library_bookRepo.findAllLibraryBooks();
+    public Page<Library_book> getAllLibraryBooks(Pageable pageable) {
+        return library_bookRepo.findAllLibraryBooks(pageable);
     }
 }
 
