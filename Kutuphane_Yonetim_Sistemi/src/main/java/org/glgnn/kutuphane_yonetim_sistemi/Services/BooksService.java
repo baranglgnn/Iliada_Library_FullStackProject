@@ -11,12 +11,13 @@ public interface BooksService {
     Page<Books> getAllActiveBooks(Pageable pageable);
     Books findBookById(Long id);
     List<Books> deletedBooks();
-    Books updateBook(Long id,Books book);
-    Books addBook(String title,Long authorId);
+    Books updateBook(Long id, Books book);
+    Books addBook(String title, Long authorId);
     Books deleteBook(Long id);
     List<Books> getAllBooksSorted();
+    List<Books> getBooksByAuthor(Long authorId);
+
     List<Books> GetBooksByAuthor(Long authorId);
+
     List<Books> findBooksByTitlePrefix(String keyword);
-
-
 }

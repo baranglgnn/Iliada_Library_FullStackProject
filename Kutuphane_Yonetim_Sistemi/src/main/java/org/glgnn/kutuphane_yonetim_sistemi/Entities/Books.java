@@ -2,6 +2,9 @@ package org.glgnn.kutuphane_yonetim_sistemi.Entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "book")
 public class Books {
@@ -19,6 +22,10 @@ public class Books {
 
     @Column(name = "status", nullable = false)
     private boolean status = true;
+
+    @ManyToMany(mappedBy = "books")
+    private List<Librarys> libraries = new ArrayList<>();
+
 
     public Books(String title, Authors author) {
         this.title = title;

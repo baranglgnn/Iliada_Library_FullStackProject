@@ -2,17 +2,16 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axiosInstance';
-import LibraryForm from './LibraryForm'; // External form component
-import libraryImage from '../../images/Library_Trajans.jpg'; // Image for slider items
+// LibraryForm importu kaldırıldı
+import libraryImage from '../../images/Library_Trajans.jpg';
 import returnHomeBgImageFromFile from '../../images/Roma-Kolezyum.jpg';
 
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-const returnHomeBgImage = returnHomeBgImageFromFile; // Used in CSS
+const ITEMS_PER_PAGE = 8; 
 
-// CSS styles (should be largely similar to Authors.js, adapted for libraries)
 const layoutCss = `
   /* Main container */
   .libraries-container {
@@ -20,7 +19,7 @@ const layoutCss = `
     border-radius: 10px;
     display: flex;
     flex-direction: column; 
-    align-items: flex-start; /* Align content to the start */
+    align-items: flex-start; 
     gap: 25px; 
     min-height: calc(100vh - 40px);
     position: relative; 
@@ -47,7 +46,7 @@ const layoutCss = `
     margin-bottom: 30px;
   }
 
-  /* Fancy Home Button (Same as Authors.js) */
+  /* Fancy Home Button */
   .fancy-return-button {
     position: absolute; top: 25px; right: 30px; width: 220px; height: 70px;
     background-image: url('${returnHomeBgImageFromFile}');
@@ -64,23 +63,35 @@ const layoutCss = `
     padding: 5px; box-sizing: border-box; border-radius: inherit;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
   }
-  .fancy-return-button[aria-disabled="true"] { /* Match Authors.js */
+  .fancy-return-button[aria-disabled="true"], .fancy-return-button:disabled {
     opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   }
 
-  /* Add Form Container (for LibraryForm) */
-   .add-form-wrapper { /* Wrapper for the LibraryForm component */
-    width: 400px; /* Width of LibraryForm */
+  /* Add Form Wrapper (Eski LibraryForm için) */
+   .add-form-wrapper { 
+    width: 400px; 
     flex-shrink: 0;
     display: flex; flex-direction: column; gap: 15px;
     background-color: #fff; padding: 20px; border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05); box-sizing: border-box; z-index: 1;
   }
-   .add-form-wrapper h4 { /* Title for the add form section */
+   .add-form-wrapper h4 { 
     margin-top: 0; color: #333; margin-bottom: 10px; font-size: 1.3em;
   }
-  /* LibraryForm internal elements (inputs, buttons) are styled within LibraryForm.js or via its props */
-  /* We need to ensure .form-button-group, .form-add-button, .form-clear-button from LibraryForm.js work */
+  /* Formun içindeki input ve textarea'lar için stiller */
+  .add-form-wrapper input[type="text"], 
+  .add-form-wrapper textarea {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+  }
+  .add-form-wrapper textarea {
+    resize: vertical;
+    min-height: 60px;
+  }
   .add-form-wrapper .form-button-group { display: flex; gap: 10px; margin-top: 5px; }
   .add-form-wrapper .form-button-group button {
     border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;
@@ -91,9 +102,9 @@ const layoutCss = `
   .add-form-wrapper .form-button-group button:disabled {
     opacity: 0.6; cursor: not-allowed; background-color: #cccccc !important; 
   }
-  .add-form-wrapper .form-add-button { background-color: #4CAF50; } /* Authors.js Add GREEN */
+  .add-form-wrapper .form-add-button { background-color: #4CAF50; } 
   .add-form-wrapper .form-add-button:hover:not(:disabled) { background-color: #45a049; }
-  .add-form-wrapper .form-clear-button { background-color: #660000; } /* Authors.js Clear MAROON */
+  .add-form-wrapper .form-clear-button { background-color: #660000; } 
   .add-form-wrapper .form-clear-button:hover:not(:disabled) { background-color: #4d0000; }
 
 
@@ -126,46 +137,46 @@ const layoutCss = `
     padding: 10px 12px; text-align: center; color: #777; font-style: italic; font-size: 0.9em;
   }
 
-  /* Slider & Edit Section (Similar to Authors.js) */
+  /* Slider & Edit Section */
   .slider-and-edit-section {
     flex-grow: 1; display: flex; flex-direction: column; align-items: center;
     width: 100%; max-width: 1300px; min-width: 300px; box-sizing: border-box; z-index: 1;
   }
-  .slider-section {
+  .slider-section { 
     width: 100%; margin-bottom: 30px; padding: 0 25px; box-sizing: border-box;
   }
-  .slick-slide > div { margin: 0 10px; } /* Spacing for slider items */
+  .slick-slide > div { margin: 0 10px; } 
 
-  .slider-item { /* Adapted from Authors.js for Libraries */
+  .slider-item { 
     background-color: transparent; border-radius: 10px; padding: 15px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: flex !important;
     flex-direction: column; align-items: center; text-align: center;
     cursor: default; transition: transform 0.3s ease;
-    justify-content: space-between; /* For content and buttons */
+    justify-content: space-between; 
     height: auto; box-sizing: border-box; position: relative; overflow: hidden;
-    min-height: 280px; /* Adjust based on content (image + text + buttons) */
+    min-height: 280px; 
   }
-  .slider-item::before { /* Background image for slider item */
+  .slider-item::before { 
     content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background-image: url('${libraryImage}'); /* libraryImage variable */
+    background-image: url('${libraryImage}'); 
     background-size: cover; background-position: center; border-radius: 10px;
     opacity: 0.9; z-index: 0;
   }
-  .library-details { /* Container for name and address */
+  .library-details { 
     position: relative; z-index: 1; background-color: rgba(253,244,227,0.85);
     padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; color: #333;
     width: calc(100% - 30px); box-sizing: border-box; text-align: left;
-    min-height: 80px; /* Ensure some space for text */
+    min-height: 80px; 
   }
   .library-details .library-name { font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
   .library-details .library-address { font-size: 0.95em; word-break: break-word; }
   
-  .slider-item .button-container { /* Same as Authors.js */
+  .slider-item .button-container { 
     position: relative; z-index: 1; display: flex; gap: 10px;
-    flex-wrap: wrap; justify-content: center; width: 100%; margin-top: auto; /* Pushes to bottom */
+    flex-wrap: wrap; justify-content: center; width: 100%; margin-top: auto; 
     padding-top:10px; padding-bottom: 5px;
   }
-  .slider-item button { /* Same as Authors.js */
+  .slider-item button { 
     font-size: 0.9em; padding: 8px 12px; color: white; border: none;
     border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease, opacity 0.3s ease;
     flex-grow: 1; min-width: 80px;
@@ -177,7 +188,7 @@ const layoutCss = `
   .slider-item .delete-button { background-color: #660000; } 
   .slider-item .delete-button:hover:not(:disabled) { background-color: #4d0000; }
 
-  /* Slick Arrows (Same as Authors.js) */
+  /* Slick Arrows */
   .slick-prev, .slick-next {
     display: block !important; z-index: 5; width: 40px !important; height: 40px !important;
     top: 50% !important; transform: translateY(-50%) !important;
@@ -196,7 +207,7 @@ const layoutCss = `
   .slick-dots { display: none !important; }
 
 
-  /* Status Messages, Pagination, Edit Form (Same as Authors.js) */
+  /* Status Messages, Pagination, Edit Form */
   .status-message {
     text-align: center; padding: 20px; font-size: 1.2em; color: #555;
     width: 100%; display: flex; justify-content: center; align-items: center; min-height: 150px;
@@ -247,22 +258,21 @@ const layoutCss = `
   }
   .edit-form-container .button-group button:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
   .edit-form-container .button-group button:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
-   .edit-form-container .update-button { background-color: #4CAF50; color: white; } /* Green like Authors Add */
+   .edit-form-container .update-button { background-color: #4CAF50; color: white; } 
   .edit-form-container .update-button:hover:not(:disabled) { background-color: #45a049; }
-  .edit-form-container .cancel-button { background-color: #6c757d; color: white; } /* Standard Grey for Cancel */
+  .edit-form-container .cancel-button { background-color: #6c757d; color: white; } 
   .edit-form-container .cancel-button:hover:not(:disabled) { background-color: #5a6268; }
 
   .error-message {
     color: #c00; font-size: 0.9em; margin-bottom: 10px;
-    text-align: left; /* Align error messages left in forms */
+    text-align: left; 
     width: 100%; box-sizing: border-box;
   }
-  .add-form-wrapper .error-message { /* Specific for add form if LibraryForm passes it up */
+  .add-form-wrapper .error-message { 
      text-align: left;
   }
 
-
-  /* Responsive (Adapted from Authors.js) */
+  /* Responsive */
   @media (max-width: 1400px) { 
       .slider-and-edit-section { max-width: 95%; }
   }
@@ -292,27 +302,76 @@ const layoutCss = `
   }
 `;
 
-const ITEMS_PER_PAGE = 8; // Consistent naming with previous LibraryList
+const MemoizedSliderSection = React.memo(({ 
+  libraries, 
+  sliderSettings, 
+  sliderRef, 
+  loadingSlider, 
+  editingLibrary, 
+  setEditingLibrary,
+  setEditFormError,
+  setAddFormError, 
+  setSliderError,
+  handleDeleteLibrary 
+}) => {
+  // console.log("MemoizedSliderSection RENDERED");
+  if (!libraries || libraries.length === 0) {
+    return null;
+  }
+  return (
+    <div className="slider-section">
+      <Slider {...sliderSettings} ref={sliderRef}>
+        {libraries.map((library) => (
+          <div key={library.id}>
+            <div className="slider-item">
+              <div className="library-details">
+                <div className="library-name">{library.name}</div>
+                <div className="library-address">{library.address}</div>
+              </div>
+              <div className="button-container">
+                <button 
+                  className="edit-button" 
+                  onClick={() => { 
+                    setEditingLibrary({ ...library }); 
+                    if(setEditFormError) setEditFormError(null); 
+                    if(setAddFormError) setAddFormError(null); 
+                    if(setSliderError) setSliderError(null); 
+                  }} 
+                  disabled={loadingSlider || editingLibrary !== null}
+                >
+                  Düzenle
+                </button>
+                <button 
+                  className="delete-button" 
+                  onClick={() => handleDeleteLibrary(library.id)} 
+                  disabled={loadingSlider || editingLibrary !== null}
+                >
+                  Sil
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </Slider>
+    </div>
+  );
+});
 
 const LibraryList = () => {
-  // States for the main list (slider)
-  const [libraries, setLibraries] = useState([]); // Renamed from authorsList
+  const [libraries, setLibraries] = useState([]); 
   const [currentPage, setCurrentPage] = useState(0);
-  const [pageSize] = useState(ITEMS_PER_PAGE); // Use consistent name
   const [totalPages, setTotalPages] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
-  const [loadingSlider, setLoadingSlider] = useState(true); // For main list loading
-  const [sliderError, setSliderError] = useState(null); // For main list errors
+  const [loadingSlider, setLoadingSlider] = useState(true); 
+  const [sliderError, setSliderError] = useState(null); 
+  
+  const [newLibraryName, setNewLibraryName] = useState('');
+  const [newLibraryAddress, setNewLibraryAddress] = useState('');
+  const [isSubmittingAddForm, setIsSubmittingAddForm] = useState(false);
+  const [addFormError, setAddFormError] = useState(null); 
 
-  // LibraryForm is external, so we don't need newLibrary state here.
-  // It manages its own internal state. We'll use formError for errors from it.
-  const [formError, setFormError] = useState(null); // For errors from LibraryForm
-
-  // States for editing a library
   const [editingLibrary, setEditingLibrary] = useState(null);
   const [editFormError, setEditFormError] = useState(null);
-
-  // States for Library Search Dropdown
   const [librarySearchKeyword, setLibrarySearchKeyword] = useState('');
   const [debouncedLibraryKeyword, setDebouncedLibraryKeyword] = useState('');
   const [libraryDropdownResults, setLibraryDropdownResults] = useState([]);
@@ -321,20 +380,19 @@ const LibraryList = () => {
   const [librarySearchApiError, setLibrarySearchApiError] = useState(null);
 
   const sliderRef = useRef(null);
-  const librarySearchWrapperRef = useRef(null); // For search dropdown
-  const navigate = useNavigate();
+  const librarySearchWrapperRef = useRef(null); 
+  const navigate = useNavigate(); 
   const isInitialRender = useRef(true);
 
-  // Slider Settings (from Authors.js, adjust slidesToShow/Scroll if needed)
   const sliderSettings = useMemo(() => ({
-    dots: false, infinite: true, speed: 500, autoplay: true, autoplaySpeed: 3000, // Faster autoplay
+    dots: false, infinite: true, speed: 500, autoplay: true, autoplaySpeed: 3000, 
     pauseOnHover: true, slidesToShow: 4, slidesToScroll: 1, arrows: true,
     responsive: [
        { breakpoint: 1600, settings: { slidesToShow: 4, slidesToScroll: 1 } },
        { breakpoint: 1200, settings: { slidesToShow: 3, slidesToScroll: 1 } },
        { breakpoint: 992, settings: { slidesToShow: 2, slidesToScroll: 1 } },
        { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 1 } },
-       { breakpoint: 576, settings: { slidesToShow: 1, slidesToScroll: 1, arrows: false } } // No arrows on smallest
+       { breakpoint: 576, settings: { slidesToShow: 1, slidesToScroll: 1, arrows: false } } 
     ]
   }), []);
 
@@ -348,22 +406,18 @@ const LibraryList = () => {
                 if (window.innerWidth <= resp.breakpoint) { responsiveSlidesToShow = resp.settings.slidesToShow; break; }
             }
         }
-        let baseSlidesToScroll = sliderSettings.slidesToScroll; // Use base from main settings
-        // Check responsive settings for slidesToScroll override
+        let baseSlidesToScroll = sliderSettings.slidesToScroll; 
         if (sliderSettings.responsive && typeof window !== 'undefined') {
             const sortedResponsive = [...sliderSettings.responsive].sort((a, b) => b.breakpoint - a.breakpoint);
             for (const resp of sortedResponsive) {
                 if (window.innerWidth <= resp.breakpoint && resp.settings.slidesToScroll) { baseSlidesToScroll = resp.settings.slidesToScroll; break; }
             }
         }
-
         let finalSlidesToScroll = Math.max(1, libsCount > 0 ? Math.min(baseSlidesToScroll, libsCount) : 1);
         if (libsCount > 0 && libsCount < responsiveSlidesToShow) finalSlidesToScroll = 1;
-
         try {
-            sliderRef.current.slickSetOption("slidesToScroll", finalSlidesToScroll, false); // No immediate refresh
-            sliderRef.current.slickSetOption("infinite", libsCount >= responsiveSlidesToShow, true); // Refresh here
-
+            sliderRef.current.slickSetOption("slidesToScroll", finalSlidesToScroll, false); 
+            sliderRef.current.slickSetOption("infinite", libsCount >= responsiveSlidesToShow, true); 
             if (sliderRef.current.slickCurrentSlide && typeof sliderRef.current.slickCurrentSlide === 'function') {
                 const currentSlide = sliderRef.current.slickCurrentSlide();
                  if (libsCount > 0 && currentSlide >= libsCount) {
@@ -374,19 +428,16 @@ const LibraryList = () => {
             }
         } catch (e) { console.warn("Error in updateSliderOptions slickSetOption:", e); }
     }
-  }, [sliderSettings]); // Depends only on static sliderSettings
+  }, [sliderSettings]); 
 
-  const fetchPaginatedLibraries = useCallback(async (pageToFetch, size) => {
-    console.log(`LIBRARIES: Fetching page ${pageToFetch}`);
+  const fetchPaginatedLibraries = useCallback(async (pageToFetch) => {
     setLoadingSlider(true);
-    setSliderError(null);
+    setSliderError(null); 
     try {
-      const response = await axiosInstance.get(`/kutuphane/getAllLibraries?page=${pageToFetch}&size=${size}`);
+      const response = await axiosInstance.get(`/kutuphane/getAllLibraries?page=${pageToFetch}&size=${ITEMS_PER_PAGE}`);
       const { content = [], totalPages: totalPagesFromApi = 0, totalElements: totalItemsFromApi = 0 } = response.data || {};
-      
       setLibraries(content);
-      // Conditional setTotalPages to prevent loop if value is the same
-      setTotalPages(prev => prev !== totalPagesFromApi ? totalPagesFromApi : prev);
+      setTotalPages(totalPagesFromApi); 
       setTotalItems(totalItemsFromApi);
       updateSliderOptions(content);
     } catch (error) {
@@ -398,38 +449,71 @@ const LibraryList = () => {
     } finally {
       setLoadingSlider(false);
     }
-  }, [updateSliderOptions]); // pageSize is constant, updateSliderOptions is stable
+  }, [updateSliderOptions]); 
 
-  // Main data fetching and page management (like Authors.js)
   useEffect(() => {
     let pageToLoad = currentPage;
-    console.log(`LIBRARIES MainEffect: current=${currentPage}, total=${totalPages}, initial=${isInitialRender.current}`);
-
     if (isInitialRender.current) {
         isInitialRender.current = false;
-        pageToLoad = 0; // Always start at page 0
+        pageToLoad = 0; 
         if (currentPage !== 0) {
-            setCurrentPage(0); // This will trigger a re-run
-            return;
+            setCurrentPage(0); 
+            return; 
         }
-        // If currentPage is already 0, proceed to fetch.
     } else {
         if (totalPages > 0 && pageToLoad >= totalPages) {
             pageToLoad = totalPages - 1;
         }
         pageToLoad = Math.max(0, pageToLoad);
-
         if (pageToLoad !== currentPage) {
-            setCurrentPage(pageToLoad); // This will trigger a re-run
+            setCurrentPage(pageToLoad); 
             return;
         }
     }
-    // Only fetch if the page hasn't been redirected
-    fetchPaginatedLibraries(pageToLoad, pageSize);
+    fetchPaginatedLibraries(pageToLoad);
+  }, [currentPage, totalPages, fetchPaginatedLibraries]);
 
-  }, [currentPage, totalPages, pageSize, fetchPaginatedLibraries]);
+  const handleAddFormClear = () => {
+    if (window.confirm('Formu temizlemek istediğinizden emin misiniz? Girilmiş veriler silinecektir.')) {
+      setNewLibraryName('');
+      setNewLibraryAddress('');
+      setAddFormError(null); 
+    }
+  };
 
-  // Search Dropdown useEffects (like Authors.js)
+  const handleAddFormSubmit = async (e) => {
+    e.preventDefault();
+    setAddFormError(null);
+    if (!newLibraryName.trim() || !newLibraryAddress.trim()) {
+      setAddFormError('Kütüphane adı ve adresi boş olamaz.');
+      return;
+    }
+    setIsSubmittingAddForm(true);
+    try {
+      await axiosInstance.post('/kutuphane/saveLibrary', {
+        name: newLibraryName.trim(),
+        address: newLibraryAddress.trim(),
+      });
+      setNewLibraryName(''); 
+      setNewLibraryAddress(''); 
+      // handleLibraryAdded'ı doğrudan çağırıyoruz.
+      if (currentPage !== 0) {
+        setCurrentPage(0); 
+      } else {
+        fetchPaginatedLibraries(0); 
+      }
+      if (debouncedLibraryKeyword.trim()) { 
+          fetchLibraryNameDropdownResults(debouncedLibraryKeyword);
+      }
+    } catch (error) {
+      console.error('Kütüphane eklenirken hata:', error.response?.data || error);
+      const errorMessage = error.response?.data?.message || error.message || "Kütüphane eklenirken bir hata oluştu.";
+      setAddFormError(errorMessage);
+    } finally {
+      setIsSubmittingAddForm(false);
+    }
+  };
+
   useEffect(() => {
     const handler = setTimeout(() => { setDebouncedLibraryKeyword(librarySearchKeyword); }, 400);
     return () => clearTimeout(handler);
@@ -442,11 +526,10 @@ const LibraryList = () => {
     }
     setLibrarySearchApiLoading(true); setLibrarySearchApiError(null);
     try {
-      // Ensure this endpoint is correct for libraries:
       const response = await axiosInstance.get('kutuphane/searchLibrary', { params: { name: trimmedKeyword } });
       const results = response.data || [];
       setLibraryDropdownResults(results);
-      setIsLibraryDropdownOpen(true); // Keep open to show "no results" or results
+      setIsLibraryDropdownOpen(true); 
     } catch (err) {
       setLibrarySearchApiError(err.response?.data?.message || err.message || "Arama sırasında hata.");
       setLibraryDropdownResults([]); setIsLibraryDropdownOpen(true);
@@ -473,11 +556,11 @@ const LibraryList = () => {
     return () => document.removeEventListener("mousedown", handleClickOutsideSearch);
   }, []);
   
-  // Window focus/visibility refresh (like Authors.js)
+  /* // SEKME DEĞİŞİMİNDE YENİLEME YAPAN useEffect KALDIRILDI VEYA YORUMA ALINDI
   useEffect(() => {
     const handleDataRefresh = () => {
-      if (document.visibilityState === 'visible') {
-          fetchPaginatedLibraries(currentPage, pageSize);
+      if (document.visibilityState === 'visible' && !editingLibrary && !isSubmittingAddForm) { 
+          fetchPaginatedLibraries(currentPage);
           if (debouncedLibraryKeyword.trim()) {
             fetchLibraryNameDropdownResults(debouncedLibraryKeyword);
           }
@@ -489,25 +572,8 @@ const LibraryList = () => {
       window.removeEventListener('focus', handleDataRefresh);
       document.removeEventListener('visibilitychange', handleDataRefresh);
     };
-  }, [currentPage, pageSize, fetchPaginatedLibraries, debouncedLibraryKeyword, fetchLibraryNameDropdownResults]);
-
-
-  // CRUD Operations (Adapted from Authors.js for Libraries)
-  const handleLibraryAdded = useCallback(() => {
-    setFormError(null); // Clear any error message set by LibraryForm
-    // After adding, go to page 0 to see the new library, or refresh if already on page 0.
-    // The main useEffect will handle fetching due to potential totalPages change.
-    if (currentPage !== 0) {
-      setCurrentPage(0);
-    } else {
-      // If already on page 0, totalPages might not change, but list content does.
-      fetchPaginatedLibraries(0, pageSize);
-    }
-    // If search was active and new library matches, refresh dropdown
-    if (debouncedLibraryKeyword.trim()) { // Simple check, LibraryForm has new name/address
-        fetchLibraryNameDropdownResults(debouncedLibraryKeyword);
-    }
-  }, [currentPage, pageSize, fetchPaginatedLibraries, debouncedLibraryKeyword, fetchLibraryNameDropdownResults]);
+  }, [currentPage, fetchPaginatedLibraries, debouncedLibraryKeyword, fetchLibraryNameDropdownResults, editingLibrary, isSubmittingAddForm]);
+  */
 
   const handleDeleteLibrary = useCallback(async (id) => {
     if (window.confirm('Bu kütüphaneyi silmek istediğinizden emin misiniz?')) {
@@ -516,23 +582,22 @@ const LibraryList = () => {
       try {
         await axiosInstance.post(`/kutuphane/deleteLibrary/${id}`);
         alert('Kütüphane silindi!');
-        
         const newTotalItems = Math.max(0, totalItems - 1);
-        const newTotalPages = Math.ceil(newTotalItems / pageSize);
+        const newTotalPages = Math.ceil(newTotalItems / ITEMS_PER_PAGE);
         let pageToLoad = currentPage;
-
-        if (currentPage >= newTotalPages && newTotalPages > 0) {
-          pageToLoad = newTotalPages - 1;
-        } else if (newTotalItems === 0) {
-          pageToLoad = 0;
+        if (libraries.length === 1 && newTotalItems > 0 && currentPage > 0) {
+            pageToLoad = currentPage - 1;
+        } else if (currentPage >= newTotalPages && newTotalPages > 0) { 
+            pageToLoad = newTotalPages - 1;
+        } else if (newTotalItems === 0) { 
+            pageToLoad = 0;
         }
-
-        if (pageToLoad !== currentPage || (pageToLoad === 0 && currentPage === 0 && totalItems === 1 && newTotalItems === 0) ) {
-            setCurrentPage(pageToLoad); // Let main useEffect handle fetching
+        pageToLoad = Math.max(0, Math.min(pageToLoad, newTotalPages > 0 ? newTotalPages - 1 : 0));
+        if (pageToLoad !== currentPage || (libraries.length === 1 && newTotalItems === 0) ) {
+            setCurrentPage(pageToLoad); 
         } else {
-            fetchPaginatedLibraries(pageToLoad, pageSize); // Fetch if page doesn't change
+            fetchPaginatedLibraries(pageToLoad); 
         }
-
         if (isLibraryDropdownOpen && debouncedLibraryKeyword.trim()) {
           fetchLibraryNameDropdownResults(debouncedLibraryKeyword);
         }
@@ -542,7 +607,7 @@ const LibraryList = () => {
         alert(errMessage);
       } finally { setLoadingSlider(false); }
     }
-  }, [currentPage, totalItems, pageSize, fetchPaginatedLibraries, editingLibrary, isLibraryDropdownOpen, debouncedLibraryKeyword, fetchLibraryNameDropdownResults]);
+  }, [currentPage, totalItems, fetchPaginatedLibraries, editingLibrary, isLibraryDropdownOpen, debouncedLibraryKeyword, fetchLibraryNameDropdownResults, libraries.length]);
 
   const handleUpdateLibrary = useCallback(async (e) => {
     e.preventDefault(); setEditFormError(null);
@@ -556,28 +621,26 @@ const LibraryList = () => {
         address: editingLibrary.address.trim(),
       });
       alert('Kütüphane başarıyla güncellendi!'); setEditingLibrary(null);
-      fetchPaginatedLibraries(currentPage, pageSize); // Refresh current page
+      fetchPaginatedLibraries(currentPage); 
       if (isLibraryDropdownOpen && debouncedLibraryKeyword.trim()) {
         fetchLibraryNameDropdownResults(debouncedLibraryKeyword);
       }
     } catch (error) {
       setEditFormError(error.response?.data?.message || error.message || "Kütüphane güncellenirken bir hata oluştu.");
     } finally { setLoadingSlider(false); }
-  }, [editingLibrary, currentPage, pageSize, fetchPaginatedLibraries, isLibraryDropdownOpen, debouncedLibraryKeyword, fetchLibraryNameDropdownResults]);
+  }, [editingLibrary, currentPage, fetchPaginatedLibraries, isLibraryDropdownOpen, debouncedLibraryKeyword, fetchLibraryNameDropdownResults]);
 
-  // Other helper functions (from Authors.js)
   const cancelEditing = useCallback(() => { setEditingLibrary(null); setEditFormError(null); }, []);
-  // LibraryForm handles its own clear, so no handleClearForm here unless for global error.
+  
   const handleReturnHome = () => {
-    // Check if editing or search has text, like Authors.js for newAuthor or search
-    if (editingLibrary || librarySearchKeyword.trim()) {
+    const targetUrl = 'http://localhost:3000/home'; 
+    if (editingLibrary || librarySearchKeyword.trim() || newLibraryName.trim() || newLibraryAddress.trim()) {
         if (window.confirm('Formda veya arama alanında girilmiş veriler var. Anasayfaya dönmek istediğinizden emin misiniz? Değişiklikleriniz kaybolabilir.')) {
-            navigate('/'); // Or your home route
+            window.location.href = targetUrl;
         }
     } else {
-        // Can have a simpler confirm or direct navigate if desired when clean
         if (window.confirm('Anasayfaya dönmek istediğinizden emin misiniz?')) {
-            navigate('/');
+            window.location.href = targetUrl;
         }
     }
   };
@@ -586,47 +649,83 @@ const LibraryList = () => {
   const handleLibraryDropdownItemClick = (library) => { setLibrarySearchKeyword(library.name); setIsLibraryDropdownOpen(false); };
 
   const handlePageChange = useCallback((newPage) => {
-    setSliderError(null); 
-    setEditingLibrary(null); // Close edit form on page change
-    // slickGoTo is optional here, main concern is data
+    setEditingLibrary(null); 
     if (!loadingSlider) {
-        // setCurrentPage will be handled by the main useEffect's clamping
-        if (newPage >= 0 && (totalPages === 0 || newPage < totalPages) ) {
-             setCurrentPage(newPage);
-        } else if (newPage < 0) {
-             setCurrentPage(0);
-        } else if (totalPages > 0 && newPage >= totalPages) {
-             setCurrentPage(totalPages -1);
+        const pageToSet = Math.max(0, Math.min(newPage, totalPages > 0 ? totalPages - 1 : 0));
+        if (currentPage !== pageToSet) {
+            setCurrentPage(pageToSet);
+        } else if (pageToSet === 0 && currentPage === 0 && totalPages === 0 && totalItems === 0) { 
+            fetchPaginatedLibraries(0); 
         }
     }
-  }, [totalPages, loadingSlider]);
+  }, [totalPages, loadingSlider, currentPage, totalItems, fetchPaginatedLibraries]);
 
-  const showLibrariesSlider = !loadingSlider && libraries.length > 0;
+  const showLibrariesSlider = !loadingSlider && libraries.length > 0 && !sliderError;
   
-  console.log("Render LibraryList: currentPage=", currentPage, "totalPages=", totalPages, "loadingSlider=", loadingSlider);
-
-
   return (
     <div className="libraries-container">
       <style>{layoutCss}</style>
-
-      <div className="fancy-return-button" onClick={handleReturnHome} onKeyPress={handleKeyPressReturnHome} role="button" tabIndex="0" title="Anasayfaya Dön" aria-disabled={loadingSlider} style={{ backgroundImage: `url(${returnHomeBgImageFromFile})` }}>
+      <div 
+        className="fancy-return-button" 
+        onClick={handleReturnHome} 
+        onKeyPress={handleKeyPressReturnHome} 
+        role="button" 
+        tabIndex="0" 
+        title="Anasayfaya Dön" 
+        aria-disabled={loadingSlider || editingLibrary !== null || isSubmittingAddForm}
+      >
         <div className="button-image-overlay">Anasayfaya Dön</div>
       </div>
       
       <div className="library-form-and-search-platform">
-        <div className="add-form-wrapper"> {/* Changed class from add-form-container to avoid conflict if LibraryForm uses it */}
+        <div className="add-form-wrapper"> 
             <h4>Yeni Kütüphane Ekle</h4>
-            {/* Error from LibraryForm can be displayed via formError state if needed */}
-            {formError && !editingLibrary && <p className="error-message">{formError}</p>}
-            <LibraryForm
-              onLibraryAdded={handleLibraryAdded}
-              disabled={loadingSlider || editingLibrary !== null}
-              setExternalError={setFormError} // LibraryForm can set errors in this parent component
-            />
+            {addFormError && !editingLibrary && <p className="error-message">{addFormError}</p>}
+            <form onSubmit={handleAddFormSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}> {/* gap eklendi */}
+              <input
+                type="text"
+                placeholder="Kütüphane Adı"
+                value={newLibraryName}
+                onChange={(e) => {
+                  setNewLibraryName(e.target.value);
+                  if (addFormError) setAddFormError(null);
+                }}
+                disabled={loadingSlider || editingLibrary !== null || isSubmittingAddForm}
+                required
+              />
+              <textarea
+                placeholder="Adres"
+                value={newLibraryAddress}
+                onChange={(e) => {
+                  setNewLibraryAddress(e.target.value);
+                  if (addFormError) setAddFormError(null);
+                }}
+                disabled={loadingSlider || editingLibrary !== null || isSubmittingAddForm}
+                required
+                rows={3} 
+              />
+              <div className="form-button-group">
+                <button 
+                  type="submit" 
+                  className="form-add-button"
+                  disabled={loadingSlider || editingLibrary !== null || isSubmittingAddForm || !newLibraryName.trim() || !newLibraryAddress.trim()}
+                >
+                  {isSubmittingAddForm ? 'Ekleniyor...' : 'Ekle'}
+                </button>
+                <button 
+                  type="button" 
+                  className="form-clear-button"
+                  onClick={handleAddFormClear}
+                  disabled={loadingSlider || editingLibrary !== null || isSubmittingAddForm}
+                >
+                  Temizle
+                </button>
+              </div>
+            </form>
         </div>
+
         <div className="library-search-wrapper" ref={librarySearchWrapperRef}>
-          <input type="text" placeholder="Kütüphane adıyla hızlı ara..." value={librarySearchKeyword} onChange={(e) => setLibrarySearchKeyword(e.target.value)} onFocus={handleLibrarySearchInputFocus} disabled={loadingSlider}/>
+          <input type="text" placeholder="Kütüphane adıyla hızlı ara..." value={librarySearchKeyword} onChange={(e) => setLibrarySearchKeyword(e.target.value)} onFocus={handleLibrarySearchInputFocus} disabled={loadingSlider || editingLibrary !== null || isSubmittingAddForm}/>
           {isLibraryDropdownOpen && (
             <ul className="library-search-results-dropdown">
               {librarySearchApiLoading && <li className="dropdown-message-libraries">Yükleniyor...</li>}
@@ -639,30 +738,24 @@ const LibraryList = () => {
       </div>
 
       <div className="slider-and-edit-section">
-           {loadingSlider && libraries.length === 0 && currentPage === 0 && <p className="status-message">Kütüphaneler Yükleniyor...</p>}
-           {!loadingSlider && totalItems === 0 && <p className="status-message">Henüz hiç kütüphane eklenmemiş.</p>}
-           {!loadingSlider && libraries.length === 0 && totalItems > 0 && <p className="status-message">Bu sayfada gösterilecek kütüphane bulunamadı.</p> }
+           {loadingSlider && libraries.length === 0 && currentPage === 0 && !sliderError && <p className="status-message">Kütüphaneler Yükleniyor...</p>}
+           {!loadingSlider && totalItems === 0 && !sliderError && <p className="status-message">Henüz hiç kütüphane eklenmemiş.</p>}
+           {!loadingSlider && libraries.length === 0 && totalItems > 0 && currentPage < totalPages && !sliderError && <p className="status-message">Bu sayfada gösterilecek kütüphane bulunamadı.</p> }
            {sliderError && <p className="status-message error-message" style={{color: '#b30000'}}>{sliderError}</p>}
 
            {showLibrariesSlider && (
-             <div className="slider-section">
-                 <Slider {...sliderSettings} ref={sliderRef}>
-                   {libraries.map((library) => (
-                     <div key={library.id} > {/* Each child of Slider needs a key */}
-                        <div className="slider-item">
-                          <div className="library-details">
-                            <div className="library-name">{library.name}</div>
-                            <div className="library-address">{library.address}</div>
-                          </div>
-                          <div className="button-container">
-                              <button className="edit-button" onClick={() => { setEditingLibrary({ ...library }); setEditFormError(null); setFormError(null); setSliderError(null); }} disabled={loadingSlider || editingLibrary !== null}>Düzenle</button>
-                              <button className="delete-button" onClick={() => handleDeleteLibrary(library.id)} disabled={loadingSlider || editingLibrary !== null}>Sil</button>
-                          </div>
-                        </div>
-                      </div>
-                   ))}
-                 </Slider>
-              </div>
+             <MemoizedSliderSection
+                libraries={libraries}
+                sliderSettings={sliderSettings}
+                sliderRef={sliderRef}
+                loadingSlider={loadingSlider}
+                editingLibrary={editingLibrary}
+                setEditingLibrary={setEditingLibrary}
+                setEditFormError={setEditFormError}
+                setAddFormError={setAddFormError}
+                setSliderError={setSliderError}
+                handleDeleteLibrary={handleDeleteLibrary}
+             />
            )}
             {!loadingSlider && totalItems > 0 && totalPages > 1 && !editingLibrary && (
                 <div className="pagination-controls">
@@ -678,7 +771,7 @@ const LibraryList = () => {
                 <form onSubmit={handleUpdateLibrary}>
                   <input type="text" placeholder="Kütüphane Adı" value={editingLibrary.name} onChange={(e) => { setEditingLibrary({ ...editingLibrary, name: e.target.value }); if (editFormError) setEditFormError(null);}} required disabled={loadingSlider} />
                   <textarea placeholder="Adres" value={editingLibrary.address} onChange={(e) => { setEditingLibrary({ ...editingLibrary, address: e.target.value }); if (editFormError) setEditFormError(null);}} required disabled={loadingSlider} rows={3}/>
-                  <div className="button-group"> {/* Changed class name to general "button-group" */}
+                  <div className="button-group"> 
                       <button type="submit" className="update-button" disabled={loadingSlider || !editingLibrary.name.trim() || !editingLibrary.address.trim()}>{loadingSlider ? 'Güncelleniyor...' : 'Güncelle'}</button>
                       <button type="button" className="cancel-button" onClick={cancelEditing} disabled={loadingSlider}>İptal</button>
                   </div>

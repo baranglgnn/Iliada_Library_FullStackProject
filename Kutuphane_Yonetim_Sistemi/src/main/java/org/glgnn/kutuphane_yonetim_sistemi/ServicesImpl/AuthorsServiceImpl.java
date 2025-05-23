@@ -3,6 +3,8 @@ package org.glgnn.kutuphane_yonetim_sistemi.ServicesImpl;
 
 import jakarta.transaction.Transactional;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Authors;
+import org.glgnn.kutuphane_yonetim_sistemi.Entities.Books;
+import org.glgnn.kutuphane_yonetim_sistemi.Entities.Librarys;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.AuthorsRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.AuthorsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthorsServiceImpl implements AuthorsService {
@@ -73,5 +76,20 @@ public class AuthorsServiceImpl implements AuthorsService {
     @Override
     public List<Authors> getAuthorsByName(String keyword) {
         return authorRepo.findByNameStartingWith(keyword);
+    }
+
+    @Override
+    public List<Books> getBooksByAuthorId(Long authorId) {
+        return List.of();
+    }
+
+    @Override
+    @Transactional
+    public List<Librarys> getLibrariesByAuthorId(Long authorId) {
+        Authors author = authorRepo.findById(authorId)
+                .orElseThrow(() -> new RuntimeException("Yazar bulunamadı!"));
+        return author.getLibraries().stream()
+                .filter(Librarys::isStatus)
+                .collect(Collectors.toList());
     }
 }

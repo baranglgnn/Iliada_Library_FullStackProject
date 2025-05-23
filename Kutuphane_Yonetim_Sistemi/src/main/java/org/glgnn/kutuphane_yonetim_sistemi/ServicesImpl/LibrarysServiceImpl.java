@@ -1,7 +1,10 @@
 package org.glgnn.kutuphane_yonetim_sistemi.ServicesImpl;
 
 import jakarta.transaction.Transactional;
+import org.glgnn.kutuphane_yonetim_sistemi.Entities.Authors;
+import org.glgnn.kutuphane_yonetim_sistemi.Entities.Books;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Librarys;
+import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.BooksRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.LibrarysRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.LibrarysService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +13,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LibrarysServiceImpl implements LibrarysService {
     public final LibrarysRepository librarysRepo;
+    public final BooksRepository booksRepo;
 
     @Autowired
-    public LibrarysServiceImpl(LibrarysRepository librarysRepo)
+    public LibrarysServiceImpl(LibrarysRepository librarysRepo,BooksRepository booksRepo)
     {
         this.librarysRepo = librarysRepo;
+        this.booksRepo = booksRepo;
     }
 
     @Override
@@ -72,4 +78,87 @@ public class LibrarysServiceImpl implements LibrarysService {
     public List<Librarys> findAllLibrariesByName(String keyword) {
         return librarysRepo.findByNameStartingWithLibrays(keyword);
     }
+
+    @Override
+    @Transactional
+    public Librarys addBookToLibrary(Long libraryId, Long bookId) {
+        Librarys library = librarysRepo.findById(libraryId)
+                .orElseThrow(() -> new RuntimeException("Kütüphane bulunamadı!"));
+
+        Books book = booksRepo.findById(bookId)
+                .orElseThrow(() -> new RuntimeException("Kitap bulunamadı!"));
+
+        if (library.getBooks().contains(book)) {
+            throw new RuntimeException("Bu kitap zaten kütüphaneye ekli!");
+        }
+        library.getBooks().add(book);
+        Authors author = book.getAuthor();
+        if (author != null && !library.getAuthors().contains(author)) {
+            library.getAuthors().add(author);
+        }
+        return librarysRepo.save(library);
+    }
+
+
+    @Override
+    @Transactional
+    public void removeBookFromLibrary(Long libraryId, Long bookId) {
+        // 1) Kütüphane ve kitap var mı?
+        if (!librarysRepo.existsBookInLibrary(libraryId, bookId)) {
+            throw new RuntimeException("Bu kitap bu kütüphanede kayıtlı değil!");
+        }
+
+        Librarys library = librarysRepo.findById(libraryId)
+                .orElseThrow(() -> new RuntimeException("Kütüphane bulunamadı!"));
+        Books book = booksRepo.findById(bookId)
+                .orElseThrow(() -> new RuntimeException("Kitap bulunamadı!"));
+
+        // 2) ManyToMany listesinden çıkar
+        library.getBooks().remove(book);
+
+        Long authorId = book.getAuthor().getId();
+        boolean stillHas = librarysRepo.existsAuthorInLibrary(libraryId, authorId);
+        if (!stillHas) {
+            library.getAuthors().removeIf(a -> a.getId().equals(authorId));
+        }
+
+        librarysRepo.save(library);
+    }
+
+    @Override
+    @Transactional
+    public List<Books> getBooksByLibraryId(Long libraryId) {
+        return librarysRepo.findBooksByLibraryId(libraryId)
+                .stream()
+                .filter(Books::isStatus)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public boolean isBookInLibrary(Long libraryId, Long bookId) {
+        return librarysRepo.existsBookInLibrary(libraryId, bookId);
+    }
+    @Override
+    @Transactional
+    public List<Object[]> getLibrariesAndBooksByAuthor(Long authorId) {
+        return librarysRepo.getLibrariesAndBooksByAuthor(authorId);
+    }
+    @Override
+    @Transactional
+    public Page<Librarys> findAllLibraryBooks(Pageable pageable) {
+        return librarysRepo.findAllLibraryBooks(pageable);
+    }
+    @Override
+    @Transactional
+    public Page<Librarys> findAllLibraryAuthors(Pageable pageable) {
+        return librarysRepo.findAllLibraryAuthors(pageable);
+    }
+    @Override
+    public List<Authors> getAuthorsByLibraryId(Long libraryId) {
+        Librarys library = librarysRepo.findWithAuthorsById(libraryId)
+                .orElseThrow(() -> new RuntimeException("Library not found with id: " + libraryId));
+        return library.getAuthors();
+    }
 }
+

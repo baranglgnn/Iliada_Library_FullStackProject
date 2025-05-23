@@ -23,12 +23,29 @@ public class Librarys {
     @Column(name = "status", nullable = false)
     private boolean status = true;
 
-    @OneToMany(mappedBy = "library", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Library_book> libraryBooks = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "library_books",
+            joinColumns = @JoinColumn(name = "library_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private List<Books> books = new ArrayList<>();
 
-    @OneToMany
-    private List<Library_author> libraryAuthors = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "library_authors",
+            joinColumns = @JoinColumn(name = "library_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
+    private List<Authors> authors = new ArrayList<>();
+
+    public List<Authors> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(List<Authors> authors) {
+        this.authors = authors;
+    }
 
     public Librarys(String name, String address) {
         this.name = name;
@@ -69,19 +86,11 @@ public class Librarys {
         this.status = status;
     }
 
-    public List<Library_book> getLibraryBooks() {
-        return libraryBooks;
+    public List<Books> getBooks() {
+        return books;
     }
 
-    public void setLibraryBooks(List<Library_book> libraryBooks) {
-        this.libraryBooks = libraryBooks;
-    }
-
-    public List<Library_author> getLibraryAuthors() {
-        return libraryAuthors;
-    }
-
-    public void setLibraryAuthors(List<Library_author> libraryAuthors) {
-        this.libraryAuthors = libraryAuthors;
+    public void setBooks(List<Books> books) {
+        this.books = books;
     }
 }

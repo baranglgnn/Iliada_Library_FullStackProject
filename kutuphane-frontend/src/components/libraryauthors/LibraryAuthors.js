@@ -274,26 +274,26 @@ const LibraryAuthors = () => {
   const [authorsByLibrary, setAuthorsByLibrary] = useState([]);
   const [librariesByAuthor, setLibrariesByAuthor] = useState([]);
   
-  const [allLibraryAuthorsList, setAllLibraryAuthorsList] = useState([]);
+  const [allAuthorsListPaginated, setAllAuthorsListPaginated] = useState([]); // State adı güncellendi
 
   const [loadingDropdown, setLoadingDropdown] = useState(false);
   const [loadingAuthorsByLib, setLoadingAuthorsByLib] = useState(false);
   const [loadingLibrariesByAuth, setLoadingLibrariesByAuth] = useState(false);
-  const [loadingAllLibraryAuthors, setLoadingAllLibraryAuthors] = useState(false);
+  const [loadingAllAuthorsPaginated, setLoadingAllAuthorsPaginated] = useState(false); // State adı güncellendi
 
-  const [currentPageAll, setCurrentPageAll] = useState(0);
-  const [totalPagesAll, setTotalPagesAll] = useState(0);
-  const ITEMS_PER_PAGE_ALL = 10;
+  const [currentPageAllAuthors, setCurrentPageAllAuthors] = useState(0); // State adı güncellendi
+  const [totalPagesAllAuthors, setTotalPagesAllAuthors] = useState(0);   // State adı güncellendi
+  const ITEMS_PER_PAGE_ALL_AUTHORS = 10; // Sabit adı güncellendi
 
   const fetchDropdownData = useCallback(async () => {
     setLoadingDropdown(true);
     try {
       const [authorsRes, librariesRes] = await Promise.all([
-        axiosInstance.get('/authors/getAllAuthor'),
-        axiosInstance.get('/kutuphane/getAllLibraries'),
+        axiosInstance.get('/authors/getAllAuthor?page=0&size=1000'), // Dropdown için tüm yazarlar
+        axiosInstance.get('/kutuphane/getAllLibraries?page=0&size=1000'), // Dropdown için tüm kütüphaneler
       ]);
-      setAuthorsForDropdown(authorsRes.data.content || authorsRes.data || []);
-      setLibrariesForDropdown(librariesRes.data.content || librariesRes.data || []);
+      setAuthorsForDropdown(authorsRes.data?.content || authorsRes.data || []);
+      setLibrariesForDropdown(librariesRes.data?.content || librariesRes.data || []);
     } catch (error) {
       console.error('Dropdown verileri alınırken hata:', error);
       alert('Yazar veya kütüphane listesi yüklenemedi.');
@@ -310,15 +310,9 @@ const LibraryAuthors = () => {
     setLoadingAuthorsByLib(true);
     setAuthorsByLibrary([]);
     try {
-      const response = await axiosInstance.get(`/kutuphane-yazar/getAuthorsByLibrary/${selectedLibraryId}`);
+      const response = await axiosInstance.get(`/kutuphane/getAuthorsByLibrary/${selectedLibraryId}`);
       if (Array.isArray(response.data)) {
-        const extractedAuthors = response.data
-          .map(item => item.author) 
-          .filter(author => author && author.id); 
-        setAuthorsByLibrary(extractedAuthors);
-        if (response.data.length > 0 && !response.data[0].author) {
-            console.warn("[KÜTÜPHANEYE GÖRE YAZARLAR] Beklenen 'author' alanı `Library_author` objesinde bulunamadı.", response.data[0]);
-        }
+        setAuthorsByLibrary(response.data);
       } else {
         console.error('[KÜTÜPHANEYE GÖRE YAZARLAR] API yanıtı dizi değil:', response.data);
         setAuthorsByLibrary([]);
@@ -326,6 +320,7 @@ const LibraryAuthors = () => {
     } catch (error) {
       console.error(`Kütüphane ID ${selectedLibraryId} için yazarlar alınırken hata:`, error.response || error);
       alert('Seçilen kütüphaneye ait yazarlar yüklenirken bir hata oluştu.');
+      setAuthorsByLibrary([]);
     } finally {
       setLoadingAuthorsByLib(false);
     }
@@ -344,11 +339,27 @@ const LibraryAuthors = () => {
     setLoadingLibrariesByAuth(true);
     setLibrariesByAuthor([]);
     try {
-      const response = await axiosInstance.get(`/kutuphane-yazar/getLibrariesByAuthor/${selectedAuthorId}`);
-      setLibrariesByAuthor(Array.isArray(response.data) ? response.data : []);
+      const response = await axiosInstance.get(`/kutuphane/getLibrariesAndBooksByAuthor/${selectedAuthorId}`);
+      if (Array.isArray(response.data)) {
+        const formattedData = response.data.map(itemArray => {
+          if (Array.isArray(itemArray) && itemArray.length >= 2) {
+            return {
+              libraryName: itemArray[0] || 'Kütüphane Adı Yok',
+              bookTitle: itemArray[1] || 'Kitap Adı Yok',
+            };
+          }
+          console.warn('[YAZARA GÖRE KÜTÜPHANELER/KİTAPLAR] API yanıtında beklenmedik öğe yapısı:', itemArray);
+          return { libraryName: 'Hatalı Veri', bookTitle: 'Hatalı Veri' };
+        });
+        setLibrariesByAuthor(formattedData);
+      } else {
+        console.error('[YAZARA GÖRE KÜTÜPHANELER/KİTAPLAR] API yanıtı dizi değil:', response.data);
+        setLibrariesByAuthor([]);
+      }
     } catch (error) {
-      console.error(`Yazar ID ${selectedAuthorId} için kütüphaneler alınırken hata:`, error.response || error);
-      alert('Seçilen yazara ait kütüphaneler yüklenirken bir hata oluştu.');
+      console.error(`Yazar ID ${selectedAuthorId} için kütüphaneler/kitaplar alınırken hata:`, error.response || error);
+      alert('Seçilen yazara ait kütüphaneler ve kitaplar yüklenirken bir hata oluştu.');
+      setLibrariesByAuthor([]);
     } finally {
       setLoadingLibrariesByAuth(false);
     }
@@ -359,65 +370,50 @@ const LibraryAuthors = () => {
     setLibrariesByAuthor([]);
   };
 
-  const fetchAllLibraryAuthorsFromEntries = useCallback(async (page = 0) => {
-    setLoadingAllLibraryAuthors(true);
-    // Sadece yeni sayfa verisi yüklenirken eski listeyi temizlemeyelim,
-    // kullanıcı önceki sayfadaki veriyi görebilsin.
-    // setAllLibraryAuthorsList([]); 
+  // "Sistemdeki Tüm Yazarlar (Sayfalı)" için fonksiyon
+  // /authors/getAllAuthor endpoint'ini kullandığını varsayıyoruz.
+  const fetchAllAuthorsPaginated = useCallback(async (page = 0) => {
+    setLoadingAllAuthorsPaginated(true);
     try {
-      const response = await axiosInstance.get(`/kutuphane-yazar/getAllLibraryBook?page=${page}&size=${ITEMS_PER_PAGE_ALL}`);
+      // Bu endpoint'in sayfalama desteklediğini varsayıyoruz.
+      // Eğer desteklemiyorsa ve tüm yazarları tek seferde döndürüyorsa,
+      // frontend'de manuel sayfalama yapılabilir veya backend'e sayfalama eklenebilir.
+      const response = await axiosInstance.get(`/authors/getAllAuthor?page=${page}&size=${ITEMS_PER_PAGE_ALL_AUTHORS}`);
       const pageData = response.data;
 
       if (!pageData || typeof pageData.content === 'undefined') {
-        console.error('[TÜM KÜTÜPHANE YAZARLARI] API yanıtında "content" alanı bulunamadı veya pageData tanımsız.');
-        setAllLibraryAuthorsList([]); // Hata durumunda listeyi temizle
-        setTotalPagesAll(0);
-        setCurrentPageAll(0);
+        console.error('[TÜM YAZARLAR SAYFALI] API yanıtında "content" alanı bulunamadı veya pageData tanımsız.');
+        setAllAuthorsListPaginated([]);
+        setTotalPagesAllAuthors(0);
+        setCurrentPageAllAuthors(0);
         return; 
       }
-
-      const libraryAuthorEntries = pageData.content; 
       
-      if (libraryAuthorEntries.length > 0 && !libraryAuthorEntries[0].author) {
-          console.warn("[TÜM KÜTÜPHANE YAZARLARI] İlk Library_author öğesinde 'author' alanı bulunamadı.", libraryAuthorEntries[0]);
-      }
-
-      const authorsFromEntries = libraryAuthorEntries
-        .map(entry => entry?.author)
-        .filter(author => author && author.id && author.name); 
-
-      const uniqueAuthorsMap = new Map();
-      authorsFromEntries.forEach(author => {
-        if (!uniqueAuthorsMap.has(author.id)) {
-          uniqueAuthorsMap.set(author.id, author);
-        }
-      });
-      
-      const finalUniqueAuthors = Array.from(uniqueAuthorsMap.values());
-      setAllLibraryAuthorsList(finalUniqueAuthors); // Sadece yeni sayfanın verisini göster
-      
-      setCurrentPageAll(pageData.number !== undefined ? pageData.number : 0);
-      setTotalPagesAll(pageData.totalPages !== undefined ? pageData.totalPages : 0);
+      // Gelen yanıtın yazar nesneleri dizisi olduğunu varsayıyoruz:
+      // { content: [ {id, name, surname, status}, ... ], totalPages, number, ... }
+      setAllAuthorsListPaginated(pageData.content || []);
+      setCurrentPageAllAuthors(pageData.number !== undefined ? pageData.number : 0);
+      setTotalPagesAllAuthors(pageData.totalPages !== undefined ? pageData.totalPages : 0);
 
     } catch (error) {
-      console.error('[TÜM KÜTÜPHANE YAZARLARI] Yazarlar alınırken hata:', error.response?.data || error.message || error);
-      alert('Tüm kütüphane yazarları listelenirken bir hata oluştu.');
-      setAllLibraryAuthorsList([]); 
-      setTotalPagesAll(0); 
-      setCurrentPageAll(0);
+      console.error('[TÜM YAZARLAR SAYFALI] Yazarlar alınırken hata:', error.response?.data || error.message || error);
+      alert('Tüm yazarlar listelenirken bir hata oluştu.');
+      setAllAuthorsListPaginated([]); 
+      setTotalPagesAllAuthors(0); 
+      setCurrentPageAllAuthors(0);
     } finally {
-      setLoadingAllLibraryAuthors(false);
+      setLoadingAllAuthorsPaginated(false);
     }
-  }, [ITEMS_PER_PAGE_ALL]);
+  }, [ITEMS_PER_PAGE_ALL_AUTHORS]);
 
   useEffect(() => {
     fetchDropdownData();
-    fetchAllLibraryAuthorsFromEntries(0);
-  }, [fetchDropdownData, fetchAllLibraryAuthorsFromEntries]);
+    fetchAllAuthorsPaginated(0); // Sistemdeki tüm yazarları ilk yüklemede çek
+  }, [fetchDropdownData, fetchAllAuthorsPaginated]);
 
   const handleReturnHome = () => {
     if (window.confirm('Anasayfaya dönmek istediğinizden emin misiniz?')) {
-      window.location.href = 'http://localhost:3000/home'; // Ya da React Router navigate kullanın
+      window.location.href = 'http://localhost:3000/home'; 
     }
   };
    const handleKeyPressReturnHome = (event) => {
@@ -426,7 +422,7 @@ const LibraryAuthors = () => {
     }
   };
 
-  const isLoading = loadingDropdown || loadingAuthorsByLib || loadingLibrariesByAuth || loadingAllLibraryAuthors;
+  const isLoading = loadingDropdown || loadingAuthorsByLib || loadingLibrariesByAuth || loadingAllAuthorsPaginated;
 
   return (
     <>
@@ -434,12 +430,12 @@ const LibraryAuthors = () => {
       <div className="books-container">
         <div 
           className="fancy-return-button"
-          onClick={handleReturnHome}
-          onKeyPress={handleKeyPressReturnHome}
+          onClick={!isLoading ? handleReturnHome : undefined}
+          onKeyPress={!isLoading ? handleKeyPressReturnHome : undefined}
           role="button"
-          tabIndex="0" 
+          tabIndex={isLoading ? -1 : 0}
           title="Anasayfaya Dön"
-          aria-disabled={isLoading} // Buton olmayan elementler için aria-disabled
+          aria-disabled={isLoading}
         >
           <div className="button-image-overlay">
             Anasayfaya Dön
@@ -465,14 +461,14 @@ const LibraryAuthors = () => {
                 <button onClick={fetchAuthorsByLibrary} className="fetch-button" disabled={isLoading || !selectedLibraryId}>
                 {loadingAuthorsByLib ? 'Yükleniyor...' : 'Yazarları Göster'}
                 </button>
-                <button onClick={handleClearAuthorsByLibrary} className="clear-button" disabled={isLoading || !selectedLibraryId}>
+                <button onClick={handleClearAuthorsByLibrary} className="clear-button" disabled={isLoading || (!selectedLibraryId && authorsByLibrary.length === 0)}>
                     Temizle
                 </button>
             </div>
           </div>
 
           <div className="form-section">
-            <h4>Kütüphaneler (Yazara Göre)</h4>
+            <h4>Kütüphaneler ve Kitapları (Yazara Göre)</h4>
             <select
               value={selectedAuthorId}
               onChange={(e) => setSelectedAuthorId(e.target.value)}
@@ -487,9 +483,9 @@ const LibraryAuthors = () => {
             </select>
             <div className="form-button-group">
                 <button onClick={fetchLibrariesByAuthor} className="fetch-button" disabled={isLoading || !selectedAuthorId}>
-                {loadingLibrariesByAuth ? 'Yükleniyor...' : 'Kütüphaneleri Göster'}
+                {loadingLibrariesByAuth ? 'Yükleniyor...' : 'Göster'}
                 </button>
-                <button onClick={handleClearLibrariesByAuthor} className="clear-button" disabled={isLoading || !selectedAuthorId}>
+                <button onClick={handleClearLibrariesByAuthor} className="clear-button" disabled={isLoading || (!selectedAuthorId && librariesByAuthor.length === 0)}>
                     Temizle
                 </button>
             </div>
@@ -508,56 +504,58 @@ const LibraryAuthors = () => {
                 ))}
               </ul>
             ) : (
-              <p>Bu kütüphanede yazar bulunamadı veya henüz kütüphane seçilmedi.</p>
+              <p>{selectedLibraryId ? 'Bu kütüphanede yazar bulunamadı.' : 'Lütfen bir kütüphane seçin.'}</p>
             )}
           </div>
 
           <div className="result-display">
-            <h4>Seçilen Yazarın Bulunduğu Kütüphaneler</h4>
+            <h4>Seçilen Yazarın Kitapları ve Bulunduğu Kütüphaneler</h4>
             {loadingLibrariesByAuth ? (
-              <p className="status-message">Kütüphaneler yükleniyor...</p>
+              <p className="status-message">Yükleniyor...</p>
             ) : librariesByAuthor.length > 0 ? (
               <ul>
-                {librariesByAuthor.map((library) => (
-                  <li key={`byAuth-${library.id}`}>{library.name}</li>
+                {librariesByAuthor.map((item, index) => (
+                  <li key={`${item.libraryName}-${item.bookTitle}-${index}`}>
+                    <strong>{item.bookTitle}</strong> - <em>{item.libraryName}</em>
+                  </li>
                 ))}
               </ul>
             ) : (
-              <p>Bu yazar herhangi bir kütüphanede bulunamadı veya henüz yazar seçilmedi.</p>
+              <p>{selectedAuthorId ? 'Bu yazar için kayıt bulunamadı.' : 'Lütfen bir yazar seçin.'}</p>
             )}
           </div>
           
           <div className="result-display">
-            <h4>Tüm Kütüphane-Yazar Kayıtlarındaki Yazarlar</h4>
-            {loadingAllLibraryAuthors && allLibraryAuthorsList.length === 0 ? (
+            <h4>Sistemdeki Tüm Yazarlar (Sayfalı)</h4>
+            {loadingAllAuthorsPaginated && allAuthorsListPaginated.length === 0 ? (
               <p className="status-message">Yazarlar yükleniyor...</p>
-            ) : !loadingAllLibraryAuthors && allLibraryAuthorsList.length === 0 ? (
-              <p>Kütüphane-Yazar kayıtlarında yazar bulunamadı.</p>
-            ) : allLibraryAuthorsList.length > 0 ? (
+            ) : !loadingAllAuthorsPaginated && allAuthorsListPaginated.length === 0 && currentPageAllAuthors === 0 ? (
+              <p>Sistemde yazar bulunamadı.</p>
+            ) : allAuthorsListPaginated.length > 0 ? (
               <>
                 <ul>
-                  {allLibraryAuthorsList.map((author) => (
+                  {allAuthorsListPaginated.map((author) => (
                     <li key={`allAuth-${author.id}`}>{author.name} {author.surname || ''}</li>
                   ))}
                 </ul>
-                {totalPagesAll > 1 && (
+                {totalPagesAllAuthors > 1 && (
                   <div className="pagination-controls">
                     <button 
-                        onClick={() => fetchAllLibraryAuthorsFromEntries(currentPageAll - 1)} 
-                        disabled={currentPageAll === 0 || loadingAllLibraryAuthors}>
+                        onClick={() => fetchAllAuthorsPaginated(currentPageAllAuthors - 1)} 
+                        disabled={currentPageAllAuthors === 0 || loadingAllAuthorsPaginated}>
                       Önceki
                     </button>
-                    <span>Sayfa {currentPageAll + 1} / {totalPagesAll}</span>
+                    <span>Sayfa {currentPageAllAuthors + 1} / {totalPagesAllAuthors}</span>
                     <button 
-                        onClick={() => fetchAllLibraryAuthorsFromEntries(currentPageAll + 1)} 
-                        disabled={currentPageAll >= totalPagesAll - 1 || loadingAllLibraryAuthors}>
+                        onClick={() => fetchAllAuthorsPaginated(currentPageAllAuthors + 1)} 
+                        disabled={currentPageAllAuthors >= totalPagesAllAuthors - 1 || loadingAllAuthorsPaginated}>
                       Sonraki
                     </button>
                   </div>
                 )}
               </>
             ) : null }
-            {loadingAllLibraryAuthors && allLibraryAuthorsList.length > 0 && <p className="status-message" style={{fontSize: '0.9em'}}>Sonraki sayfa yükleniyor...</p>}
+            {loadingAllAuthorsPaginated && allAuthorsListPaginated.length > 0 && <p className="status-message" style={{fontSize: '0.9em'}}>Sonraki sayfa yükleniyor...</p>}
           </div>
         </div>
       </div>

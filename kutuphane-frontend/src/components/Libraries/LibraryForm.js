@@ -2,30 +2,23 @@
 import React, { useState } from 'react';
 import axiosInstance from '../../api/axiosInstance';
 
-// CSS sınıf isimlerini dışarıdan alabiliriz veya sabit tanımlayabiliriz.
-// Şimdilik sabit kullanalım.
 const addButtonClassName = 'form-add-button';
 const clearButtonClassName = 'form-clear-button';
-
 
 const LibraryForm = ({ onLibraryAdded, disabled, setExternalError }) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // GÜNCELLENMİŞ TEMİZLE FONKSİYONU
   const handleClearForm = () => {
-    // Kullanıcıdan onay al
     if (window.confirm('Formu temizlemek istediğinizden emin misiniz? Girilmiş veriler silinecektir.')) {
       setName('');
       setAddress('');
       if (setExternalError) {
-        setExternalError(null);
+        setExternalError(null); // LibraryList'teki formError'u temizler
       }
-      // Sayfa yenileme yerine state'leri sıfırlıyoruz.
-      // Eğer formu temizledikten sonra ana bileşenin bir aksiyon alması gerekiyorsa
-      // (örneğin listeyi yeniden yüklemek gibi), bunu prop aracılığıyla tetikleyebilirsiniz.
-      // Ancak şimdilik sadece form alanlarını temizliyoruz.
+      // Bu fonksiyon, LibraryList'teki slider'ı YENİDEN YÜKLEMEZ.
+      // Sadece form alanlarını ve potansiyel bir hata mesajını temizler.
     }
   };
 
@@ -40,14 +33,14 @@ const LibraryForm = ({ onLibraryAdded, disabled, setExternalError }) => {
 
     setIsSubmitting(true);
     try {
-      await axiosInstance.post('/kutuphane/addLibrary', {
+      await axiosInstance.post('/kutuphane/saveLibrary', {
         name: name.trim(),
         address: address.trim(),
       });
-      setName(''); // Başarılı ekleme sonrası formu temizle
-      setAddress(''); // Başarılı ekleme sonrası formu temizle
+      setName(''); 
+      setAddress(''); 
       if (onLibraryAdded) {
-        onLibraryAdded(); // Ana bileşene kütüphane eklendiğini bildir
+        onLibraryAdded(); 
       }
     } catch (error) {
       console.error('Kütüphane eklenirken hata:', error.response?.data || error);
@@ -83,20 +76,19 @@ const LibraryForm = ({ onLibraryAdded, disabled, setExternalError }) => {
         rows={3} 
         style={{ resize: 'vertical' }}
       />
-      {/* Butonlar için bir sarmalayıcı div */}
       <div className="form-button-group">
         <button 
           type="submit" 
-          className={addButtonClassName} // CSS sınıfı eklendi
+          className={addButtonClassName}
           disabled={disabled || isSubmitting || !name.trim() || !address.trim()}
         >
           {isSubmitting ? 'Ekleniyor...' : 'Ekle'}
         </button>
         <button 
           type="button" 
-          className={clearButtonClassName} // CSS sınıfı eklendi
-          onClick={handleClearForm} // Bu fonksiyon güncellendi
-          disabled={disabled || isSubmitting} // Ekleme sırasında temizleme de disable olabilir
+          className={clearButtonClassName}
+          onClick={handleClearForm}
+          disabled={disabled || isSubmitting}
         >
           Temizle
         </button>

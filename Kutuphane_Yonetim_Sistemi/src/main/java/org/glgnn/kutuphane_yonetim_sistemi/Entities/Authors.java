@@ -1,6 +1,9 @@
 package org.glgnn.kutuphane_yonetim_sistemi.Entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -16,6 +19,18 @@ public class Authors {
 
     @Column(name = "status", nullable = false)
     private boolean status = true;
+
+    @ManyToMany(mappedBy = "authors")
+    @JsonIgnore
+    private List<Librarys> libraries = new ArrayList<>();
+
+    public List<Librarys> getLibraries() {
+        return libraries;
+    }
+
+    public void setLibraries(List<Librarys> libraries) {
+        this.libraries = libraries;
+    }
 
     public Authors(String name) {
         this.name = name;

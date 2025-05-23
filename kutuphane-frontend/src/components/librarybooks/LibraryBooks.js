@@ -1,16 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axiosInstance from '../../api/axiosInstance';
 
-// Yöntem 1: public klasöründeki resim yolu
-// Bu yol, 'public' klasörünüzün kökünden başlar.
-// Yani, resminizin tam yolu 'YOUR_PROJECT_ROOT/public/images/Roma-Kolezyum.jpg' olmalıdır.
+// Resim yolunu projenizin public klasörüne göre ayarlayın
 import returnHomeBgImage from '../../images/Roma-Kolezyum.jpg';
-// Alternatif olarak, eğer PUBLIC_URL set edilmemişse veya farklı bir yapılandırma varsa:
-// const returnHomeBgImage = '/images/Roma-Kolezyum.jpg';
-
 
 const layoutCss = `
-    /* Main container */
+    /* Ana konteyner */
     .books-container {
       padding: 20px 30px 30px 30px;
       border-radius: 10px;
@@ -26,14 +21,14 @@ const layoutCss = `
       margin: 0 auto; 
     }
 
-    /* Fancy Anasayfaya Dön Butonu */
+    /* Süslü Anasayfaya Dön Butonu */
     .fancy-return-button {
       position: absolute; 
       top: 25px; 
       right: 30px; 
       width: 220px; 
       height: 70px; 
-      background-image: url(${returnHomeBgImage}); /* GÜNCELLENDİ */
+      background-image: url(${returnHomeBgImage}); /* Resim yolu CSS'e gömüldü */
       background-size: cover;
       background-position: center;
       border-radius: 10px; 
@@ -69,20 +64,21 @@ const layoutCss = `
       border-radius: inherit; 
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Hafif metin gölgesi */
     }
-    .fancy-return-button:disabled {
+    .fancy-return-button:disabled, 
+    .fancy-return-button[aria-disabled="true"] { /* aria-disabled için stil */
       opacity: 0.7;
       cursor: not-allowed;
       transform: none;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
-    /* Left form container styling */
+    /* Sol form konteyneri stillendirmesi */
     .form-container { 
       width: 400px; 
       flex-shrink: 0; 
       display: flex;
       flex-direction: column;
-      gap: 25px; 
+      gap: 25px; /* form-section'lar arası boşluk */
       background-color: #fdf4e3;
       padding: 25px;
       border-radius: 8px;
@@ -94,14 +90,13 @@ const layoutCss = `
     .form-section {
         display: flex;
         flex-direction: column;
-        gap: 15px; /* Gap between elements like h4, select, button */
+        gap: 15px; /* h4, select, button arası boşluk */
     }
-
 
     .form-container h4 {
         margin-top: 0;
         color: #333;
-        margin-bottom: 5px;
+        margin-bottom: 5px; /* h4 ve sonraki eleman arası boşluk azaltıldı */
         font-size: 1.3em;
     }
 
@@ -113,15 +108,20 @@ const layoutCss = `
       width: 100%;
       box-sizing: border-box;
       font-size: 1.1em;
+      margin-bottom: 10px; /* Select ve inputlar arası boşluk eklendi */
     }
+     .form-container select:last-of-type {
+        margin-bottom: 0; /* Son select'in alt boşluğunu kaldır */
+    }
+
 
     .form-container .form-button-group {
       display: flex;
       gap: 10px; 
-      margin-top: 10px; 
+      margin-top: 10px; /* Buton grubu ve üst eleman arası boşluk */
     }
     
-    .form-container button { /* Applied to all buttons in form-container unless overridden */
+    .form-container button { /* Form konteyneri içindeki tüm butonlar için temel stil */
       border: none;
       padding: 12px 18px; 
       border-radius: 5px;
@@ -130,11 +130,11 @@ const layoutCss = `
       transition: background-color 0.3s ease, opacity 0.3s ease;
       font-size: 0.95em; 
       color: white; 
-      width: 100%; /* Make buttons full width by default in their group/container */
+      width: 100%; /* Butonlar varsayılan olarak grup/konteyner içinde tam genişlikte */
     }
     
     .form-container .form-button-group button {
-      flex-grow: 1; 
+      flex-grow: 1; /* Grup içindeki butonların esnek büyümesi */
     }
     
     .form-container button:hover:not(:disabled) {
@@ -148,35 +148,35 @@ const layoutCss = `
     }
 
     .form-container .form-add-button {
-      background-color: #4CAF50; 
+      background-color: #4CAF50; /* Yeşil */
     }
     .form-container .form-add-button:hover:not(:disabled) {
-        background-color: #45a049; 
+        background-color: #45a049; /* Koyu Yeşil */
     }
     
     .form-container .form-clear-button {
-      background-color: #660000; 
+      background-color: #660000; /* Koyu Kırmızı */
     }
     .form-container .form-clear-button:hover:not(:disabled) {
-        background-color: #4d0000; 
+        background-color: #4d0000; /* Daha Koyu Kırmızı */
     }
 
     .form-container .form-check-button {
-        background-color: #ff9800; /* Orange */
+        background-color: #ff9800; /* Turuncu */
     }
     .form-container .form-check-button:hover:not(:disabled) {
-        background-color: #f57c00; /* Darker Orange */
+        background-color: #f57c00; /* Koyu Turuncu */
     }
 
     .form-container .form-show-button {
-        background-color: #2196F3; /* Blue */
+        background-color: #2196F3; /* Mavi */
     }
     .form-container .form-show-button:hover:not(:disabled) {
-        background-color: #1976D2; /* Darker Blue */
+        background-color: #1976D2; /* Koyu Mavi */
     }
 
 
-    /* Right content section (list and pagination) */
+    /* Sağ içerik bölümü (liste ve sayfalama) */
     .slider-and-edit-section {
       flex-grow: 1; 
       display: flex;
@@ -184,12 +184,12 @@ const layoutCss = `
       min-width: 300px; 
       box-sizing: border-box;
       z-index: 1;
-      gap: 20px;
+      gap: 20px; /* Başlık ve liste/sayfalama arası boşluk */
     }
     
     .slider-and-edit-section h4 {
         margin-top: 0;
-        margin-bottom: 0; /* Removed bottom margin as gap is on parent */
+        margin-bottom: 0; /* Alt boşluk kaldırıldı, boşluk ebeveynde */
         color: #333;
         font-size: 1.5em;
         padding: 15px;
@@ -199,7 +199,7 @@ const layoutCss = `
         text-align: center;
     }
     
-    /* Responsive adjustments */
+    /* Duyarlı ayarlamalar */
     @media (max-width: 992px) { 
         .books-container { 
             flex-direction: column; 
@@ -236,7 +236,7 @@ const layoutCss = `
             font-size: 0.9em;
         }
         .form-container { padding: 20px; gap: 20px; }
-        .form-container input, .form-container select { font-size: 1em; padding: 10px; }
+        .form-container input, .form-container select { font-size: 1em; padding: 10px; margin-bottom: 8px; }
         .form-container button { font-size: 0.9em; padding: 10px 12px;}
         .form-container .form-button-group button { font-size: 0.9em; padding: 10px 12px;}
 
@@ -254,7 +254,7 @@ const layoutCss = `
         margin: 0;
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 12px; /* Liste öğeleri arası boşluk */
     }
     .library-books-list li {
         background-color: #fff;
@@ -265,12 +265,13 @@ const layoutCss = `
         color: #333;
     }
 
+    /* Yazarın Kitapları Listesi Stili */
     .author-books-list {
         list-style: none;
         padding: 0;
-        margin-top: 5px;
-        max-height: 250px; 
-        overflow-y: auto;
+        margin-top: 5px; /* Buton ve liste arası boşluk */
+        max-height: 250px; /* Kaydırma için maksimum yükseklik */
+        overflow-y: auto;  /* Dikey kaydırma çubuğu */
         background-color: #fff;
         border: 1px solid #e0e0e0;
         border-radius: 5px;
@@ -283,18 +284,19 @@ const layoutCss = `
     .author-books-list li:last-child {
         border-bottom: none;
     }
-     .author-books-list p { /* For no books found message */
+     .author-books-list p { /* Kitap bulunamadı mesajı için */
         padding: 10px;
         text-align: center;
         color: #777;
     }
 
+    /* Sayfalama Kontrolleri Stili */
     .pagination-controls {
-        margin-top: 10px; /* Reduced margin */
+        margin-top: 10px; /* Liste ve sayfalama arası azaltılmış boşluk */
         text-align: center; display: flex;
         justify-content: center; align-items: center;
         gap: 15px; flex-wrap: wrap; padding: 12px;
-        background-color: rgba(253, 244, 227, 0.85); 
+        background-color: rgba(253, 244, 227, 0.85); /* Hafif şeffaf arka plan */
         border-radius: 8px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
@@ -308,7 +310,7 @@ const layoutCss = `
     .pagination-controls button:disabled { opacity: 0.5; cursor: not-allowed;}
     .pagination-controls span { margin: 0 10px; font-weight: bold; color: #333; font-size: 1em;}
 
-
+    /* Durum Mesajları Stili */
     .status-message {
         text-align: center; padding: 30px 20px; font-size: 1.2em;
         color: #555; width: 100%; display: flex;
@@ -318,166 +320,232 @@ const layoutCss = `
         box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     }
 
+    /* Hata Mesajı Stili */
     .error-message {
-        color: #b30000; font-size: 0.9em; margin-bottom: 10px;
-        text-align: center; width: 100%; box-sizing: border-box;
+        color: #b30000; /* Koyu kırmızı hata rengi */
+        font-size: 0.9em; 
+        margin-bottom: 10px;
+        text-align: center; /* Varsayılan olarak merkezlenmiş */
+        width: 100%; 
+        box-sizing: border-box;
     }
+    /* Form içindeki hata mesajları için özel */
     .form-container .error-message {
-        text-align: left;
-        margin-top: 5px;
-        margin-bottom: 0;
+        text-align: left; /* Form içinde sola yaslı */
+        margin-top: 5px; /* Üst boşluk */
+        margin-bottom: 0; /* Alt boşluk kaldırıldı */
     }
   `;
 
 const LibraryBooks = () => {
+  // Form alanları için state'ler
   const [bookId, setBookId] = useState('');
   const [libraryId, setLibraryId] = useState('');
   const [authorId, setAuthorId] = useState('');
-  const [isBookInLibrary, setIsBookInLibrary] = useState(null);
-  const [librariesAndBooks, setLibrariesAndBooks] = useState([]);
-  const [libraryBooks, setLibraryBooks] = useState([]);
-  const [books, setBooks] = useState([]);
-  const [libraries, setLibraries] = useState([]);
-  const [authors, setAuthors] = useState([]);
-  const [loading, setLoading] = useState(false);
+
+  // API'den dönen veriler için state'ler
+  const [isBookInLibrary, setIsBookInLibrary] = useState(null); // boolean | null
+  const [librariesAndBooksByAuthor, setLibrariesAndBooksByAuthor] = useState([]); // Yazarın kitapları ve kütüphaneleri
+  const [allLibraryBookEntries, setAllLibraryBookEntries] = useState([]); // Tüm kütüphane-kitap kayıtları
+
+  // Dropdown'lar için veri state'leri
+  const [booksForDropdown, setBooksForDropdown] = useState([]);
+  const [librariesForDropdown, setLibrariesForDropdown] = useState([]);
+  const [authorsForDropdown, setAuthorsForDropdown] = useState([]);
+
+  // Yükleme ve hata state'leri
+  const [loading, setLoading] = useState({
+    dropdowns: false,
+    addBook: false,
+    checkBook: false,
+    authorBooks: false,
+    allEntries: false,
+  });
   const [formError, setFormError] = useState(null);
 
-
+  // Sayfalama state'leri (Tüm Kütüphane Kitapları için)
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const ITEMS_PER_PAGE = 8;
 
+  // Dropdown verilerini çekme fonksiyonu
   const fetchDropdownData = useCallback(async () => {
+    setLoading(prev => ({ ...prev, dropdowns: true }));
     try {
       const [booksRes, librariesRes, authorsRes] = await Promise.all([
-        axiosInstance.get('/books/getAllBooks'),
-        axiosInstance.get('/kutuphane/getAllLibraries'),
-        axiosInstance.get('/authors/getAllAuthor'),
+        axiosInstance.get('/books/getAllBooks?page=0&size=1000'), 
+        axiosInstance.get('/kutuphane/getAllLibraries?page=0&size=1000'), 
+        axiosInstance.get('/authors/getAllAuthor?page=0&size=1000'), 
       ]);
-      const booksData = booksRes.data.content || booksRes.data;
-      const librariesData = librariesRes.data.content || librariesRes.data;
-      const authorsData = authorsRes.data.content || authorsRes.data;
-      setBooks(Array.isArray(booksData) ? booksData : []);
-      setLibraries(Array.isArray(librariesData) ? librariesData : []);
-      setAuthors(Array.isArray(authorsData) ? authorsData : []);
+      
+      const extractContent = (response) => response.data?.content || response.data || [];
+      
+      setBooksForDropdown(extractContent(booksRes));
+      setLibrariesForDropdown(extractContent(librariesRes));
+      setAuthorsForDropdown(extractContent(authorsRes));
+
     } catch (error) {
       console.error('Dropdown verileri alınırken hata:', error);
       setFormError('Dropdown verileri yüklenemedi.');
+    } finally {
+      setLoading(prev => ({ ...prev, dropdowns: false }));
     }
   }, []);
 
-  const fetchAllLibraryBooks = useCallback(async (page = 0) => {
-    setLoading(true);
+  // Tüm kütüphane-kitap kayıtlarını çekme fonksiyonu (sayfalamalı)
+  const fetchAllLibraryBookEntries = useCallback(async (page = 0) => {
+    setLoading(prev => ({ ...prev, allEntries: true }));
     try {
       const response = await axiosInstance.get(
-        `/Kutuphane-kitap/getAllLibraryBook?page=${page}&size=${ITEMS_PER_PAGE}`
+        `/kutuphane/getAllLibraryBook?page=${page}&size=${ITEMS_PER_PAGE}`
       );
       const pageData = response.data;
-      setLibraryBooks(pageData.content || []);
+      const rawContent = pageData.content || []; 
+
+      const formattedEntries = rawContent.map((entryArray) => {
+        if (Array.isArray(entryArray) && entryArray.length >= 4) {
+          const libId = entryArray[0];
+          const libName = entryArray[1];
+          const bkId = entryArray[2];
+          const bkTitle = entryArray[3];
+
+          return {
+            book: { id: bkId, title: bkTitle },
+            library: { id: libId, name: libName },
+          };
+        }
+        console.warn("getAllLibraryBook'tan beklenmedik kayıt formatı:", entryArray);
+        return {
+          book: { id: null, title: 'Hatalı Veri (Kitap)' },
+          library: { id: null, name: 'Hatalı Veri (Kütüphane)' },
+        };
+      });
+      
+      setAllLibraryBookEntries(formattedEntries);
       setTotalPages(pageData.totalPages || 0);
       setCurrentPage(pageData.number || 0);
+
     } catch (error) {
-      console.error('Kütüphane kitapları alınırken hata:', error);
-      setLibraryBooks([]);
+      console.error('Tüm kütüphane kitapları alınırken hata:', error);
+      setAllLibraryBookEntries([]);
       setTotalPages(0);
     } finally {
-      setLoading(false);
+      setLoading(prev => ({ ...prev, allEntries: false }));
     }
   }, [ITEMS_PER_PAGE]);
 
+  // Bir kitabın kütüphanede olup olmadığını kontrol etme
   const checkIfBookInLibrary = async () => {
     if (!libraryId || !bookId) {
-      alert('Kitap ve Kütüphane seçilmelidir.');
+      alert('Lütfen önce Kitap ve Kütüphane seçin.');
       return;
     }
-    setIsBookInLibrary(null);
-    setLoading(true);
+    setIsBookInLibrary(null); 
+    setLoading(prev => ({ ...prev, checkBook: true }));
     try {
       const response = await axiosInstance.get(
-        `/Kutuphane-kitap/isBookInLibrary/${libraryId}/${bookId}`
+        `/kutuphane/isBookInLibrary/${libraryId}/${bookId}`
       );
-      setIsBookInLibrary(response.data);
+      setIsBookInLibrary(response.data); 
     } catch (error) {
-      alert('Kitap kütüphanede olup olmadığı kontrol edilirken hata oluştu.');
-      console.error('Hata:', error);
-      setIsBookInLibrary(false);
+      alert('Kitabın kütüphanede olup olmadığı kontrol edilirken bir hata oluştu.');
+      console.error('Kontrol Hatası:', error);
+      setIsBookInLibrary(false); 
     } finally {
-      setLoading(false);
+      setLoading(prev => ({ ...prev, checkBook: false }));
     }
   };
 
+  // Seçilen yazara ait kitapları ve bulundukları kütüphaneleri getirme
   const fetchLibrariesAndBooksByAuthor = async () => {
     if (!authorId) {
-      alert('Yazar seçilmelidir.');
+      alert('Lütfen bir yazar seçin.');
       return;
     }
-    setLibrariesAndBooks([]); 
-    setLoading(true);
+    setLibrariesAndBooksByAuthor([]); 
+    setLoading(prev => ({ ...prev, authorBooks: true }));
     try {
       const response = await axiosInstance.get(
-        `/Kutuphane-kitap/getLibrariesAndBooksByAuthor/${authorId}?page=0&size=50`
+        `/kutuphane/getLibrariesAndBooksByAuthor/${authorId}`
       );
-      const page = response.data;
-      const contentLayer = page.content || page;
-      const items = Array.isArray(contentLayer)
-        ? contentLayer
-        : contentLayer.content || contentLayer;
+      const rawData = response.data; // Beklenen yapı: [ ["Kütüphane Adı", "Kitap Adı"], ... ]
+      
+      // console.log('fetchLibrariesAndBooksByAuthor RAW RESPONSE:', JSON.stringify(rawData, null, 2));
 
-      const formatted = Array.isArray(items) ? items.map(item => {
-        if (Array.isArray(item) && item.length >= 2) {
-          return item; 
+      const formattedData = Array.isArray(rawData) ? rawData.map((itemArray) => {
+        // itemArray = [libraryName, bookTitle]
+        if (Array.isArray(itemArray) && itemArray.length >= 2) {
+            const libName = itemArray[0];
+            const bkTitle = itemArray[1];
+            return {
+                libraryName: libName || 'Kütüphane Adı Yok',
+                bookTitle: bkTitle || 'Kitap Adı Yok',
+                // ID'ler bu endpoint'ten gelmediği için null/undefined bırakıyoruz,
+                // bu nedenle key oluştururken dikkatli olmalıyız.
+                libraryId: null, 
+                bookId: null,
+            };
         }
-        return ['Kütüphane adı yok', 'Kitap adı yok'];
+        console.warn("getLibrariesAndBooksByAuthor'dan beklenmedik kayıt formatı:", itemArray);
+        return {
+            libraryName: 'Hatalı Veri', libraryId: null,
+            bookTitle: 'Hatalı Veri', bookId: null,
+        };
       }) : [];
-      setLibrariesAndBooks(formatted);
+      setLibrariesAndBooksByAuthor(formattedData);
     } catch (error) {
-      alert('Yazarın kitapları alınırken hata oluştu.');
-      console.error('Hata:', error);
+      alert('Yazarın kitapları ve kütüphaneleri alınırken hata oluştu.');
+      console.error('Yazar Kitapları Hatası:', error);
     } finally {
-      setLoading(false);
+      setLoading(prev => ({ ...prev, authorBooks: false }));
     }
   };
 
+  // Kütüphaneye kitap ekleme işlemi
   const handleAddBookToLibrary = async (e) => {
     e.preventDefault();
-    setFormError(null);
+    setFormError(null); 
     if (!bookId || !libraryId) {
-      setFormError('Kitap ve Kütüphane seçilmelidir.');
+      setFormError('Kitap ve Kütüphane seçimi zorunludur.');
       return;
     }
-    setLoading(true);
+    setLoading(prev => ({ ...prev, addBook: true }));
     try {
       await axiosInstance.post(
-        `/Kutuphane-kitap/addBookToLibrary/${bookId}/${libraryId}`
+        `/kutuphane/addBookToLibrary/${bookId}/${libraryId}`
       );
       alert('Kitap kütüphaneye başarıyla eklendi!');
-      await fetchAllLibraryBooks(0); 
+      await fetchAllLibraryBookEntries(currentPage); 
       setBookId(''); 
       setLibraryId('');
-      setIsBookInLibrary(null);
+      setIsBookInLibrary(null); 
     } catch (error) {
-      const errorMessage = error.response?.data?.message || error.message || "Kitap eklenirken bir hata oluştu.";
+      const errorMessage = error.response?.data?.message || error.response?.data || "Kitap eklenirken bir hata oluştu. Kitap zaten bu kütüphanede olabilir.";
       setFormError(errorMessage);
-      alert('Kitap eklenirken hata oluştu: ' + errorMessage);
-      console.error('Hata:', error);
+      console.error('Ekleme Hatası:', error);
     } finally {
-      setLoading(false);
+      setLoading(prev => ({ ...prev, addBook: false }));
     }
   };
 
   const handleClearAddForm = () => {
-    if (window.confirm('Formu temizlemek istediğinizden emin misiniz? Girilmiş veriler silinecektir.')) {
+    if (window.confirm('Formu temizlemek istediğinizden emin misiniz? Seçimleriniz sıfırlanacaktır.')) {
       setBookId('');
       setLibraryId('');
       setIsBookInLibrary(null);
       setFormError(null);
     }
   };
-
+  
   const handleReturnHome = () => {
-    if (window.confirm('Anasayfaya dönmek istediğinizden emin misiniz? Mevcut değişiklikler kaybolabilir.')) {
-      window.location.href = 'http://localhost:3000/home';
+    if (isAnythingLoading) {
+        if (!window.confirm('Bir işlem devam ediyor. Yine de anasayfaya dönmek istediğinizden emin misiniz?')) {
+            return;
+        }
+    } else if (!window.confirm('Anasayfaya dönmek istediğinizden emin misiniz?')) {
+        return;
     }
+    window.location.href = '/home'; 
   };
 
   const handleKeyPressReturnHome = (event) => {
@@ -488,20 +556,21 @@ const LibraryBooks = () => {
 
   useEffect(() => {
     fetchDropdownData();
-    fetchAllLibraryBooks(0); 
-  }, [fetchDropdownData, fetchAllLibraryBooks]);
+    fetchAllLibraryBookEntries(0); 
+  }, [fetchDropdownData, fetchAllLibraryBookEntries]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages - 1) {
-      fetchAllLibraryBooks(currentPage + 1);
+      fetchAllLibraryBookEntries(currentPage + 1);
+    }
+  };
+  const handlePrevPage = () => {
+    if (currentPage > 0) {
+      fetchAllLibraryBookEntries(currentPage - 1);
     }
   };
 
-  const handlePrevPage = () => {
-    if (currentPage > 0) {
-      fetchAllLibraryBooks(currentPage - 1);
-    }
-  };
+  const isAnythingLoading = Object.values(loading).some(status => status);
 
   return (
     <>
@@ -510,13 +579,12 @@ const LibraryBooks = () => {
         
         <div 
           className="fancy-return-button"
-          onClick={handleReturnHome}
-          onKeyPress={handleKeyPressReturnHome}
+          onClick={!isAnythingLoading ? handleReturnHome : undefined}
+          onKeyPress={!isAnythingLoading ? handleKeyPressReturnHome : undefined}
           role="button"
-          tabIndex="0" 
+          tabIndex={isAnythingLoading ? -1 : 0}
           title="Anasayfaya Dön"
-          // style={{ backgroundImage: `url(${returnHomeBgImage})` }} // Zaten CSS içinde tanımlı
-          aria-disabled={loading}
+          aria-disabled={isAnythingLoading} 
         >
           <div className="button-image-overlay">
             Anasayfaya Dön
@@ -532,14 +600,14 @@ const LibraryBooks = () => {
                 value={bookId} 
                 onChange={(e) => {
                   setBookId(e.target.value); 
-                  setIsBookInLibrary(null); 
-                  setFormError(null);
+                  setIsBookInLibrary(null);
+                  setFormError(null); 
                 }} 
                 required
-                disabled={loading}
+                disabled={loading.dropdowns || loading.addBook}
               >
                 <option value="">Kitap Seç</option>
-                {books.map((book) => (
+                {booksForDropdown.map((book) => (
                   <option key={book.id} value={book.id}>
                     {book.title}
                   </option>
@@ -550,14 +618,14 @@ const LibraryBooks = () => {
                 value={libraryId} 
                 onChange={(e) => {
                   setLibraryId(e.target.value); 
-                  setIsBookInLibrary(null);
+                  setIsBookInLibrary(null); 
                   setFormError(null);
                 }} 
                 required
-                disabled={loading}
+                disabled={loading.dropdowns || loading.addBook}
               >
                 <option value="">Kütüphane Seç</option>
-                {libraries.map((library) => (
+                {librariesForDropdown.map((library) => (
                   <option key={library.id} value={library.id}>
                     {library.name}
                   </option>
@@ -567,15 +635,15 @@ const LibraryBooks = () => {
                 <button 
                   type="submit" 
                   className="form-add-button" 
-                  disabled={loading || !bookId || !libraryId}
+                  disabled={loading.addBook || !bookId || !libraryId || loading.dropdowns}
                 >
-                  {loading ? 'Kitap Ekleniyor...' : 'Kitap Ekle'}
+                  {loading.addBook ? 'Ekleniyor...' : 'Kitap Ekle'}
                 </button>
                  <button 
                     type="button" 
                     className="form-clear-button"
                     onClick={handleClearAddForm}
-                    disabled={loading} 
+                    disabled={loading.addBook || loading.dropdowns || (!bookId && !libraryId)} 
                  >
                    Temizle
                  </button>
@@ -585,86 +653,132 @@ const LibraryBooks = () => {
           
           <div className="form-section">
             <h4>Kitap Kütüphanede Mi?</h4>
-            <select value={bookId} onChange={(e) => { setBookId(e.target.value); setIsBookInLibrary(null);}} required disabled={loading}>
+            <select 
+                value={bookId} 
+                onChange={(e) => { setBookId(e.target.value); setIsBookInLibrary(null);}} 
+                required 
+                disabled={loading.dropdowns || loading.checkBook}
+            >
               <option value="">Kitap Seç</option>
-              {books.map((book) => (
-                <option key={book.id} value={book.id}>
+              {booksForDropdown.map((book) => (
+                <option key={`check-book-${book.id}`} value={book.id}>
                   {book.title}
                 </option>
               ))}
             </select>
-            <select value={libraryId} onChange={(e) => { setLibraryId(e.target.value); setIsBookInLibrary(null);}} required disabled={loading}>
+            <select 
+                value={libraryId} 
+                onChange={(e) => { setLibraryId(e.target.value); setIsBookInLibrary(null);}} 
+                required 
+                disabled={loading.dropdowns || loading.checkBook}
+            >
               <option value="">Kütüphane Seç</option>
-              {libraries.map((library) => (
-                <option key={library.id} value={library.id}>
+              {librariesForDropdown.map((library) => (
+                <option key={`check-lib-${library.id}`} value={library.id}>
                   {library.name}
                 </option>
               ))}
             </select>
-            <button onClick={checkIfBookInLibrary} className="form-check-button" disabled={!bookId || !libraryId || loading}>Kontrol Et</button>
-            {isBookInLibrary !== null && (
+            <button 
+                onClick={checkIfBookInLibrary} 
+                className="form-check-button" 
+                disabled={!bookId || !libraryId || loading.checkBook || loading.dropdowns}
+            >
+                {loading.checkBook ? 'Kontrol Ediliyor...' : 'Kontrol Et'}
+            </button>
+            {isBookInLibrary !== null && !loading.checkBook && (
               <p style={{marginTop: '10px', fontWeight: 'bold', textAlign: 'center'}}>
-                {isBookInLibrary ? 'Kitap kütüphanede mevcut.' : 'Kitap kütüphanede mevcut değil.'}
+                {isBookInLibrary ? '✔️ Kitap bu kütüphanede mevcut.' : '❌ Kitap bu kütüphanede mevcut değil.'}
               </p>
             )}
           </div>
 
           <div className="form-section">
             <h4>Yazarın Kitapları ve Kütüphaneleri</h4>
-            <select value={authorId} onChange={(e) => setAuthorId(e.target.value)} required disabled={loading}>
+            <select 
+                value={authorId} 
+                onChange={(e) => {setAuthorId(e.target.value); setLibrariesAndBooksByAuthor([]); }} 
+                required 
+                disabled={loading.dropdowns || loading.authorBooks}
+            >
               <option value="">Yazar Seç</option>
-              {authors.map((author) => (
+              {authorsForDropdown.map((author) => (
                 <option key={author.id} value={author.id}>
-                  {author.name} {author.surname}
+                  {author.name} {author.surname || ''}
                 </option>
               ))}
             </select>
-            <button onClick={fetchLibrariesAndBooksByAuthor} className="form-show-button" disabled={!authorId || loading}>Yazarın Kitaplarını Göster</button>
-            {librariesAndBooks.length > 0 ? (
+            <button 
+                onClick={fetchLibrariesAndBooksByAuthor} 
+                className="form-show-button" 
+                disabled={!authorId || loading.authorBooks || loading.dropdowns}
+            >
+                {loading.authorBooks ? 'Yükleniyor...' : 'Yazarın Kitaplarını Göster'}
+            </button>
+            {loading.authorBooks && <p className="status-message" style={{fontSize: '0.9em', minHeight: '50px', padding: '10px'}}>Yükleniyor...</p>}
+            {!loading.authorBooks && librariesAndBooksByAuthor.length > 0 && (
                 <ul className="author-books-list">
-                    {librariesAndBooks.map((item, i) => (
-                    <li key={i}>
-                        <strong>{item[1] || 'Kitap adı yok'}</strong> - <em>{item[0] || 'Kütüphane adı yok'}</em>
+                    {librariesAndBooksByAuthor.map((item, i) => (
+                    // ID'ler bu endpoint'ten gelmediği için, key olarak name + index kombinasyonunu kullanıyoruz
+                    // Bu key'in %100 eşsiz olmama ihtimali var ama küçük listeler için genellikle yeterlidir.
+                    // İdeal olan, backend'in her kayıt için eşsiz bir ID sağlamasıdır.
+                    <li key={`${item.bookTitle}-${item.libraryName}-${i}`}> 
+                        <strong>{item.bookTitle}</strong> - <em>{item.libraryName}</em>
                     </li>
                     ))}
                 </ul>
-            ) : (
-                authorId && !loading && <p className="author-books-list">Yazarın kitapları ve kütüphaneleri bulunamadı veya henüz arama yapılmadı.</p>
+            )}
+            {!loading.authorBooks && authorId && librariesAndBooksByAuthor.length === 0 && (
+                <div className="author-books-list">
+                    <p>Bu yazar için kütüphane-kitap kaydı bulunamadı.</p>
+                </div>
             )}
           </div>
         </div>
 
         <div className="slider-and-edit-section">
-          <h4>Tüm Kütüphane Kitapları</h4>
-          {loading && libraryBooks.length === 0 ? (
+          <h4>Tüm Kütüphane-Kitap Kayıtları</h4>
+          {loading.allEntries && allLibraryBookEntries.length === 0 ? (
             <p className="status-message">Yükleniyor...</p>
-          ) : !loading && libraryBooks.length === 0 ? ( 
-            <p className="status-message">Henüz kütüphaneye eklenmiş kitap yok.</p>
+          ) : !loading.allEntries && allLibraryBookEntries.length === 0 ? ( 
+            <p className="status-message">Henüz kütüphanelere eklenmiş kitap kaydı bulunmamaktadır.</p>
           ) : (
             <>
               <ul className="library-books-list">
-                {libraryBooks.map((libraryBook) => (
-                  <li key={libraryBook.id}>
-                    <strong>{libraryBook.book?.title || 'Kitap adı yok'}</strong> - <em>{libraryBook.library?.name || 'Kütüphane adı yok'}</em>
+                {allLibraryBookEntries.map((entry, index) => (
+                  <li key={`${entry.book?.id}-${entry.library?.id}-${index}`}> 
+                    <strong>{entry.book?.title || 'Kitap Adı Yok'}</strong> 
+                    {' - '}
+                    <em>{entry.library?.name || 'Kütüphane Adı Yok'}</em>
                   </li>
                 ))}
               </ul>
               {totalPages > 1 && (
                 <div className="pagination-controls">
-                  <button onClick={handlePrevPage} disabled={currentPage === 0 || loading}>
+                  <button 
+                    onClick={handlePrevPage} 
+                    disabled={currentPage === 0 || loading.allEntries}
+                  >
                     Önceki
                   </button>
                   <span>
                     Sayfa {currentPage + 1} / {totalPages}
                   </span>
-                  <button onClick={handleNextPage} disabled={currentPage >= totalPages - 1 || loading}>
+                  <button 
+                    onClick={handleNextPage} 
+                    disabled={currentPage >= totalPages - 1 || loading.allEntries}
+                  >
                     Sonraki
                   </button>
                 </div>
               )}
             </>
           )}
-           {loading && libraryBooks.length > 0 && <p className="status-message" style={{fontSize: '1em', minHeight: 'auto', padding: '10px'}}>Sayfa yükleniyor...</p>}
+           {loading.allEntries && allLibraryBookEntries.length > 0 && (
+            <p className="status-message" style={{fontSize: '1em', minHeight: 'auto', padding: '10px'}}>
+                Yeni sayfa yükleniyor...
+            </p>
+           )}
         </div>
       </div>
     </>

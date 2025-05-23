@@ -53,6 +53,11 @@ public class BooksServiceImpl implements BooksService {
     }
 
     @Override
+    public List<Books> getBooksByAuthor(Long authorId) {
+        return List.of();
+    }
+
+    @Override
     public List<Books> GetBooksByAuthor(Long authorId) {
         return booksRepo.findByAuthorId(authorId);
     }
