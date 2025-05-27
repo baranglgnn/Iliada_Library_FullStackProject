@@ -4,6 +4,9 @@ import jakarta.transaction.Transactional;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Authors;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Books;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Librarys;
+import org.glgnn.kutuphane_yonetim_sistemi.ExceptionMessages.ConflictException;
+import org.glgnn.kutuphane_yonetim_sistemi.ExceptionMessages.NotFoundException;
+import org.glgnn.kutuphane_yonetim_sistemi.ExceptionMessages.messages.BookErrorMessages;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.BooksRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.LibrarysRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.LibrarysService;
@@ -11,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.glgnn.kutuphane_yonetim_sistemi.ExceptionMessages.messages.LibraryErrorMessages;
+
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +42,8 @@ public class LibrarysServiceImpl implements LibrarysService {
     @Override
     @Transactional
     public Librarys findLibraryById(Long id) {
-        return librarysRepo.findById(id).get();
+        return librarysRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException(LibraryErrorMessages.LIBRARY_NOT_FOUND));
     }
 
     @Override
@@ -66,10 +73,9 @@ public class LibrarysServiceImpl implements LibrarysService {
     @Override
     @Transactional
     public Librarys deleteLibraryById(Long id) {
-        if(librarysRepo.findById(id).isEmpty()){
-            throw new RuntimeException("Silinecek kutuphane bulunamadi");
-        }
-        Librarys deletedLibrary = librarysRepo.findById(id).get();
+        Librarys deletedLibrary = librarysRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException(LibraryErrorMessages.LIBRARY_DELETE_NOT_FOUND));
+
         deletedLibrary.setStatus(false);
         return librarysRepo.save(deletedLibrary);
     }
@@ -83,19 +89,22 @@ public class LibrarysServiceImpl implements LibrarysService {
     @Transactional
     public Librarys addBookToLibrary(Long libraryId, Long bookId) {
         Librarys library = librarysRepo.findById(libraryId)
-                .orElseThrow(() -> new RuntimeException("Kütüphane bulunamadı!"));
+                .orElseThrow(() -> new NotFoundException(LibraryErrorMessages.LIBRARY_NOT_FOUND));
 
         Books book = booksRepo.findById(bookId)
-                .orElseThrow(() -> new RuntimeException("Kitap bulunamadı!"));
+                .orElseThrow(() -> new NotFoundException(BookErrorMessages.BOOK_NOT_FOUND));
 
         if (library.getBooks().contains(book)) {
-            throw new RuntimeException("Bu kitap zaten kütüphaneye ekli!");
+            throw new ConflictException(BookErrorMessages.BOOK_ALREADY_EXISTS);
         }
+
         library.getBooks().add(book);
+
         Authors author = book.getAuthor();
         if (author != null && !library.getAuthors().contains(author)) {
             library.getAuthors().add(author);
         }
+
         return librarysRepo.save(library);
     }
 

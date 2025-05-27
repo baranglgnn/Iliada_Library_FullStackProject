@@ -20,7 +20,7 @@ public class Authors {
     @Column(name = "status", nullable = false)
     private boolean status = true;
 
-    @ManyToMany(mappedBy = "authors")
+    @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Librarys> libraries = new ArrayList<>();
 

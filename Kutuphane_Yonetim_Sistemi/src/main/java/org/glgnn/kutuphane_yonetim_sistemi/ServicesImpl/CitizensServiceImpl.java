@@ -2,6 +2,8 @@ package org.glgnn.kutuphane_yonetim_sistemi.ServicesImpl;
 
 import jakarta.transaction.Transactional;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Citizens;
+import org.glgnn.kutuphane_yonetim_sistemi.ExceptionMessages.NotFoundException;
+import org.glgnn.kutuphane_yonetim_sistemi.ExceptionMessages.messages.CitizenErrorMessages;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.CitizensRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.CitizensService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,8 @@ public class CitizensServiceImpl implements CitizensService {
     @Override
     @Transactional
     public Citizens findCitizenById(Long id) {
-        return citizensRepo.findById(id).get();
+        return citizensRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException(CitizenErrorMessages.CITIZEN_NOT_FOUND));
     }
 
     @Override
@@ -43,28 +46,28 @@ public class CitizensServiceImpl implements CitizensService {
     @Override
     @Transactional
     public Citizens deleteCitizen(Long id) {
-        if (citizensRepo.findById(id).isEmpty()) {
-            throw new RuntimeException("Silinecek vatandas bulunamadı!");
-        }
-        Citizens deleteCitizen = citizensRepo.findById(id).get();
+        Citizens deleteCitizen = citizensRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException(CitizenErrorMessages.CITIZEN_DELETE_NOT_FOUND));
         deleteCitizen.setStatus(false);
         return citizensRepo.save(deleteCitizen);
     }
 
+    @Override
     @Transactional
     public Citizens updateCitizen(Long id, Citizens newCitizenData) {
         return citizensRepo.findById(id)
                 .map(existingCitizen -> {
                     existingCitizen.setFullName(newCitizenData.getFullName());
+                    existingCitizen.setTcNo(newCitizenData.getTcNo());
                     return citizensRepo.save(existingCitizen);
                 })
-                .orElseThrow(() -> new RuntimeException("VatandaS bulunamadİ!"));
+                .orElseThrow(() -> new NotFoundException(CitizenErrorMessages.CITIZEN_NOT_FOUND));
     }
 
     @Override
     @Transactional
     public Citizens addCitizen(Citizens citizen) {
-        Citizens addCitizen = new Citizens(citizen.getTcNo(), citizen.getFullName());
+        Citizens addCitizen = new Citizens(citizen.getTcNo(), citizen.getFullName(), citizen.getEmail());
         return citizensRepo.save(addCitizen);
     }
     @Override

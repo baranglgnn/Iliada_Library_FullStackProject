@@ -5,11 +5,15 @@ import org.glgnn.kutuphane_yonetim_sistemi.Entities.Books;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Borrowed_books;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Citizens;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Librarys;
+import org.glgnn.kutuphane_yonetim_sistemi.ExceptionMessages.BusinessException;
+import org.glgnn.kutuphane_yonetim_sistemi.ExceptionMessages.NotFoundException;
+import org.glgnn.kutuphane_yonetim_sistemi.ExceptionMessages.messages.BorrowedBooksErrorMessages;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.BooksRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.Borrowed_booksRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.CitizensRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.LibrarysRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.Borrowed_booksService;
+import org.glgnn.kutuphane_yonetim_sistemi.Services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,21 +60,21 @@ public class Borrowed_booksServiceImpl implements Borrowed_booksService {
 
     @Override
     @Transactional
-    public Borrowed_books borrowBook(Long citizenId, Long bookId,Long libraryId) {
-
+    public Borrowed_books borrowBook(Long citizenId, Long bookId, Long libraryId) {
         Citizens citizentmp = citizensRepo.findById(citizenId)
-                .orElseThrow(() -> new RuntimeException("Vatandas bulunamadi!"));
+                .orElseThrow(() -> new NotFoundException(BorrowedBooksErrorMessages.CITIZEN_NOT_FOUND));
 
         Books booktmp = bookRepo.findById(bookId)
-                .orElseThrow(() -> new RuntimeException("Kitap bulunamadi!"));
+                .orElseThrow(() -> new NotFoundException(BorrowedBooksErrorMessages.BOOK_NOT_FOUND));
 
         Librarys librarytmp = libraryRepo.findById(libraryId)
-                .orElseThrow(() -> new RuntimeException("Kutuphane bulunamadi!"));
+                .orElseThrow(() -> new NotFoundException(BorrowedBooksErrorMessages.LIBRARY_NOT_FOUND));
 
         boolean isBookBorrowed = borrowedRepo.existsByCitizenIdAndBookIdAndReturnDateIsNull(citizenId, bookId);
         if (isBookBorrowed) {
-            throw new RuntimeException("Bu kitap zaten başka biri tarafından ödünç alınmış!");
+            throw new BusinessException(BorrowedBooksErrorMessages.BOOK_ALREADY_BORROWED);
         }
+
         Borrowed_books borrowedBook = new Borrowed_books();
         borrowedBook.setCitizen(citizentmp);
         borrowedBook.setBook(booktmp);
@@ -80,18 +84,18 @@ public class Borrowed_booksServiceImpl implements Borrowed_booksService {
         return borrowedRepo.save(borrowedBook);
     }
 
-    @Override
-    @Transactional
-    public Borrowed_books returnBook(Long citizenId, Long bookId) {
-        Borrowed_books borrowedBook = borrowedRepo.findByCitizenIdAndBookIdAndReturnDateIsNull(citizenId, bookId);
+        @Override
+        @Transactional
+        public Borrowed_books returnBook(Long citizenId, Long bookId) {
+            Borrowed_books borrowedBook = borrowedRepo.findByCitizenIdAndBookIdAndReturnDateIsNull(citizenId, bookId);
 
-        if (borrowedBook == null) {
-            throw new RuntimeException("Bu kitap odunc alınmamıs veya zaten iade edilmis!");
+            if (borrowedBook == null) {
+                throw new BusinessException(BorrowedBooksErrorMessages.BOOK_NOT_BORROWED);
+            }
+            borrowedBook.setReturnDate(LocalDate.now());
+
+            return borrowedRepo.save(borrowedBook);
         }
-
-        borrowedBook.setReturnDate(LocalDate.now());
-        return borrowedRepo.save(borrowedBook);
-    }
 
     @Override
     public List<Object[]> getAllBorrowedBooks() {

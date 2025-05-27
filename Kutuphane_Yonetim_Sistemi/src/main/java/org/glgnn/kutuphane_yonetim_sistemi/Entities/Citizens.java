@@ -20,10 +20,13 @@ public class Citizens {
 
     @Column(name = "status", nullable = false)
     private boolean status = true;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
-    public Citizens(String tcNo, String fullName) {
+    public Citizens(String tcNo, String fullName, String email) {
         this.tcNo = tcNo;
         this.fullName = fullName;
+        this.email = email;
     }
     public Citizens() {}
 
@@ -57,5 +60,13 @@ public class Citizens {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -46,7 +46,7 @@ const layoutCss = `
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      align-items: center; 
+      align-items: flex-start; /* Align items to the start for better layout if they have different heights */
       gap: 20px;
       background-color: #f0f2f5; 
       padding: 20px 25px;
@@ -85,9 +85,10 @@ const layoutCss = `
     .form-container-citizens .form-clear-button:hover:not(:disabled) { background-color: #4d0000; }
 
     .citizen-search-wrapper {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-start; /* Changed to flex-start */
       min-width: 300px; max-width: 380px; position: relative; z-index: 15; 
       width: 100%; 
+      padding-top: 30px; /* Added padding to align with form's h4 if needed, or adjust as per visual preference */
     }
     .citizen-search-wrapper input[type="text"] { 
       width: 100%; padding: 10px 14px; border-radius: 6px; border: 1px solid #ccc;
@@ -98,7 +99,8 @@ const layoutCss = `
       outline: none; border-color: #802C00; box-shadow: 0 0 0 0.1rem rgba(80,45,15,0.15);
     }
     .citizen-search-results-dropdown {
-      position: absolute; top: 100%; left: 0; right: 0; background-color: #fff;
+      position: absolute; top: calc(100% - 0px); /* Adjusted for direct attachment below input */
+      left: 0; right: 0; background-color: #fff;
       border: 1px solid #ddd; border-top: none; border-radius: 0 0 6px 6px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-height: 200px; overflow-y: auto;
       z-index: 14; list-style: none; padding: 0; margin: 0;
@@ -261,9 +263,9 @@ const layoutCss = `
     .edit-form-container-citizens .error-message { text-align: left; }
 
     @media (max-width: 992px) {
-        .citizen-form-and-search-platform { flex-direction: column; max-width: 500px; }
+        .citizen-form-and-search-platform { flex-direction: column; max-width: 500px; align-items: center;}
         .form-container-citizens { width: 100%; max-width: 100%; }
-        .citizen-search-wrapper { width: 100%; max-width: 100%; margin-top: 20px; }
+        .citizen-search-wrapper { width: 100%; max-width: 100%; margin-top: 20px; padding-top: 0; }
         .edit-form-container-citizens { width: 100%; max-width: 500px; }
         .fancy-return-button { top: 15px; right: 15px; width: 180px; height: 60px; }
         .button-image-overlay { font-size: 1em; }
@@ -287,9 +289,7 @@ const Citizens = () => {
   const [newCitizen, setNewCitizen] = useState({ tcNo: '', fullName: '' });
   const [editingCitizen, setEditingCitizen] = useState(null);
   
-  // Tek bir `loading` state'i genel yükleme ve API çağrıları için
   const [loading, setLoading] = useState(false); 
-  // Form submit butonlarının kendi içlerinde "Ekleniyor/Güncelleniyor" göstermesi için ayrı state'ler
   const [isAdding, setIsAdding] = useState(false); 
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -302,19 +302,18 @@ const Citizens = () => {
   const [debouncedCitizenKeyword, setDebouncedCitizenKeyword] = useState('');
   const [citizenDropdownResults, setCitizenDropdownResults] = useState([]);
   const [isCitizenDropdownOpen, setIsCitizenDropdownOpen] = useState(false);
-  const [citizenSearchApiLoading, setCitizenSearchApiLoading] = useState(false); // Sadece arama API'si için
+  const [citizenSearchApiLoading, setCitizenSearchApiLoading] = useState(false);
   const [citizenSearchApiError, setCitizenSearchApiError] = useState(null);
   
   const citizenSearchWrapperRef = useRef(null);
 
-  // Ana veri çekme useEffect'i
   useEffect(() => {
     let pageToLoad = page;
     if (isInitialRender.current) {
       isInitialRender.current = false;
       pageToLoad = 0;
       if (page !== 0) {
-        setPage(0); // Bu, useEffect'in tekrar çalışmasını tetikler
+        setPage(0); 
         return;
       }
     } else {
@@ -323,13 +322,13 @@ const Citizens = () => {
       }
       pageToLoad = Math.max(0, pageToLoad);
       if (pageToLoad !== page) {
-        setPage(pageToLoad); // Bu, useEffect'in tekrar çalışmasını tetikler
+        setPage(pageToLoad);
         return;
       }
     }
     
     const loadCitizens = async () => {
-      setLoading(true); // Genel yükleme başladı
+      setLoading(true);
       try {
         const response = await axiosInstance.get(`/citizens/getAllCitizens?page=${pageToLoad}&size=${pageSize}`);
         setCitizens(Array.isArray(response.data.content) ? response.data.content : []);
@@ -343,13 +342,12 @@ const Citizens = () => {
         setCitizens([]);
         setTotalPages(0);
       } finally {
-        setLoading(false); // Genel yükleme bitti
+        setLoading(false);
       }
     };
     loadCitizens();
-  }, [page, pageSize, totalPages]); // totalPages bağımlılığı eklendi
+  }, [page, pageSize, totalPages]);
 
-  // Arama için useEffect'ler
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedCitizenKeyword(citizenSearchKeyword);
@@ -365,7 +363,7 @@ const Citizens = () => {
       setCitizenSearchApiError(null);
       return;
     }
-    setCitizenSearchApiLoading(true); // Arama API'si yükleniyor
+    setCitizenSearchApiLoading(true);
     setCitizenSearchApiError(null);
     try {
       const response = await axiosInstance.get('/citizens/searchCitizen', { params: { fullname: trimmedKeyword } });
@@ -373,11 +371,12 @@ const Citizens = () => {
       setCitizenDropdownResults(results);
       setIsCitizenDropdownOpen(true);
     } catch (err) {
+      console.error("Arama API hatası:", err.response || err);
       setCitizenSearchApiError(err.response?.data?.message || err.message || "Arama sırasında hata.");
       setCitizenDropdownResults([]);
       setIsCitizenDropdownOpen(true);
     } finally {
-      setCitizenSearchApiLoading(false); // Arama API'si yüklenmesi bitti
+      setCitizenSearchApiLoading(false);
     }
   }, []); 
 
@@ -411,77 +410,68 @@ const Citizens = () => {
       await axiosInstance.post('/citizens/saveCitizen', newCitizen);
       setNewCitizen({ tcNo: '', fullName: '' });
       alert('Yeni vatandaş eklendi!');
-      if (page !== 0) {
-          setPage(0); // Ana useEffect tetiklenir ve veriyi çeker
-      } else {
-          // Zaten sayfa 0'daysa, totalPages değişmediyse bile listeyi yenilemek için
-          // ana useEffect'in yeniden çalışmasını sağlamak adına totalPages'i geçici olarak değiştirip eski haline getirebiliriz
-          // ya da doğrudan bir fetch tetikleyebiliriz. En temizi, ana useEffect'in totalPages'e de bakması.
-          // Eğer ekleme sonrası totalPages değişmiyorsa (örneğin ilk sayfada yer varsa),
-          // ana useEffect'i tetiklemek için totalPages'i değiştirmek mantıklı.
-          // Bu senaryoda, backend'in yeni totalPages'i döndürmesi idealdir.
-          // Şimdilik, page=0 ise ve totalPages değişmezse, ana useEffect'in yeniden çalışması için
-          // totalPages'i bir anlık değiştirip sonra geri almak yerine,
-          // doğrudan bir fetch çağrısı daha güvenli olabilir, AMA döngüye dikkat!
-          // En iyisi, ana useEffect'in totalPages değişimine de tepki vermesi.
-          // Veya, add sonrası backend'den dönen güncel totalPages'i kullanarak setState yapmak.
-          // Şimdilik, totalPages'in ana useEffect'te dependency olmasıyla bu durumun çözülmesini bekliyoruz.
-          // Eğer ilk sayfadaysak ve totalPages değişmezse, ana useEffect'in çalışması için:
-          const response = await axiosInstance.get(`/citizens/getAllCitizens?page=0&size=${pageSize}`);
-          setCitizens(Array.isArray(response.data.content) ? response.data.content : []);
-          setTotalPages(response.data.totalPages || 0);
+      
+      // Veriyi ve sayfa bilgisini güncelle
+      const currentPageToRefresh = page === 0 ? 0 : page; // Eğer ekleme sonrası ilk sayfaya dönülecekse 0, değilse mevcut sayfa
+      const response = await axiosInstance.get(`/citizens/getAllCitizens?page=${currentPageToRefresh}&size=${pageSize}`);
+      setCitizens(Array.isArray(response.data.content) ? response.data.content : []);
+      setTotalPages(response.data.totalPages || 0);
+      if (page !== 0) { // Eğer ekleme sonrası ilk sayfaya yönlendirme yapılıyorsa
+          setPage(0);
       }
+
       if (debouncedCitizenKeyword.trim() && newCitizen.fullName.toLowerCase().includes(debouncedCitizenKeyword.toLowerCase())) {
         fetchCitizenNameDropdownResults(debouncedCitizenKeyword);
       }
     } catch (error) {
+      console.error("Ekleme hatası:", error.response || error);
       alert(error.response?.data?.message || error.response?.data || 'Vatandaş eklenirken bir hata oluştu.');
     } finally { setIsAdding(false); }
   };
 
   const handleClearAddForm = () => {
-    if (window.confirm('Yeni vatandaş ekleme formunu temizlemek istediğinizden emin misiniz? Girilmiş veriler silinecektir.')) {
-      setNewCitizen({ tcNo: '', fullName: '' });
+    if (newCitizen.tcNo || newCitizen.fullName) {
+        if (window.confirm('Yeni vatandaş ekleme formunu temizlemek istediğinizden emin misiniz? Girilmiş veriler silinecektir.')) {
+            setNewCitizen({ tcNo: '', fullName: '' });
+        }
+    } else {
+        setNewCitizen({ tcNo: '', fullName: '' });
     }
   };
 
   const handleDeleteCitizen = async (id) => {
     if (window.confirm('Bu vatandaşı silmek istediğinizden emin misiniz?')) {
-        setLoading(true); // Ana yükleme state'ini kullan
+        setLoading(true); 
         try {
-        await axiosInstance.post(`/citizens/deleteCitizen/${id}`);
-        alert('Vatandaş başarıyla silindi!');
-        if (editingCitizen && editingCitizen.id === id) setEditingCitizen(null);
-        
-        // Silme sonrası sayfa ve veri güncelleme
-        // Eğer mevcut sayfada hiç eleman kalmadıysa ve bu ilk sayfa değilse, bir önceki sayfaya git.
-        // Ana useEffect, page veya totalPages değiştiğinde veriyi yeniden çekecek.
-        if (citizens.length === 1 && page > 0) {
-            setPage(p => p - 1);
-        } else {
-            // Mevcut sayfayı veya (eğer son eleman silindiyse) sayfa 0'ı yeniden yükle.
-            // Ana useEffect totalPages'e de baktığı için bu senaryoyu ele alacak.
-            // Yine de emin olmak için, totalPages güncellenene kadar bekleyebilir veya
-            // doğrudan mevcut sayfa verisini ve totalPages'i yeniden çekebiliriz.
-             const response = await axiosInstance.get(`/citizens/getAllCitizens?page=${page}&size=${pageSize}`);
-             const newContent = Array.isArray(response.data.content) ? response.data.content : [];
-             const newTotalPages = response.data.totalPages || 0;
-             setCitizens(newContent);
-             setTotalPages(newTotalPages);
-             // Eğer mevcut sayfa artık geçerli değilse (örneğin son elemanlar silindi ve sayfa boşaldı)
-             if (newContent.length === 0 && page > 0 && page >= newTotalPages && newTotalPages > 0) {
-                 setPage(newTotalPages - 1);
-             } else if (newContent.length === 0 && newTotalPages === 0) { // Hiç eleman kalmadı
-                 setPage(0);
-             }
-        }
+            await axiosInstance.post(`/citizens/deleteCitzen/${id}`); // Backend'de delete ise DELETE, post ise POST olmalı. Genelde DELETE kullanılır.
+            alert('Vatandaş başarıyla silindi!');
+            if (editingCitizen && editingCitizen.id === id) setEditingCitizen(null);
+            
+            // Silme sonrası veri ve sayfa durumunu güncellemek için mevcut sayfayı yeniden yükle
+            // ve totalPages'i de güncelle. Ana useEffect bu değişikliklere göre tetiklenecektir.
+            const response = await axiosInstance.get(`/citizens/getAllCitizens?page=${page}&size=${pageSize}`);
+            const newContent = Array.isArray(response.data.content) ? response.data.content : [];
+            const newTotalPages = response.data.totalPages || 0;
 
-        if (isCitizenDropdownOpen && debouncedCitizenKeyword.trim()) {
-            fetchCitizenNameDropdownResults(debouncedCitizenKeyword);
-        }
+            setCitizens(newContent);
+            setTotalPages(newTotalPages); // Bu, ana useEffect'i tetikleyebilir.
+
+            // Eğer silme sonrası mevcut sayfa boşaldıysa ve bu ilk sayfa değilse, bir önceki sayfaya git.
+            if (newContent.length === 0 && page > 0 && newTotalPages > 0 && page >= newTotalPages) {
+                setPage(newTotalPages - 1);
+            } else if (newContent.length === 0 && newTotalPages === 0) { // Hiç eleman kalmadıysa
+                setPage(0); // Sayfayı sıfırla, ana useEffect güncel boş durumu çeker.
+                setCitizens([]); // Listeyi hemen boşalt
+            }
+            // Eğer mevcut sayfada kalınıyorsa ve totalPages değişmediyse, setCitizens zaten listeyi güncelledi.
+
+            if (isCitizenDropdownOpen && debouncedCitizenKeyword.trim()) {
+                fetchCitizenNameDropdownResults(debouncedCitizenKeyword);
+            }
         } catch (error) {
-        const errorMessage = error.response?.data?.message || error.response?.data || error.response?.statusText || 'Sunucu hatası';
-        alert(`Vatandaş silinirken bir hata oluştu: ${errorMessage} (Kod: ${error.response?.status || 'Bilinmiyor'})`);
+            console.error("Silme hatası:", error.response || error);
+            const errorMessage = error.response?.data?.message || error.response?.data || error.response?.statusText || 'Sunucu hatası';
+            alert(`Vatandaş silinirken bir hata oluştu: ${errorMessage} (Kod: ${error.response?.status || 'Bilinmiyor'})`);
         } finally { setLoading(false); }
     }
   };
@@ -491,26 +481,41 @@ const Citizens = () => {
     if (!editingCitizen || !editingCitizen.fullName.trim() || !editingCitizen.tcNo.trim() || editingCitizen.tcNo.length !== 11) {
       alert('TC No 11 haneli olmalı ve Ad Soyad boş olamaz.'); return;
     }
+    
+    console.log("Güncelleme için gönderilen vatandaş verisi:", JSON.stringify(editingCitizen)); // GÖNDERİLEN VERİYİ KONTROL ET
+
     setIsUpdating(true);
     try {
       await axiosInstance.put(`/citizens/updateCitizen/${editingCitizen.id}`, editingCitizen);
       alert('Vatandaş başarıyla güncellendi!');
+      const updatedCitizenId = editingCitizen.id; // Sakla, çünkü setEditingCitizen(null) sonrası erişilemez olacak
       setEditingCitizen(null); 
-      // Mevcut sayfayı yenile
+      
+      // Sadece güncellenen vatandaşı listede güncellemek veya tüm listeyi yeniden çekmek yerine
+      // Mevcut sayfayı yenileyerek en güncel halini almak daha garanti olabilir.
       const response = await axiosInstance.get(`/citizens/getAllCitizens?page=${page}&size=${pageSize}`);
       setCitizens(Array.isArray(response.data.content) ? response.data.content : []);
-      setTotalPages(response.data.totalPages || 0);
+      // setTotalPages(response.data.totalPages || 0); // Genellikle güncelleme totalPages'i değiştirmez ama emin olmak için.
 
+      // Eğer dropdown açıksa ve güncellenen vatandaşın ismi arama kriteriyle eşleşiyorsa, dropdown'ı yenile
       if (isCitizenDropdownOpen && debouncedCitizenKeyword.trim()) {
-        fetchCitizenNameDropdownResults(debouncedCitizenKeyword);
+        // Güncellenen vatandaşın yeni adını kontrol etmemiz gerekebilir, ama şimdilik genel bir yenileme
+        const citizenJustUpdated = citizens.find(c => c.id === updatedCitizenId);
+        if (citizenJustUpdated && citizenJustUpdated.fullName.toLowerCase().includes(debouncedCitizenKeyword.toLowerCase())) {
+             fetchCitizenNameDropdownResults(debouncedCitizenKeyword);
+        } else if (!citizenJustUpdated) { // Eğer listeden bir şekilde kaybolduysa (olmamalı)
+             fetchCitizenNameDropdownResults(debouncedCitizenKeyword);
+        }
       }
+
     } catch (error) {
+      console.error("Güncelleme API Hatası:", error.response || error); // HATA DETAYINI KONSOLA YAZDIR
       alert(error.response?.data?.message || error.response?.data || 'Vatandaş güncellenirken bir hata oluştu.');
     } finally { setIsUpdating(false); }
   };
 
   const handlePageChange = (newPage) => {
-    if (newPage >= 0 && (totalPages === 0 || newPage < totalPages) && !editingCitizen && !loading && !isAdding && !isUpdating) {
+    if (newPage >= 0 && (totalPages === 0 || newPage < totalPages) && !UIOperationInProgress) {
       setPage(newPage);
     }
   };
@@ -526,15 +531,19 @@ const Citizens = () => {
   };
   const handleKeyPressReturnHome = (event) => { if (event.key === 'Enter' || event.key === ' ') handleReturnHome(); };
 
-  const handleCitizenSearchInputFocus = () => { if (citizenSearchKeyword.trim() || citizenDropdownResults.length > 0) setIsCitizenDropdownOpen(true);};
+  const handleCitizenSearchInputFocus = () => { if (citizenSearchKeyword.trim() || citizenDropdownResults.length > 0 || citizenSearchApiError) setIsCitizenDropdownOpen(true);};
   const handleCitizenSearchInputChange = (e) => {
     setCitizenSearchKeyword(e.target.value);
   };
   const handleCitizenDropdownItemClick = (citizen) => {
-    setCitizenSearchKeyword(citizen.fullName); setIsCitizenDropdownOpen(false);
+    setCitizenSearchKeyword(citizen.fullName); 
+    setIsCitizenDropdownOpen(false);
+    // İsteğe bağlı: Seçilen vatandaşı direkt kartlarda göstermek için bir filtreleme/vurgulama mekanizması eklenebilir.
+    // Veya direkt o vatandaşı içeren sayfaya gidilebilir (eğer ID veya TC ile arama backend'de varsa).
+    // Şimdilik sadece input'u dolduruyor.
   };
 
-  const UIOperationInProgress = loading || isAdding || isUpdating || editingCitizen !== null;
+  const UIOperationInProgress = loading || isAdding || isUpdating || editingCitizen !== null || citizenSearchApiLoading;
 
 
   return (
@@ -543,12 +552,13 @@ const Citizens = () => {
       <div className="citizens-page-container">
         <div 
           className="fancy-return-button"
-          onClick={handleReturnHome}
-          onKeyPress={handleKeyPressReturnHome}
+          onClick={!UIOperationInProgress ? handleReturnHome : undefined}
+          onKeyPress={!UIOperationInProgress ? handleKeyPressReturnHome : undefined}
           role="button"
-          tabIndex="0" 
+          tabIndex={!UIOperationInProgress ? 0 : -1} 
           title="Anasayfaya Dön"
           aria-disabled={UIOperationInProgress}
+          style={{ cursor: UIOperationInProgress ? 'not-allowed' : 'pointer' }}
         >
           <div className="button-image-overlay">Anasayfaya Dön</div>
         </div>
@@ -585,7 +595,6 @@ const Citizens = () => {
 
             <div className="citizen-search-wrapper" ref={citizenSearchWrapperRef}>
                 <input
-                    // Arama input'u doğrudan JSX içinde, key prop'u yok veya sabit
                     type="text"
                     placeholder="Vatandaş adıyla hızlı ara..."
                     value={citizenSearchKeyword}
@@ -601,19 +610,23 @@ const Citizens = () => {
                             <li className="dropdown-message-citizens">"{debouncedCitizenKeyword}" için sonuç yok.</li>
                         )}
                         {!citizenSearchApiLoading && !citizenSearchApiError && citizenDropdownResults.map((citizen) => (
+                            // onMouseDown kullanıyoruz çünkü onBlur inputtan önce tetiklenip dropdown'ı kapatabilir.
                             <li key={citizen.id} onMouseDown={() => handleCitizenDropdownItemClick(citizen)}>
                                 {citizen.fullName} (TC: {citizen.tcNo})
                             </li>
                         ))}
+                         {!citizenSearchApiLoading && !citizenSearchApiError && citizenDropdownResults.length === 0 && !debouncedCitizenKeyword.trim() && !citizenSearchKeyword.trim() && (
+                            <li className="dropdown-message-citizens">Aramak için yazmaya başlayın...</li>
+                        )}
                     </ul>
                 )}
             </div>
         </div>
 
         <div className="citizen-list-section">
-          {(loading && citizens.length === 0 && page === 0) ? ( // Ana yükleme sırasında ve ilk sayfa boşsa
+          {(loading && citizens.length === 0 && page === 0) ? (
             <p className="status-message-citizens">Vatandaşlar Yükleniyor...</p>
-          ) : (!loading && citizens.length === 0) ? ( // Yükleme bitti ve hiç vatandaş yoksa
+          ) : (!loading && citizens.length === 0 && !citizenSearchKeyword.trim()) ? (
             <p className="status-message-citizens">Kayıtlı vatandaş bulunamadı.</p>
           ) : (
             <>
@@ -629,9 +642,13 @@ const Citizens = () => {
                       <button
                         className="card-button-citizen edit-button-citizen"
                         onClick={() => { 
+                            if (UIOperationInProgress && editingCitizen && editingCitizen.id !== citizen.id) {
+                                alert("Devam eden bir işlem varken veya başka bir vatandaş düzenlenirken bu işlem yapılamaz.");
+                                return;
+                            }
                             setEditingCitizen(citizen); 
-                            setNewCitizen({ tcNo: '', fullName: '' });
-                            setCitizenSearchKeyword('');
+                            setNewCitizen({ tcNo: '', fullName: '' }); // Yeni ekleme formunu temizle
+                            setCitizenSearchKeyword(''); // Arama alanını temizle
                             setIsCitizenDropdownOpen(false); 
                         }}
                         disabled={UIOperationInProgress && (!editingCitizen || editingCitizen.id !== citizen.id)}
@@ -655,7 +672,7 @@ const Citizens = () => {
               )}
             </>
           )}
-          {loading && citizens.length > 0 && <p className="status-message-citizens" style={{fontSize: '0.9em'}}>Veriler yükleniyor...</p>}
+          {loading && citizens.length > 0 && <p className="status-message-citizens" style={{fontSize: '0.9em', minHeight: 'auto', padding: '10px'}}>Veriler yükleniyor...</p>}
 
           {editingCitizen && (
             <div className="edit-form-container-citizens">

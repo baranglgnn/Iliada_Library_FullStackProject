@@ -467,7 +467,7 @@ const Authors = () => {
   const [editingAuthor, setEditingAuthor] = useState(null);
   const [editFormError, setEditFormError] = useState(null);
 
-  // Yazar ARAMA DROPDOWN İÇİN STATE'LER (Books.js'ten uyarlandı)
+  // Yazar ARAMA DROPDOWN İÇİN STATE'LER
   const [authorSearchKeyword, setAuthorSearchKeyword] = useState('');
   const [debouncedAuthorKeyword, setDebouncedAuthorKeyword] = useState('');
   const [authorDropdownResults, setAuthorDropdownResults] = useState([]);
@@ -478,17 +478,17 @@ const Authors = () => {
   const sliderRef = useRef(null);
   const authorSearchWrapperRef = useRef(null);
   const navigate = useNavigate();
-  const isInitialRender = useRef(true); // İlk render'ı takip etmek için
+  const isInitialRender = useRef(true);
 
   const sliderSettings = useMemo(() => ({
     dots: false,
-    infinite: true, // Bu, updateSliderOptions içinde dinamik olarak ayarlanacak
+    infinite: true,
     speed: 500,
     autoplay: true,
     autoplaySpeed: 2000,
     pauseOnHover: true,
     slidesToShow: 4,
-    slidesToScroll: 1, // Bu, updateSliderOptions içinde dinamik olarak ayarlanacak
+    slidesToScroll: 1,
     arrows: true,
     responsive: [
        { breakpoint: 1600, settings: { slidesToShow: 4, slidesToScroll: 1 } },
@@ -555,31 +555,21 @@ const Authors = () => {
   }, [updateSliderOptions]);
 
 
-  // ANA VERİ ÇEKME VE SAYFA YÖNETİMİ (Books.js'teki gibi)
   useEffect(() => {
     let pageToLoad = currentPage;
-
     if (totalPages > 0 && pageToLoad >= totalPages) {
       pageToLoad = totalPages - 1;
     }
-    pageToLoad = Math.max(0, pageToLoad); // Negatif olmasını engelle
+    pageToLoad = Math.max(0, pageToLoad);
 
-    if (pageToLoad !== currentPage) {
-      console.log(`AUTHORS: Correcting page from ${currentPage} to ${pageToLoad}`);
+    if (pageToLoad !== currentPage && !isInitialRender.current) {
       setCurrentPage(pageToLoad);
     } else {
-      // Sadece ilk render'da veya sayfa gerçekten değişmediyse (ama totalPages değişmiş olabilir)
-      // fetchPaginatedAuthors'u doğrudan çağır.
-      // if (isInitialRender.current || pageToLoad === currentPage) { // Bu koşul sonsuz döngüye yol açabilir.
-      console.log(`AUTHORS: Fetching data for current page ${pageToLoad}`);
       fetchPaginatedAuthors(pageToLoad, pageSize);
-      // }
     }
     if(isInitialRender.current) isInitialRender.current = false;
+  }, [currentPage, totalPages, pageSize, fetchPaginatedAuthors]);
 
-  }, [currentPage, totalPages, pageSize, fetchPaginatedAuthors]); // fetchPaginatedAuthors eklendi
-
-  // ARAMA DROPDOWN İÇİN useEffect'ler (Books.js'teki gibi)
   useEffect(() => {
     const handler = setTimeout(() => { setDebouncedAuthorKeyword(authorSearchKeyword); }, 400);
     return () => clearTimeout(handler);
@@ -596,14 +586,14 @@ const Authors = () => {
     setAuthorSearchApiLoading(true);
     setAuthorSearchApiError(null);
     try {
-      const response = await axiosInstance.get('authors/searchAuthors', { params: { name: trimmedKeyword } });
+      const response = await axiosInstance.get('/authors/searchAuthors', { params: { name: trimmedKeyword } });
       const results = response.data || [];
       setAuthorDropdownResults(results);
-      setIsAuthorDropdownOpen(true);
+      setIsAuthorDropdownOpen(results.length > 0); // Sadece sonuç varsa aç
     } catch (err) {
       setAuthorSearchApiError(err.response?.data?.message || err.message || "Arama sırasında hata.");
       setAuthorDropdownResults([]);
-      setIsAuthorDropdownOpen(true);
+      setIsAuthorDropdownOpen(true); // Hata durumunda da mesaj göstermek için açık tut
     } finally {
       setAuthorSearchApiLoading(false);
     }
@@ -629,16 +619,18 @@ const Authors = () => {
     return () => document.removeEventListener("mousedown", handleClickOutsideAuthorSearch);
   }, []);
 
-  // CRUD OPERASYONLARI (Books.js'ten uyarlandı)
   const handleAddAuthor = async (e) => {
     e.preventDefault(); setAddFormError(null);
     if (!newAuthor.name.trim()) { setAddFormError('Yazar adı boş olamaz.'); return; }
-    setLoadingSlider(true);
+    setLoadingSlider(true); // Belirsizliği önlemek için genel bir yükleme durumu
     try {
       await axiosInstance.post('/authors/saveAuthor', { name: newAuthor.name.trim() });
       alert('Yeni yazar başarıyla eklendi!'); setNewAuthor({ name: '' });
-      if (currentPage !== 0) setCurrentPage(0); // Ana useEffect tetiklenir
-      else fetchPaginatedAuthors(0, pageSize); // Zaten ilk sayfadaysa direkt çek
+      if (currentPage !== 0) {
+          setCurrentPage(0); // Bu, ana useEffect'i tetikleyerek yeniden yükleme yapar
+      } else {
+          fetchPaginatedAuthors(0, pageSize); // Zaten ilk sayfadaysa direkt yeniden yükle
+      }
       if (debouncedAuthorKeyword.trim() && newAuthor.name.toLowerCase().startsWith(debouncedAuthorKeyword.toLowerCase())) {
         fetchAuthorNameDropdownResults(debouncedAuthorKeyword);
       }
@@ -649,28 +641,37 @@ const Authors = () => {
 
   const handleDeleteAuthor = async (id) => {
     if (window.confirm('Bu yazarı silmek istediğinizden emin misiniz?')) {
-      setLoadingSlider(true); setSliderError(null);
+      setLoadingSlider(true); setSliderError(null); // Silme işlemi başlarken sliderError'ı temizle
       if (editingAuthor && editingAuthor.id === id) { setEditingAuthor(null); setEditFormError(null); }
       try {
-        await axiosInstance.post(`/authors/deleteAuthor/${id}`); // Backend POST kabul ediyorsa
+        await axiosInstance.post(`/authors/deleteAuthor/${id}`);
         alert('Yazar silindi!');
         const newTotalItems = Math.max(0, totalItems - 1);
+        setTotalItems(newTotalItems); // totalItems'ı hemen güncelle
         const newTotalPages = Math.ceil(newTotalItems / pageSize);
-        let pageToLoad = currentPage;
-        if (currentPage >= newTotalPages && newTotalPages > 0) pageToLoad = newTotalPages - 1;
-        else if (newTotalItems === 0) pageToLoad = 0;
+        setTotalPages(newTotalPages); // totalPages'ı hemen güncelle
 
-        if (pageToLoad !== currentPage || (pageToLoad === 0 && currentPage === 0 && totalItems === 1 && newTotalItems === 0)) {
-            setCurrentPage(pageToLoad);
-        } else {
-            fetchPaginatedAuthors(pageToLoad, pageSize);
+        let pageToLoad = currentPage;
+        if (currentPage >= newTotalPages && newTotalPages > 0) {
+            pageToLoad = newTotalPages - 1;
+        } else if (newTotalItems === 0) {
+            pageToLoad = 0;
         }
+        
+        // Sayfa değişimi varsa setCurrentPage ile tetikle, yoksa direkt fetch
+        if (pageToLoad !== currentPage || (authorsList.length === 1 && newTotalItems === 0) ) {
+            setCurrentPage(Math.max(0, pageToLoad));
+        } else {
+            fetchPaginatedAuthors(Math.max(0, pageToLoad), pageSize);
+        }
+
         if (isAuthorDropdownOpen && debouncedAuthorKeyword.trim()) {
           fetchAuthorNameDropdownResults(debouncedAuthorKeyword);
         }
       } catch (error) {
-        setSliderError(error.response?.data?.message || error.message || "Yazar silinirken bir hata oluştu.");
-        alert(error.response?.data?.message || error.message || "Yazar silinirken hata oluştu.");
+        const errorMessage = error.response?.data?.message || error.message || "Yazar silinirken bir hata oluştu.";
+        setSliderError(errorMessage);
+        // alert(errorMessage); // Bu satır kaldırıldı, sliderError UI'da gösterilecek.
       } finally { setLoadingSlider(false); }
     }
   };
@@ -678,11 +679,11 @@ const Authors = () => {
   const handleUpdateAuthor = async (e) => {
     e.preventDefault(); setEditFormError(null);
     if (!editingAuthor || !editingAuthor.name.trim()) { setEditFormError('Yazar adı boş olamaz.'); return; }
-    setLoadingSlider(true);
+    setLoadingSlider(true); // Genel yükleme durumu
     try {
       await axiosInstance.put(`/authors/updateAuthor/${editingAuthor.id}`, { name: editingAuthor.name.trim() });
       alert('Yazar başarıyla güncellendi!'); setEditingAuthor(null);
-      fetchPaginatedAuthors(currentPage, pageSize);
+      fetchPaginatedAuthors(currentPage, pageSize); // Mevcut sayfayı yeniden yükle
       if (isAuthorDropdownOpen && debouncedAuthorKeyword.trim()) {
         fetchAuthorNameDropdownResults(debouncedAuthorKeyword);
       }
@@ -691,13 +692,12 @@ const Authors = () => {
     } finally { setLoadingSlider(false); }
   };
 
-  // Diğer yardımcı fonksiyonlar (Books.js'ten uyarlandı)
   const cancelEditing = useCallback(() => { setEditingAuthor(null); setEditFormError(null); }, []);
   const handleClearForm = () => { if (window.confirm('Formu temizlemek istediğinizden emin misiniz?')) { setNewAuthor({ name: '' }); setAddFormError(null); }};
-  const handleReturnHome = () => { if (window.confirm('Anasayfaya dönmek istediğinizden emin misiniz?')) navigate('/home'); };
+  const handleReturnHome = () => { if (window.confirm('Anasayfaya dönmek istediğinizden emin misiniz?')) navigate('/home'); }; // /home yolunu kendi ana sayfa yolunuzla değiştirin
   const handleKeyPressReturnHome = (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); handleReturnHome(); }};
-  const handleAuthorSearchInputFocus = () => { if (authorSearchKeyword.trim()) setIsAuthorDropdownOpen(true);};
-  const handleAuthorDropdownItemClick = (author) => { setAuthorSearchKeyword(author.name); setIsAuthorDropdownOpen(false); };
+  const handleAuthorSearchInputFocus = () => { if (authorSearchKeyword.trim() || authorDropdownResults.length > 0) setIsAuthorDropdownOpen(true);};
+  const handleAuthorDropdownItemClick = (author) => { setAuthorSearchKeyword(author.name); setIsAuthorDropdownOpen(false); /* İsteğe bağlı: Seçilen yazarla ilgili bir işlem yapabilirsiniz */ };
 
   const handlePageChange = useCallback((newPage) => {
     setSliderError(null); setEditingAuthor(null);
@@ -740,17 +740,18 @@ const Authors = () => {
               {authorSearchApiLoading && <li className="dropdown-message-authors">Yükleniyor...</li>}
               {!authorSearchApiLoading && authorSearchApiError && <li className="dropdown-message-authors" style={{ color: 'red' }}>{authorSearchApiError}</li>}
               {!authorSearchApiLoading && !authorSearchApiError && authorDropdownResults.length === 0 && debouncedAuthorKeyword.trim() && (<li className="dropdown-message-authors">"{debouncedAuthorKeyword}" için sonuç yok.</li> )}
-              {!authorSearchApiLoading && !authorSearchApiError && authorDropdownResults.map((author) => (<li key={author.id} onMouseDown={() => handleAuthorDropdownItemClick(author)}>{author.name}</li>))}
+              {!authorSearchApiLoading && !authorSearchApiError && authorDropdownResults.map((author) => (<li key={author.id} onMouseDown={() => handleAuthorDropdownItemClick(author)}>{author.name}</li>))} {/* onClick yerine onMouseDown dropdown kapanma sorununu çözebilir */}
             </ul>
           )}
         </div>
       </div>
 
       <div className="slider-and-edit-section">
-           {loadingSlider && authorsList.length === 0 && currentPage === 0 && <p className="status-message">Yazarlar Yükleniyor...</p>}
+           {loadingSlider && authorsList.length === 0 && currentPage === 0 && totalItems === 0 && <p className="status-message">Yazarlar Yükleniyor...</p>}
            {!loadingSlider && totalItems === 0 && <p className="status-message">Henüz hiç yazar eklenmemiş. Yeni yazar ekleyerek başlayın.</p>}
-           {!loadingSlider && authorsList.length === 0 && totalItems > 0 && <p className="status-message">Bu sayfada gösterilecek yazar bulunamadı.</p> }
-           {sliderError && <p className="status-message error-message" style={{color: '#b30000'}}>{sliderError}</p>}
+           {!loadingSlider && authorsList.length === 0 && totalItems > 0 && currentPage >= totalPages && <p className="status-message">Bu sayfada gösterilecek yazar bulunamadı.</p> }
+           {sliderError && <p className="status-message error-message">{sliderError}</p>}
+
 
            {showAuthorsSlider && (
              <div className="slider-section">

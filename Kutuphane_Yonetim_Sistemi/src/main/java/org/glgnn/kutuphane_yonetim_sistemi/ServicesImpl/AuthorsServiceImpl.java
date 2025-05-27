@@ -5,6 +5,8 @@ import jakarta.transaction.Transactional;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Authors;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Books;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Librarys;
+import org.glgnn.kutuphane_yonetim_sistemi.ExceptionMessages.NotFoundException;
+import org.glgnn.kutuphane_yonetim_sistemi.ExceptionMessages.messages.AuthorErrorMessages;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.AuthorsRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.AuthorsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,8 @@ public class AuthorsServiceImpl implements AuthorsService {
     @Override
     @Transactional
     public Authors getAuthorById(Long id) {
-        return authorRepo.findById(id).get();
+        return authorRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException(AuthorErrorMessages.AUTHOR_NOT_FOUND));
     }
 
     @Override
@@ -46,11 +49,8 @@ public class AuthorsServiceImpl implements AuthorsService {
     @Override
     @Transactional
     public Authors deleteAuthor(Long id) {
-        if(authorRepo.findById(id).isEmpty())
-        {
-         throw new RuntimeException("Yazar bulunamadı!");
-        }
-        Authors deleteAuthor = authorRepo.findById(id).get();
+        Authors deleteAuthor = authorRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException(AuthorErrorMessages.AUTHOR_NOT_FOUND));
         deleteAuthor.setStatus(false);
         return authorRepo.save(deleteAuthor);
     }
@@ -87,7 +87,7 @@ public class AuthorsServiceImpl implements AuthorsService {
     @Transactional
     public List<Librarys> getLibrariesByAuthorId(Long authorId) {
         Authors author = authorRepo.findById(authorId)
-                .orElseThrow(() -> new RuntimeException("Yazar bulunamadı!"));
+                .orElseThrow(() -> new NotFoundException(AuthorErrorMessages.AUTHOR_NOT_FOUND));
         return author.getLibraries().stream()
                 .filter(Librarys::isStatus)
                 .collect(Collectors.toList());

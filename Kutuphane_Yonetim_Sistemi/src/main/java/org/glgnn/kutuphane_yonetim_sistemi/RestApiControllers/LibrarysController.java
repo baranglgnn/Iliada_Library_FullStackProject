@@ -2,6 +2,7 @@ package org.glgnn.kutuphane_yonetim_sistemi.RestApiControllers;
 
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Authors;
 import org.glgnn.kutuphane_yonetim_sistemi.Entities.Librarys;
+import org.glgnn.kutuphane_yonetim_sistemi.ExceptionMessages.NotFoundException;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.LibrarysService;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,13 @@ public class LibrarysController {
     }
 
     @GetMapping("/getLibrary/{id}")
-    public Librarys getLibrary(@PathVariable Long id)
-    {
-        return libService.findLibraryById(id);
+    public ResponseEntity<?> getLibrary(@PathVariable Long id) {
+        try {
+            Librarys library = libService.findLibraryById(id);
+            return ResponseEntity.ok(library);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
 
@@ -47,15 +52,14 @@ public class LibrarysController {
     }
 
     @PostMapping("deleteLibrary/{id}")
-        public ResponseEntity<?> deleteLibrary(@PathVariable Long id)
-        {
-            try{
-                return ResponseEntity.ok(libService.deleteLibraryById(id));
-            }catch (RuntimeException e)
-            {
-                return ResponseEntity.badRequest().body("Hata"+e.getMessage());
-            }
+    public ResponseEntity<?> deleteLibrary(@PathVariable Long id) {
+        try {
+            Librarys deleted = libService.deleteLibraryById(id);
+            return ResponseEntity.ok(deleted);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+    }
 
     @PostMapping("/saveLibrary")
     public ResponseEntity<Librarys> saveLibrary(@RequestBody Librarys library)
@@ -64,16 +68,12 @@ public class LibrarysController {
     }
 
     @PutMapping("/updateLibrary/{id}")
-    public ResponseEntity<?> updateLibrary(@PathVariable Long id , @RequestBody Librarys library)
-    {
-        try{
-            Librarys updateLib= libService.findLibraryById(id);
-            updateLib.setName(library.getName());
-            updateLib.setAddress(library.getAddress());
-            return ResponseEntity.ok(libService.updateLibrary(id, updateLib));
-        }catch (RuntimeException e)
-        {
-         return  ResponseEntity.badRequest().body("Hata"+e.getMessage());
+    public ResponseEntity<?> updateLibrary(@PathVariable Long id, @RequestBody Librarys library) {
+        try {
+            Librarys updatedLibrary = libService.updateLibrary(id, library);
+            return ResponseEntity.ok(updatedLibrary);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
@@ -85,7 +85,10 @@ public class LibrarysController {
     @PostMapping("/addBookToLibrary/{bookId}/{libraryId}")
     public ResponseEntity<?> addBookToLibrary(@PathVariable Long bookId, @PathVariable Long libraryId) {
         try {
-            return ResponseEntity.ok(libService.addBookToLibrary(libraryId, bookId));
+            Librarys library = libService.addBookToLibrary(libraryId, bookId);
+            return ResponseEntity.ok(library);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

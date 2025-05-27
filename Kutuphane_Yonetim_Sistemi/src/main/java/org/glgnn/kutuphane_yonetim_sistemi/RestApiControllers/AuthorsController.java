@@ -42,13 +42,8 @@ public class AuthorsController {
     }
 
     @PostMapping("/deleteAuthor/{id}")
-    public ResponseEntity<?> deleteAuthor(@PathVariable Long id){
-        try{
-            return ResponseEntity.ok(authorsService.deleteAuthor(id));
-        }catch(RuntimeException e)
-        {
-            return ResponseEntity.badRequest().body("HAta"+e.getMessage());
-        }
+    public ResponseEntity<Authors> deleteAuthor(@PathVariable Long id) {
+        return ResponseEntity.ok(authorsService.deleteAuthor(id));
     }
     @PostMapping("/saveAuthor")
     public ResponseEntity<Authors> saveAuthor(@RequestBody Authors author)
@@ -57,17 +52,10 @@ public class AuthorsController {
         return ResponseEntity.ok(authorsService.saveAuthor(savedAuthor));
     }
     @PutMapping("/updateAuthor/{id}")
-    public ResponseEntity<?> updateAuthor(@PathVariable Long id, @RequestBody Authors author)
-    {
-        try {
-            Authors updateAuthor = authorsService.getAuthorById(id);
-            updateAuthor.setName(author.getName());
-            return ResponseEntity.ok(authorsService.updateAuthor(id, updateAuthor));
-        }
-        catch (RuntimeException e)
-        {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Hata: " + e.getMessage());
-        }
+    public ResponseEntity<Authors> updateAuthor(@PathVariable Long id, @RequestBody Authors author) {
+        Authors updateAuthor = authorsService.getAuthorById(id);
+        updateAuthor.setName(author.getName());
+        return ResponseEntity.ok(authorsService.updateAuthor(id, updateAuthor));
     }
 
     @GetMapping("/searchAuthors")

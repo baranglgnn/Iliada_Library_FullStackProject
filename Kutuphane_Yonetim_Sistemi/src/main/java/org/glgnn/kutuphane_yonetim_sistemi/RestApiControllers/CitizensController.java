@@ -42,44 +42,25 @@ public class CitizensController {
         return ResponseEntity.ok(citizService.deletedCitizens());
     }
 
-    @PostMapping("deleteCitzen/{id}")
-    public ResponseEntity<?> deleteCitizen(@PathVariable("id") Long id) {
-        try {
-            return ResponseEntity.ok(citizService.deleteCitizen(id));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body("Hata" + e.getMessage());
-        }
+    @PostMapping("/deleteCitzen/{id}")
+    public Citizens deleteCitizen(@PathVariable Long id) {
+        return citizService.deleteCitizen(id);
     }
 
     @PostMapping("/saveCitizen")
-    public ResponseEntity<?> addCtizen(@RequestBody Citizens citizen) {
-        try {
-            Citizens newCitizen = new Citizens(citizen.getTcNo(), citizen.getFullName());
-            return ResponseEntity.ok(citizService.addCitizen(newCitizen));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body("Hata" + e.getMessage());
-        }
+    public Citizens addCitizen(@RequestBody Citizens citizen) {
+        return citizService.addCitizen(new Citizens(citizen.getTcNo(), citizen.getFullName(), citizen.getEmail()));
     }
 
     @PutMapping("/updateCitizen/{id}")
-    public ResponseEntity<?> updateCitizen(@PathVariable Long id, @RequestBody Citizens citizen) {
-        try {
-            Citizens updateCitizen = citizService.findCitizenById(id);
-            updateCitizen.setFullName(citizen.getFullName());
-            updateCitizen.setTcNo(citizen.getTcNo());
-            return ResponseEntity.ok(citizService.updateCitizen(id, updateCitizen));
-        }
-        catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body("Hata" + e.getMessage());
-        }
+    public Citizens updateCitizen(@PathVariable Long id, @RequestBody Citizens citizen) {
+        citizen.setTcNo(citizen.getTcNo());
+        citizen.setFullName(citizen.getFullName());
+        return citizService.updateCitizen(id, citizen);
     }
     @GetMapping("/getIdByTc/{tc}")
     public ResponseEntity<Long> getCitizenIdByTc(@PathVariable String tc) {
-        Long id = citizService.getCitizenIdByTc(tc);
-        if (id == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(id);
+        return ResponseEntity.ok(citizService.getCitizenIdByTc(tc));
     }
 
     @GetMapping("/searchCitizen")
