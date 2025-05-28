@@ -54,55 +54,49 @@ public class SecurityConfig {
         return new ProviderManager(provider);
     }
 
-    // Backend projenizdeki Spring Security Config sınıfında
-
-    // Backend projenizdeki Spring Security Config sınıfında
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // CSRF devre dışı bırakıldıysa böyle kalır
+                .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                 .authorizeHttpRequests(auth -> auth
-                        // /auth/** endpointine herkese izin ver
+                        // 1) Auth işlemleri (login, register) herkese açık:
                         .requestMatchers("/auth/**").permitAll()
 
-                        // Kitap listesine GET metodu ile herkese izin ver
+                        // 2) Public GET endpoint’ler (örneğin kitap listeleme vb.):
                         .requestMatchers(HttpMethod.GET, "/books/searchBooks").permitAll()
-
                         .requestMatchers(HttpMethod.GET, "/books/getAllBooks").permitAll()
-
-                        .requestMatchers("/getIdByTc/**").authenticated()
-
-                        // *** Kütüphane listesine GET metodu ile herkese izin ver - BU SATIR DOĞRU GÖRÜNÜYOR ***
                         .requestMatchers(HttpMethod.GET, "/libraries/getAllLibraries").permitAll()
-
-                        // Yazarlar listesine GET metodu ile herkese izin ver
                         .requestMatchers(HttpMethod.GET, "/authors/getAllAuthor").permitAll()
 
-                        // Kütüphane ekleme POST, kimlik doğrulama gerektirir
-                        .requestMatchers(HttpMethod.POST, "/libraries/addLibrary").authenticated()
+                        // 3) Aşağıdaki işlemleri yalnızca ADMIN gerçekleştirebilsin:
+                        .requestMatchers(HttpMethod.POST,   "/libraries/addLibrary").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,    "/libraries/updateLibrary/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/libraries/deleteLibrary/**").hasRole("ADMIN")
 
-                        // Kitap ekleme POST, kimlik doğrulama gerektirir
-                        .requestMatchers(HttpMethod.POST, "/books/addBook").authenticated()
+                        .requestMatchers(HttpMethod.POST,   "/books/addBook").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,    "/books/updateBook/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/books/deleteBook/**").hasRole("ADMIN")
 
-                        // Yukarıdaki kurallarla eşleşmeyen tüm diğer yollar kimlik doğrulama gerektirir
+                        .requestMatchers(HttpMethod.POST,   "/authors/addAuthor").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,    "/authors/updateAuthor/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/authors/deleteAuthor/**").hasRole("ADMIN")
+
+                        // 4) Diğer tüm istekler (örneğin GET /getIdByTc/**) authenticated olmalı:
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-
         return http.build();
     }
 
-    // CORS yapılandırması eklendi
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // React frontend'in portu
+        config.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
 

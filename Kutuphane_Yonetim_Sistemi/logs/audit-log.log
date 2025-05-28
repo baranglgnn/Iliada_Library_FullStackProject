@@ -1,572 +1,141 @@
-2025-05-27 09:07:18 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 3744 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
-2025-05-27 09:07:18 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
-2025-05-27 09:07:19 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-05-27 09:07:19 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 74 ms. Found 6 JPA repository interfaces.
-2025-05-27 09:07:20 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-05-27 09:07:20 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-05-27 09:07:20 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-05-27 09:07:20 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-05-27 09:07:20 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1660 ms
-2025-05-27 09:07:20 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-05-27 09:07:20 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
-2025-05-27 09:07:20 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-05-27 09:07:21 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-05-27 09:07:21 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-05-27 09:07:21 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@61c4cebd
-2025-05-27 09:07:21 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-05-27 09:07:23 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-05-27 09:07:23 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 09:07:23 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-05-27 09:07:25 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-05-27 09:07:26 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6f49a5f8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6c6c7ee5, org.springframework.security.web.context.SecurityContextHolderFilter@50eaafd6, org.springframework.security.web.header.HeaderWriterFilter@50dfac19, org.springframework.web.filter.CorsFilter@5911d6e, org.springframework.security.web.authentication.logout.LogoutFilter@490fa135, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@7d2c9361, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5d225368, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@48f9f1d6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@271fdeaf, org.springframework.security.web.session.SessionManagementFilter@92f6ae6, org.springframework.security.web.access.ExceptionTranslationFilter@258d7d06, org.springframework.security.web.access.intercept.AuthorizationFilter@51470a6c]
-2025-05-27 09:07:27 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-05-27 09:07:27 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 8.834 seconds (process running for 11.117)
-2025-05-27 09:08:11 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-05-27 09:08:11 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-05-27 09:08:11 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2025-05-27 09:08:31 [http-nio-8080-exec-9] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:08:31.720123700] USER: ilyadaUyar@gmail.com | ACTION: CREATE | ENTITY: BooksServiceImpl | DETAILS: Enver
-2025-05-27 09:08:48 [http-nio-8080-exec-4] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:08:48.490370300] USER: ilyadaUyar@gmail.com | ACTION: CREATE | ENTITY: BooksServiceImpl | DETAILS: Fatih
-2025-05-27 09:09:11 [http-nio-8080-exec-2] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:09:11.031207] USER: ilyadaUyar@gmail.com | ACTION: CREATE | ENTITY: BooksServiceImpl | DETAILS: Talat
-2025-05-27 09:09:39 [http-nio-8080-exec-5] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:09:39.845703] USER: ilyadaUyar@gmail.com | ACTION: CREATE | ENTITY: BooksServiceImpl | DETAILS: Kanuni
-2025-05-27 09:10:07 [http-nio-8080-exec-10] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:10:07.398537300] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: BooksServiceImpl | DETAILS: 56
-2025-05-27 09:10:16 [http-nio-8080-exec-7] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:10:16.598606600] USER: ilyadaUyar@gmail.com | ACTION: CREATE | ENTITY: BooksServiceImpl | DETAILS: test
-2025-05-27 09:10:25 [http-nio-8080-exec-3] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:10:25.413143700] USER: ilyadaUyar@gmail.com | ACTION: DELETE | ENTITY: BooksServiceImpl | DETAILS: 57
-2025-05-27 09:11:33 [http-nio-8080-exec-4] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:11:33.821952300] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: LibrarysServiceImpl | DETAILS: 18
-2025-05-27 09:11:41 [http-nio-8080-exec-9] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:11:41.163770900] USER: ilyadaUyar@gmail.com | ACTION: DELETE | ENTITY: LibrarysServiceImpl | DETAILS: 18
-2025-05-27 09:11:55 [http-nio-8080-exec-8] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:11:55.041227100] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: CitizensServiceImpl | DETAILS: 2
-2025-05-27 09:12:05 [http-nio-8080-exec-2] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:12:05.656690500] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: CitizensServiceImpl | DETAILS: 2
-2025-05-27 09:12:19 [http-nio-8080-exec-7] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:12:19.492627600] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: CitizensServiceImpl | DETAILS: 2
-2025-05-27 09:12:32 [http-nio-8080-exec-4] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:12:32.901679200] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: CitizensServiceImpl | DETAILS: 2
-2025-05-27 09:13:34 [http-nio-8080-exec-7] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:13:34.620205800] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: CitizensServiceImpl | DETAILS: 4
-2025-05-27 09:16:15 [http-nio-8080-exec-1] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:16:15.178554600] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: AuthorsServiceImpl | DETAILS: 21
-2025-05-27 09:16:20 [http-nio-8080-exec-2] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:16:20.372573200] USER: ilyadaUyar@gmail.com | ACTION: DELETE | ENTITY: AuthorsServiceImpl | DETAILS: 21
-2025-05-27 09:18:19 [http-nio-8080-exec-10] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:18:19.826664800] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: CitizensServiceImpl | DETAILS: 4
-2025-05-27 09:18:32 [http-nio-8080-exec-8] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:18:32.423679100] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: CitizensServiceImpl | DETAILS: 4
-2025-05-27 09:19:00 [http-nio-8080-exec-10] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:19:00.541846700] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: CitizensServiceImpl | DETAILS: 4
-2025-05-27 09:20:47 [http-nio-8080-exec-6] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:20:47.074354200] USER: ilyadaUyar@gmail.com | ACTION: CREATE | ENTITY: LibrarysServiceImpl | DETAILS: 8
-2025-05-27 09:20:57 [http-nio-8080-exec-5] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:20:57.385470900] USER: ilyadaUyar@gmail.com | ACTION: CREATE | ENTITY: LibrarysServiceImpl | DETAILS: 9
-2025-05-27 09:21:04 [http-nio-8080-exec-3] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:21:04.510110800] USER: ilyadaUyar@gmail.com | ACTION: CREATE | ENTITY: LibrarysServiceImpl | DETAILS: 9
-2025-05-27 09:21:12 [http-nio-8080-exec-5] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:21:12.310417300] USER: ilyadaUyar@gmail.com | ACTION: CREATE | ENTITY: LibrarysServiceImpl | DETAILS: 9
-2025-05-27 09:21:18 [http-nio-8080-exec-10] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:21:18.293479900] USER: ilyadaUyar@gmail.com | ACTION: CREATE | ENTITY: LibrarysServiceImpl | DETAILS: 12
-2025-05-27 09:26:21 [http-nio-8080-exec-7] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:26:21.048129900] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: CitizensServiceImpl | DETAILS: 4
-2025-05-27 09:28:50 [http-nio-8080-exec-9] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:28:50.611661200] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: CitizensServiceImpl | DETAILS: 4
-2025-05-27 09:31:11 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 09:31:11 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-05-27 09:31:11 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-05-27 09:31:16 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 10560 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
-2025-05-27 09:31:16 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
-2025-05-27 09:31:17 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-05-27 09:31:17 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 74 ms. Found 6 JPA repository interfaces.
-2025-05-27 09:31:18 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-05-27 09:31:18 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-05-27 09:31:18 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-05-27 09:31:18 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-05-27 09:31:18 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1702 ms
-2025-05-27 09:31:18 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-05-27 09:31:18 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
-2025-05-27 09:31:18 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-05-27 09:31:18 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-05-27 09:31:18 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-05-27 09:31:19 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@40538370
-2025-05-27 09:31:19 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-05-27 09:31:20 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-05-27 09:31:20 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 09:31:20 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-05-27 09:31:21 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-05-27 09:31:21 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@42eaa429, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@39fcbb42, org.springframework.security.web.context.SecurityContextHolderFilter@b78dcdf, org.springframework.security.web.header.HeaderWriterFilter@5ecd22e7, org.springframework.web.filter.CorsFilter@3201aadd, org.springframework.security.web.authentication.logout.LogoutFilter@1b18f38f, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@4a6c0f38, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@63be03c8, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@38988d78, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5b265379, org.springframework.security.web.session.SessionManagementFilter@1fd18007, org.springframework.security.web.access.ExceptionTranslationFilter@1290fc6a, org.springframework.security.web.access.intercept.AuthorizationFilter@87060c0]
-2025-05-27 09:31:22 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-05-27 09:31:22 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 6.35 seconds (process running for 7.451)
-2025-05-27 09:31:37 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-05-27 09:31:37 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-05-27 09:31:37 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
-2025-05-27 09:31:38 [http-nio-8080-exec-2] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:31:38.285421900] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: CitizensServiceImpl | DETAILS: 4
-2025-05-27 09:33:10 [http-nio-8080-exec-6] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T09:33:10.818136200] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: CitizensServiceImpl | DETAILS: 4
-2025-05-27 09:41:20 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 09:41:20 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-05-27 09:41:20 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-05-27 10:14:49 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 5524 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
-2025-05-27 10:14:49 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
-2025-05-27 10:14:49 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-05-27 10:14:50 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 89 ms. Found 6 JPA repository interfaces.
-2025-05-27 10:14:50 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-05-27 10:14:50 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-05-27 10:14:50 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-05-27 10:14:50 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-05-27 10:14:50 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1737 ms
-2025-05-27 10:14:51 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-05-27 10:14:51 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
-2025-05-27 10:14:51 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-05-27 10:14:51 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-05-27 10:14:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-05-27 10:14:51 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@121cf6f4
-2025-05-27 10:14:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-05-27 10:14:53 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-05-27 10:14:53 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 10:14:53 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-05-27 10:14:54 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-05-27 10:14:55 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6f49a5f8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6c6c7ee5, org.springframework.security.web.context.SecurityContextHolderFilter@50eaafd6, org.springframework.security.web.header.HeaderWriterFilter@50dfac19, org.springframework.web.filter.CorsFilter@5911d6e, org.springframework.security.web.authentication.logout.LogoutFilter@490fa135, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@2e0fdbe9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5d225368, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@48f9f1d6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@271fdeaf, org.springframework.security.web.session.SessionManagementFilter@92f6ae6, org.springframework.security.web.access.ExceptionTranslationFilter@258d7d06, org.springframework.security.web.access.intercept.AuthorizationFilter@51470a6c]
-2025-05-27 10:14:55 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-05-27 10:14:55 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 7.531 seconds (process running for 8.692)
-2025-05-27 10:19:02 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-05-27 10:19:02 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-05-27 10:19:02 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2025-05-27 10:19:39 [task-1] ERROR o.g.k.ServicesImpl.EmailServiceImpl - E-posta gönderilemedi: Authentication failed
-org.springframework.mail.MailAuthenticationException: Authentication failed
-	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:402)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:317)
-	at org.springframework.mail.MailSender.send(MailSender.java:42)
-	at org.glgnn.kutuphane_yonetim_sistemi.ServicesImpl.EmailServiceImpl.sendSimpleMessage(EmailServiceImpl.java:36)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:351)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
-	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:113)
-	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:833)
-Caused by: jakarta.mail.AuthenticationFailedException: 535 5.7.139 Authentication unsuccessful, basic authentication is disabled. [VI1PR0902CA0040.eurprd09.prod.outlook.com 2025-05-27T07:19:39.629Z 08DD9CAE53FE13BC]
-
-	at org.eclipse.angus.mail.smtp.SMTPTransport$Authenticator.authenticate(SMTPTransport.java:954)
-	at org.eclipse.angus.mail.smtp.SMTPTransport.authenticate(SMTPTransport.java:865)
-	at org.eclipse.angus.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:769)
-	at jakarta.mail.Service.connect(Service.java:345)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.connectTransport(JavaMailSenderImpl.java:480)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:399)
-	... 16 common frames omitted
-2025-05-27 10:20:06 [task-2] ERROR o.g.k.ServicesImpl.EmailServiceImpl - E-posta gönderilemedi: Authentication failed
-org.springframework.mail.MailAuthenticationException: Authentication failed
-	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:402)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:317)
-	at org.springframework.mail.MailSender.send(MailSender.java:42)
-	at org.glgnn.kutuphane_yonetim_sistemi.ServicesImpl.EmailServiceImpl.sendSimpleMessage(EmailServiceImpl.java:36)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:351)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
-	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:113)
-	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:833)
-Caused by: jakarta.mail.AuthenticationFailedException: 535 5.7.139 Authentication unsuccessful, basic authentication is disabled. [VI1PR0902CA0059.eurprd09.prod.outlook.com 2025-05-27T07:20:06.855Z 08DD9AA6892BE77C]
-
-	at org.eclipse.angus.mail.smtp.SMTPTransport$Authenticator.authenticate(SMTPTransport.java:954)
-	at org.eclipse.angus.mail.smtp.SMTPTransport.authenticate(SMTPTransport.java:865)
-	at org.eclipse.angus.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:769)
-	at jakarta.mail.Service.connect(Service.java:345)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.connectTransport(JavaMailSenderImpl.java:480)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:399)
-	... 16 common frames omitted
-2025-05-27 10:21:55 [task-3] ERROR o.g.k.ServicesImpl.EmailServiceImpl - E-posta gönderilemedi: Authentication failed
-org.springframework.mail.MailAuthenticationException: Authentication failed
-	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:402)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:317)
-	at org.springframework.mail.MailSender.send(MailSender.java:42)
-	at org.glgnn.kutuphane_yonetim_sistemi.ServicesImpl.EmailServiceImpl.sendSimpleMessage(EmailServiceImpl.java:36)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:351)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
-	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:113)
-	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:833)
-Caused by: jakarta.mail.AuthenticationFailedException: 535 5.7.139 Authentication unsuccessful, basic authentication is disabled. [VI1PR07CA0286.eurprd07.prod.outlook.com 2025-05-27T07:21:56.372Z 08DD9C22E8049A95]
-
-	at org.eclipse.angus.mail.smtp.SMTPTransport$Authenticator.authenticate(SMTPTransport.java:954)
-	at org.eclipse.angus.mail.smtp.SMTPTransport.authenticate(SMTPTransport.java:865)
-	at org.eclipse.angus.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:769)
-	at jakarta.mail.Service.connect(Service.java:345)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.connectTransport(JavaMailSenderImpl.java:480)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:399)
-	... 16 common frames omitted
-2025-05-27 10:23:05 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 10:23:05 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-05-27 10:23:05 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-05-27 10:23:09 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 10404 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
-2025-05-27 10:23:09 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
-2025-05-27 10:23:10 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-05-27 10:23:10 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 106 ms. Found 6 JPA repository interfaces.
-2025-05-27 10:23:11 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-05-27 10:23:11 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-05-27 10:23:11 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-05-27 10:23:11 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-05-27 10:23:11 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1705 ms
-2025-05-27 10:23:11 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-05-27 10:23:11 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
-2025-05-27 10:23:11 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-05-27 10:23:12 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-05-27 10:23:12 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-05-27 10:23:12 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1c0e4262
-2025-05-27 10:23:12 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-05-27 10:23:13 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-05-27 10:23:13 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 10:23:14 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-05-27 10:23:14 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-05-27 10:23:15 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@61ac8777, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4aebdaff, org.springframework.security.web.context.SecurityContextHolderFilter@6bb24de1, org.springframework.security.web.header.HeaderWriterFilter@6d5ef5ee, org.springframework.web.filter.CorsFilter@490fa135, org.springframework.security.web.authentication.logout.LogoutFilter@47b7bcb6, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@14b528b6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@33980345, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@195c5803, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@94d4dd, org.springframework.security.web.session.SessionManagementFilter@4a04177e, org.springframework.security.web.access.ExceptionTranslationFilter@3b5299a3, org.springframework.security.web.access.intercept.AuthorizationFilter@7b4f1512]
-2025-05-27 10:23:15 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-05-27 10:23:15 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 6.58 seconds (process running for 7.496)
-2025-05-27 10:23:25 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 10:23:25 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-05-27 10:23:25 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-05-27 10:23:28 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 19464 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
-2025-05-27 10:23:28 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
-2025-05-27 10:23:29 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-05-27 10:23:29 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 78 ms. Found 6 JPA repository interfaces.
-2025-05-27 10:23:30 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-05-27 10:23:30 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-05-27 10:23:30 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-05-27 10:23:30 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-05-27 10:23:30 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1503 ms
-2025-05-27 10:23:30 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-05-27 10:23:30 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
-2025-05-27 10:23:30 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-05-27 10:23:30 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-05-27 10:23:30 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-05-27 10:23:31 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@27dfd12b
-2025-05-27 10:23:31 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-05-27 10:23:32 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-05-27 10:23:32 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 10:23:32 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-05-27 10:23:33 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-05-27 10:23:33 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@39a7fff, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@798ca706, org.springframework.security.web.context.SecurityContextHolderFilter@3b21b0f5, org.springframework.security.web.header.HeaderWriterFilter@5170ebb6, org.springframework.web.filter.CorsFilter@3a5c472, org.springframework.security.web.authentication.logout.LogoutFilter@271fdeaf, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@c412556, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@38c61ab, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@68378acc, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3dbcdd4a, org.springframework.security.web.session.SessionManagementFilter@68aa505b, org.springframework.security.web.access.ExceptionTranslationFilter@60f8d38c, org.springframework.security.web.access.intercept.AuthorizationFilter@1d2cffea]
-2025-05-27 10:23:34 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-05-27 10:23:34 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 5.805 seconds (process running for 6.7)
-2025-05-27 10:24:35 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-05-27 10:24:35 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-05-27 10:24:35 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
-2025-05-27 10:25:13 [task-1] ERROR o.g.k.ServicesImpl.EmailServiceImpl - E-posta gönderilemedi: Authentication failed
-org.springframework.mail.MailAuthenticationException: Authentication failed
-	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:402)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:317)
-	at org.springframework.mail.MailSender.send(MailSender.java:42)
-	at org.glgnn.kutuphane_yonetim_sistemi.ServicesImpl.EmailServiceImpl.sendSimpleMessage(EmailServiceImpl.java:36)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:351)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
-	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:113)
-	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:833)
-Caused by: jakarta.mail.AuthenticationFailedException: 535 5.7.139 Authentication unsuccessful, basic authentication is disabled. [VI1P189CA0008.EURP189.PROD.OUTLOOK.COM 2025-05-27T07:25:14.129Z 08DD9A7D455BAB60]
-
-	at org.eclipse.angus.mail.smtp.SMTPTransport$Authenticator.authenticate(SMTPTransport.java:954)
-	at org.eclipse.angus.mail.smtp.SMTPTransport.authenticate(SMTPTransport.java:865)
-	at org.eclipse.angus.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:769)
-	at jakarta.mail.Service.connect(Service.java:345)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.connectTransport(JavaMailSenderImpl.java:480)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:399)
-	... 16 common frames omitted
-2025-05-27 10:30:01 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 10:30:01 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-05-27 10:30:01 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-05-27 10:30:04 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 14136 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
-2025-05-27 10:30:04 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
-2025-05-27 10:30:05 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-05-27 10:30:05 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 71 ms. Found 6 JPA repository interfaces.
-2025-05-27 10:30:06 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-05-27 10:30:06 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-05-27 10:30:06 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-05-27 10:30:06 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-05-27 10:30:06 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1782 ms
-2025-05-27 10:30:06 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-05-27 10:30:06 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
-2025-05-27 10:30:06 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-05-27 10:30:06 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-05-27 10:30:06 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-05-27 10:30:06 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4387d2f4
-2025-05-27 10:30:06 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-05-27 10:30:08 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-05-27 10:30:08 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 10:30:08 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-05-27 10:30:09 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-05-27 10:30:10 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@112e72ea, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@259c7ff3, org.springframework.security.web.context.SecurityContextHolderFilter@596690e5, org.springframework.security.web.header.HeaderWriterFilter@2073d71b, org.springframework.web.filter.CorsFilter@30865a1, org.springframework.security.web.authentication.logout.LogoutFilter@79658fe5, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@28a6e171, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5170ebb6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@773236a7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@35dc4303, org.springframework.security.web.session.SessionManagementFilter@33980345, org.springframework.security.web.access.ExceptionTranslationFilter@1352211d, org.springframework.security.web.access.intercept.AuthorizationFilter@94d4dd]
-2025-05-27 10:30:10 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-05-27 10:30:10 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 6.927 seconds (process running for 7.959)
-2025-05-27 10:30:15 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-05-27 10:30:15 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-05-27 10:30:15 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
-2025-05-27 10:30:34 [task-1] ERROR o.g.k.ServicesImpl.EmailServiceImpl - E-posta gönderilemedi: Authentication failed
-org.springframework.mail.MailAuthenticationException: Authentication failed
-	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:402)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:317)
-	at org.springframework.mail.MailSender.send(MailSender.java:42)
-	at org.glgnn.kutuphane_yonetim_sistemi.ServicesImpl.EmailServiceImpl.sendSimpleMessage(EmailServiceImpl.java:36)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:351)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
-	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:113)
-	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:833)
-Caused by: jakarta.mail.AuthenticationFailedException: 535 5.7.139 Authentication unsuccessful, basic authentication is disabled. [BE1P281CA0290.DEUP281.PROD.OUTLOOK.COM 2025-05-27T07:30:34.797Z 08DD9CCEB593359B]
-
-	at org.eclipse.angus.mail.smtp.SMTPTransport$Authenticator.authenticate(SMTPTransport.java:954)
-	at org.eclipse.angus.mail.smtp.SMTPTransport.authenticate(SMTPTransport.java:865)
-	at org.eclipse.angus.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:769)
-	at jakarta.mail.Service.connect(Service.java:345)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.connectTransport(JavaMailSenderImpl.java:480)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:399)
-	... 16 common frames omitted
-2025-05-27 10:33:04 [task-2] ERROR o.g.k.ServicesImpl.EmailServiceImpl - E-posta gönderilemedi: Authentication failed
-org.springframework.mail.MailAuthenticationException: Authentication failed
-	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:402)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:317)
-	at org.springframework.mail.MailSender.send(MailSender.java:42)
-	at org.glgnn.kutuphane_yonetim_sistemi.ServicesImpl.EmailServiceImpl.sendSimpleMessage(EmailServiceImpl.java:36)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:351)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
-	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:113)
-	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:833)
-Caused by: jakarta.mail.AuthenticationFailedException: 535 5.7.139 Authentication unsuccessful, basic authentication is disabled. [BE1P281CA0070.DEUP281.PROD.OUTLOOK.COM 2025-05-27T07:33:05.150Z 08DD9CD7D31A6169]
-
-	at org.eclipse.angus.mail.smtp.SMTPTransport$Authenticator.authenticate(SMTPTransport.java:954)
-	at org.eclipse.angus.mail.smtp.SMTPTransport.authenticate(SMTPTransport.java:865)
-	at org.eclipse.angus.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:769)
-	at jakarta.mail.Service.connect(Service.java:345)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.connectTransport(JavaMailSenderImpl.java:480)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:399)
-	... 16 common frames omitted
-2025-05-27 10:38:21 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 10:38:21 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-05-27 10:38:21 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-05-27 13:48:59 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 11492 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
-2025-05-27 13:48:59 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
-2025-05-27 13:49:00 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-05-27 13:49:00 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 72 ms. Found 6 JPA repository interfaces.
-2025-05-27 13:49:01 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-05-27 13:49:01 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-05-27 13:49:01 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-05-27 13:49:01 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-05-27 13:49:01 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1738 ms
-2025-05-27 13:49:01 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-05-27 13:49:01 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
-2025-05-27 13:49:02 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-05-27 13:49:02 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-05-27 13:49:02 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-05-27 13:49:02 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5158a9f7
-2025-05-27 13:49:02 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-05-27 13:49:03 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-05-27 13:49:03 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 13:49:04 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-05-27 13:49:05 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-05-27 13:49:05 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@63ad4b55, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5dd88334, org.springframework.security.web.context.SecurityContextHolderFilter@87060c0, org.springframework.security.web.header.HeaderWriterFilter@2cc224b7, org.springframework.web.filter.CorsFilter@258d7d06, org.springframework.security.web.authentication.logout.LogoutFilter@3b5299a3, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@77cca767, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@42eaa429, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@39fcbb42, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@40f95b87, org.springframework.security.web.session.SessionManagementFilter@1f7b4952, org.springframework.security.web.access.ExceptionTranslationFilter@7c7aef90, org.springframework.security.web.access.intercept.AuthorizationFilter@22ab40c1]
-2025-05-27 13:49:06 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-05-27 13:49:06 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 6.882 seconds (process running for 7.974)
-2025-05-27 13:49:26 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-05-27 13:49:26 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-05-27 13:49:26 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2025-05-27 13:50:24 [task-1] ERROR o.g.k.ServicesImpl.EmailServiceImpl - E-posta gönderilemedi: Failed messages: org.eclipse.angus.mail.smtp.SMTPSendFailedException: 555-5.5.2 Syntax error, cannot decode response. For more information, go to
-555-5.5.2  https://support.google.com/a/answer/3221692 and review RFC 5321
-555 5.5.2 specifications. a640c23a62f3a-ad52d06df95sm1852732866b.56 - gsmtp
-
-org.springframework.mail.MailSendException: Failed messages: org.eclipse.angus.mail.smtp.SMTPSendFailedException: 555-5.5.2 Syntax error, cannot decode response. For more information, go to
-555-5.5.2  https://support.google.com/a/answer/3221692 and review RFC 5321
-555 5.5.2 specifications. a640c23a62f3a-ad52d06df95sm1852732866b.56 - gsmtp
-
-	at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:453)
-	at org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:317)
-	at org.springframework.mail.MailSender.send(MailSender.java:42)
-	at org.glgnn.kutuphane_yonetim_sistemi.ServicesImpl.EmailServiceImpl.sendSimpleMessage(EmailServiceImpl.java:36)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:351)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
-	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:113)
-	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:833)
-2025-05-27 13:51:07 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 13:51:07 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-05-27 13:51:07 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-05-27 13:52:17 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 19984 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
-2025-05-27 13:52:17 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
-2025-05-27 13:52:18 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-05-27 13:52:18 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 105 ms. Found 6 JPA repository interfaces.
-2025-05-27 13:52:19 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-05-27 13:52:19 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-05-27 13:52:19 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-05-27 13:52:19 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-05-27 13:52:19 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1752 ms
-2025-05-27 13:52:19 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-05-27 13:52:19 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
-2025-05-27 13:52:19 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-05-27 13:52:20 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-05-27 13:52:20 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-05-27 13:52:20 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@11c3d22f
-2025-05-27 13:52:20 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-05-27 13:52:21 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-05-27 13:52:21 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 13:52:21 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-05-27 13:52:22 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-05-27 13:52:23 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1290fc6a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6ee7c941, org.springframework.security.web.context.SecurityContextHolderFilter@11fe6743, org.springframework.security.web.header.HeaderWriterFilter@4a2f4bfa, org.springframework.web.filter.CorsFilter@6ebdd981, org.springframework.security.web.authentication.logout.LogoutFilter@758f755a, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@7436364d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7a986079, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4528c187, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5ecd22e7, org.springframework.security.web.session.SessionManagementFilter@67b920c9, org.springframework.security.web.access.ExceptionTranslationFilter@42a3e521, org.springframework.security.web.access.intercept.AuthorizationFilter@4a09f5b]
-2025-05-27 13:52:23 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-05-27 13:52:23 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 6.143 seconds (process running for 6.991)
-2025-05-27 13:52:32 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-05-27 13:52:32 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-05-27 13:52:32 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2025-05-27 13:52:55 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 13:52:55 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-05-27 13:52:55 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-05-27 13:56:57 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 20008 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
-2025-05-27 13:56:57 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
-2025-05-27 13:56:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-05-27 13:56:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 64 ms. Found 6 JPA repository interfaces.
-2025-05-27 13:56:58 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-05-27 13:56:58 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-05-27 13:56:58 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-05-27 13:56:58 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-05-27 13:56:58 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1375 ms
-2025-05-27 13:56:59 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-05-27 13:56:59 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
-2025-05-27 13:56:59 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-05-27 13:56:59 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-05-27 13:56:59 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-05-27 13:56:59 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@717a8a76
-2025-05-27 13:56:59 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-05-27 13:57:00 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-05-27 13:57:00 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 13:57:00 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-05-27 13:57:01 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-05-27 13:57:02 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6dbf203c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@486bd746, org.springframework.security.web.context.SecurityContextHolderFilter@24945f50, org.springframework.security.web.header.HeaderWriterFilter@6319ea75, org.springframework.web.filter.CorsFilter@7ee96c1c, org.springframework.security.web.authentication.logout.LogoutFilter@387907d, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@36f6e521, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6de4e34a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@79bc29aa, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@195f46f1, org.springframework.security.web.session.SessionManagementFilter@56e4f071, org.springframework.security.web.access.ExceptionTranslationFilter@4ba62429, org.springframework.security.web.access.intercept.AuthorizationFilter@26420ed1]
-2025-05-27 13:57:02 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-05-27 13:57:02 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 5.511 seconds (process running for 6.426)
-2025-05-27 13:57:06 [http-nio-8080-exec-3] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-05-27 13:57:06 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-05-27 13:57:06 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2025-05-27 13:58:09 [http-nio-8080-exec-6] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T13:58:09.517591300] USER: ilyadaUyar@gmail.com | ACTION: CREATE | ENTITY: BooksServiceImpl | DETAILS: Nazım
-2025-05-27 13:58:45 [http-nio-8080-exec-10] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T13:58:45.004219300] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: BooksServiceImpl | DETAILS: 58
-2025-05-27 13:58:52 [http-nio-8080-exec-8] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T13:58:52.812722700] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: BooksServiceImpl | DETAILS: 58
-2025-05-27 13:58:58 [http-nio-8080-exec-3] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T13:58:58.887736300] USER: ilyadaUyar@gmail.com | ACTION: DELETE | ENTITY: BooksServiceImpl | DETAILS: 58
-2025-05-27 13:59:42 [http-nio-8080-exec-4] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T13:59:42.385407500] USER: ilyadaUyar@gmail.com | ACTION: DELETE | ENTITY: AuthorsServiceImpl | DETAILS: 25
-2025-05-27 14:01:33 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 14:01:33 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-05-27 14:01:33 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-05-27 14:05:35 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 16972 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
-2025-05-27 14:05:35 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
-2025-05-27 14:05:35 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-05-27 14:05:35 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 65 ms. Found 6 JPA repository interfaces.
-2025-05-27 14:05:36 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-05-27 14:05:36 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-05-27 14:05:36 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-05-27 14:05:36 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-05-27 14:05:36 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1429 ms
-2025-05-27 14:05:36 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-05-27 14:05:36 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
-2025-05-27 14:05:36 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-05-27 14:05:37 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-05-27 14:05:37 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-05-27 14:05:37 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@11c3d22f
-2025-05-27 14:05:37 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-05-27 14:05:38 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-05-27 14:05:38 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 14:05:38 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-05-27 14:05:39 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-05-27 14:05:40 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@698d07ac, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@62d59d60, org.springframework.security.web.context.SecurityContextHolderFilter@31dd8a0b, org.springframework.security.web.header.HeaderWriterFilter@49afa057, org.springframework.web.filter.CorsFilter@3c532b97, org.springframework.security.web.authentication.logout.LogoutFilter@7c2b2b56, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@7436364d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@59d64b60, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@60e72ced, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5cffd11d, org.springframework.security.web.session.SessionManagementFilter@38b7b02f, org.springframework.security.web.access.ExceptionTranslationFilter@626a783b, org.springframework.security.web.access.intercept.AuthorizationFilter@2e0e1acf]
-2025-05-27 14:05:40 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-05-27 14:05:40 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 5.776 seconds (process running for 6.79)
-2025-05-27 14:05:47 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-05-27 14:05:47 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-05-27 14:05:47 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
-2025-05-27 14:08:34 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 14:08:34 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-05-27 14:08:34 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-05-27 14:08:38 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 19332 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
-2025-05-27 14:08:38 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
-2025-05-27 14:08:38 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-05-27 14:08:38 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 65 ms. Found 6 JPA repository interfaces.
-2025-05-27 14:08:39 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-05-27 14:08:39 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-05-27 14:08:39 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-05-27 14:08:39 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-05-27 14:08:39 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1364 ms
-2025-05-27 14:08:39 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-05-27 14:08:39 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
-2025-05-27 14:08:39 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-05-27 14:08:40 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-05-27 14:08:40 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-05-27 14:08:40 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7cdc4070
-2025-05-27 14:08:40 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-05-27 14:08:41 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-05-27 14:08:41 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 14:08:41 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-05-27 14:08:42 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-05-27 14:08:42 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@54d1c9ba, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@626ed5f0, org.springframework.security.web.context.SecurityContextHolderFilter@27d1b432, org.springframework.security.web.header.HeaderWriterFilter@6a6a7c53, org.springframework.web.filter.CorsFilter@2438cc7e, org.springframework.security.web.authentication.logout.LogoutFilter@39c8101c, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@16a3cc88, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7da3cbeb, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5e396d2c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@641f9947, org.springframework.security.web.session.SessionManagementFilter@3f13c9a2, org.springframework.security.web.access.ExceptionTranslationFilter@7f549712, org.springframework.security.web.access.intercept.AuthorizationFilter@333ea5d6]
-2025-05-27 14:08:43 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-05-27 14:08:43 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 5.489 seconds (process running for 6.326)
-2025-05-27 14:08:49 [http-nio-8080-exec-3] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-05-27 14:08:49 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-05-27 14:08:49 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2025-05-27 14:09:08 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 14:09:08 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-05-27 14:09:08 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-05-27 14:09:19 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 20476 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
-2025-05-27 14:09:19 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
-2025-05-27 14:09:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-05-27 14:09:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 73 ms. Found 6 JPA repository interfaces.
-2025-05-27 14:09:21 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-05-27 14:09:21 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-05-27 14:09:21 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
-2025-05-27 14:09:21 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-05-27 14:09:21 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1492 ms
-2025-05-27 14:09:21 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-05-27 14:09:21 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
-2025-05-27 14:09:21 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-05-27 14:09:21 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-05-27 14:09:22 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-05-27 14:09:22 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5d3b6585
-2025-05-27 14:09:22 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-05-27 14:09:23 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-05-27 14:09:23 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 14:09:23 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-05-27 14:09:24 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-05-27 14:09:24 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@56297b5f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@d9ef223, org.springframework.security.web.context.SecurityContextHolderFilter@7ee96c1c, org.springframework.security.web.header.HeaderWriterFilter@4ee6b207, org.springframework.web.filter.CorsFilter@7f14bdd1, org.springframework.security.web.authentication.logout.LogoutFilter@50f88cea, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@5db948c9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@df52b26, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1b320c39, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@17f2e01d, org.springframework.security.web.session.SessionManagementFilter@5df744d4, org.springframework.security.web.access.ExceptionTranslationFilter@3695e28a, org.springframework.security.web.access.intercept.AuthorizationFilter@2a8b1e67]
-2025-05-27 14:09:25 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2025-05-27 14:09:25 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 5.668 seconds (process running for 6.389)
-2025-05-27 14:09:27 [http-nio-8080-exec-4] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-05-27 14:09:27 [http-nio-8080-exec-4] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-05-27 14:09:27 [http-nio-8080-exec-4] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2025-05-27 14:10:01 [http-nio-8080-exec-2] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-27T14:10:01.902055200] USER: ilyadaUyar@gmail.com | ACTION: CREATE | ENTITY: LibrarysServiceImpl | DETAILS: 3
-2025-05-27 14:10:39 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-05-27 14:10:39 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-05-27 14:10:39 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-28 08:24:05 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 2152 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
+2025-05-28 08:24:05 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-28 08:24:06 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-28 08:24:06 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 101 ms. Found 6 JPA repository interfaces.
+2025-05-28 08:24:07 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-28 08:24:07 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-28 08:24:07 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-05-28 08:24:07 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-28 08:24:07 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2434 ms
+2025-05-28 08:24:08 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-28 08:24:08 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-05-28 08:24:08 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-28 08:24:08 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-28 08:24:08 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-28 08:24:09 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4b09d1c3
+2025-05-28 08:24:09 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-28 08:24:10 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-28 08:24:10 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-28 08:24:11 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-28 08:24:12 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-28 08:24:13 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@755dae57, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@18c49ecb, org.springframework.security.web.context.SecurityContextHolderFilter@5c1d1aa6, org.springframework.security.web.header.HeaderWriterFilter@2a4d34b2, org.springframework.web.filter.CorsFilter@27ffe1d6, org.springframework.security.web.authentication.logout.LogoutFilter@7a5151d7, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@1a531422, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3df3e1e9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@d2c8c3b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@bb510b, org.springframework.security.web.session.SessionManagementFilter@49afa057, org.springframework.security.web.access.ExceptionTranslationFilter@38d583cd, org.springframework.security.web.access.intercept.AuthorizationFilter@387907d]
+2025-05-28 08:24:13 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-05-28 08:24:13 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 9.062 seconds (process running for 11.101)
+2025-05-28 08:25:30 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-28 08:25:30 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-28 08:25:30 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-05-28 08:32:04 [http-nio-8080-exec-8] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T08:32:04.487504500] USER: ilyadaUyar@gmail.com | ACTION: UPDATE | ENTITY: BooksServiceImpl | DETAILS: 15
+2025-05-28 08:32:12 [http-nio-8080-exec-9] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T08:32:12.012421200] USER: ilyadaUyar@gmail.com | ACTION: DELETE | ENTITY: BooksServiceImpl | DETAILS: 15
+2025-05-28 08:32:49 [http-nio-8080-exec-4] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T08:32:49.420271200] USER: ilyadaUyar@gmail.com | ACTION: CREATE | ENTITY: BooksServiceImpl | DETAILS: Cin ali
+2025-05-28 09:01:08 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=10m57s746ms721µs500ns).
+2025-05-28 10:19:36 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-28 10:19:36 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-28 10:19:36 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-28 10:24:46 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 292 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
+2025-05-28 10:24:46 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-28 10:24:47 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-28 10:24:47 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 78 ms. Found 6 JPA repository interfaces.
+2025-05-28 10:24:48 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-28 10:24:48 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-28 10:24:48 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-05-28 10:24:48 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-28 10:24:48 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1530 ms
+2025-05-28 10:24:48 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-28 10:24:48 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-05-28 10:24:48 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-28 10:24:49 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-28 10:24:49 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-28 10:24:49 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7645b7d
+2025-05-28 10:24:49 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-28 10:24:50 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-28 10:24:50 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-28 10:24:50 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-28 10:24:51 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-28 10:24:52 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1d891373, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2ae6cde4, org.springframework.security.web.context.SecurityContextHolderFilter@56d9bc5f, org.springframework.security.web.header.HeaderWriterFilter@763a46fe, org.springframework.web.filter.CorsFilter@356285d9, org.springframework.security.web.authentication.logout.LogoutFilter@62ccf42c, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@475f5672, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@b69be74, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5cdd90c4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@314e2b4b, org.springframework.security.web.session.SessionManagementFilter@7b7bfa82, org.springframework.security.web.access.ExceptionTranslationFilter@b8da646, org.springframework.security.web.access.intercept.AuthorizationFilter@6cee6eb7]
+2025-05-28 10:24:52 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-05-28 10:24:52 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 6.068 seconds (process running for 7.062)
+2025-05-28 10:25:04 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-28 10:25:04 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-28 10:25:04 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-05-28 10:25:51 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-28 10:25:51 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-28 10:25:51 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-28 10:58:47 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 15248 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
+2025-05-28 10:58:47 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-28 10:58:47 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-28 10:58:47 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 80 ms. Found 6 JPA repository interfaces.
+2025-05-28 10:58:48 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-28 10:58:48 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-28 10:58:48 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-05-28 10:58:48 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-28 10:58:48 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1595 ms
+2025-05-28 10:58:48 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-28 10:58:49 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-05-28 10:58:49 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-28 10:58:49 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-28 10:58:49 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-28 10:58:49 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3ea84e01
+2025-05-28 10:58:49 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-28 10:58:50 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-28 10:58:50 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-28 10:58:51 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-28 10:58:51 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-28 10:58:52 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@19640d53, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@32f0a9c2, org.springframework.security.web.context.SecurityContextHolderFilter@789cdc12, org.springframework.security.web.header.HeaderWriterFilter@64cde9a5, org.springframework.web.filter.CorsFilter@773bfe56, org.springframework.security.web.authentication.logout.LogoutFilter@4fa78886, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@42297bdf, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1925be93, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@30a1e459, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5bdde886, org.springframework.security.web.session.SessionManagementFilter@356285d9, org.springframework.security.web.access.ExceptionTranslationFilter@13553b2e, org.springframework.security.web.access.intercept.AuthorizationFilter@52b2f795]
+2025-05-28 10:58:52 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-05-28 10:58:52 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 5.967 seconds (process running for 7.004)
+2025-05-28 10:58:53 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-28 10:58:53 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-28 10:58:53 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-05-28 10:59:55 [http-nio-8080-exec-9] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T10:59:55.219455900] USER: karabela26@hotmail.com.tr | ACTION: DELETE | ENTITY: LibrarysServiceImpl | DETAILS: 20
+2025-05-28 11:00:15 [http-nio-8080-exec-8] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:00:15.945969300] USER: ahmetnarin@example.com | ACTION: CREATE | ENTITY: BooksServiceImpl | DETAILS: Mamut
+2025-05-28 11:00:29 [http-nio-8080-exec-10] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:00:29.811497] USER: ahmetnarin@example.com | ACTION: UPDATE | ENTITY: BooksServiceImpl | DETAILS: 61
+2025-05-28 11:00:33 [http-nio-8080-exec-6] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:00:33.626028500] USER: ahmetnarin@example.com | ACTION: DELETE | ENTITY: BooksServiceImpl | DETAILS: 61
+2025-05-28 11:00:38 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-28 11:00:38 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-28 11:00:38 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-28 11:01:49 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Starting KutuphaneYonetimSistemiApplication using Java 17 with PID 18388 (C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi\target\classes started by Baran GÜLEGEN in C:\Users\Baran GÜLEGEN\IdeaProjects\Kutuphane_Yonetim_Sistemi)
+2025-05-28 11:01:49 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-28 11:01:50 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-28 11:01:50 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 89 ms. Found 6 JPA repository interfaces.
+2025-05-28 11:01:50 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-28 11:01:50 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-28 11:01:50 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-05-28 11:01:50 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-28 11:01:50 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1336 ms
+2025-05-28 11:01:51 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-28 11:01:51 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-05-28 11:01:51 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-28 11:01:51 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-28 11:01:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-28 11:01:51 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@56cd5d76
+2025-05-28 11:01:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-28 11:01:52 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-28 11:01:52 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-28 11:01:53 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-28 11:01:54 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-28 11:01:54 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7f14bdd1, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@17f2e01d, org.springframework.security.web.context.SecurityContextHolderFilter@df52b26, org.springframework.security.web.header.HeaderWriterFilter@27d1b432, org.springframework.web.filter.CorsFilter@a9c923f, org.springframework.security.web.authentication.logout.LogoutFilter@680ebfb2, org.glgnn.kutuphane_yonetim_sistemi.JwtFilter.JwtAuthFilter@73893ec1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2e0e1acf, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4d05b931, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@70e966a5, org.springframework.security.web.session.SessionManagementFilter@486bd746, org.springframework.security.web.access.ExceptionTranslationFilter@3f13c9a2, org.springframework.security.web.access.intercept.AuthorizationFilter@56297b5f]
+2025-05-28 11:01:54 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-05-28 11:01:54 [main] INFO  o.g.k.KutuphaneYonetimSistemiApplication - Started KutuphaneYonetimSistemiApplication in 5.514 seconds (process running for 6.338)
+2025-05-28 11:01:55 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-28 11:01:55 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-28 11:01:55 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-05-28 11:06:50 [http-nio-8080-exec-6] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:06:50.466147400] USER: test12345@hotmail.com | ACTION: CREATE | ENTITY: BooksServiceImpl | DETAILS: Mahmut
+2025-05-28 11:07:02 [http-nio-8080-exec-4] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:07:02.290024100] USER: test12345@hotmail.com | ACTION: UPDATE | ENTITY: BooksServiceImpl | DETAILS: 62
+2025-05-28 11:07:06 [http-nio-8080-exec-8] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:07:06.706646] USER: test12345@hotmail.com | ACTION: DELETE | ENTITY: BooksServiceImpl | DETAILS: 62
+2025-05-28 11:17:33 [http-nio-8080-exec-8] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:17:33.077786400] USER: test12345@hotmail.com | ACTION: CREATE | ENTITY: BooksServiceImpl | DETAILS: Rvp
+2025-05-28 11:17:44 [http-nio-8080-exec-3] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:17:44.930580800] USER: test12345@hotmail.com | ACTION: UPDATE | ENTITY: BooksServiceImpl | DETAILS: 63
+2025-05-28 11:17:49 [http-nio-8080-exec-5] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:17:49.143259200] USER: test12345@hotmail.com | ACTION: DELETE | ENTITY: BooksServiceImpl | DETAILS: 63
+2025-05-28 11:18:46 [http-nio-8080-exec-6] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:18:46.195895900] USER: test12345@hotmail.com | ACTION: UPDATE | ENTITY: LibrarysServiceImpl | DETAILS: 21
+2025-05-28 11:18:52 [http-nio-8080-exec-2] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:18:52.430830900] USER: test12345@hotmail.com | ACTION: DELETE | ENTITY: LibrarysServiceImpl | DETAILS: 21
+2025-05-28 11:19:13 [http-nio-8080-exec-7] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:19:13.240154700] USER: test12345@hotmail.com | ACTION: CREATE | ENTITY: CitizensServiceImpl | DETAILS: org.glgnn.kutuphane_yonetim_sistemi.Entities.Citizens@2ca5454c
+2025-05-28 11:19:22 [http-nio-8080-exec-7] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:19:22.943909300] USER: test12345@hotmail.com | ACTION: UPDATE | ENTITY: CitizensServiceImpl | DETAILS: 23
+2025-05-28 11:19:26 [http-nio-8080-exec-8] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:19:26.619473600] USER: test12345@hotmail.com | ACTION: DELETE | ENTITY: CitizensServiceImpl | DETAILS: 23
+2025-05-28 11:20:18 [http-nio-8080-exec-7] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:20:18.288565500] USER: test12345@hotmail.com | ACTION: UPDATE | ENTITY: AuthorsServiceImpl | DETAILS: 30
+2025-05-28 11:20:24 [http-nio-8080-exec-8] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:20:24.701149800] USER: test12345@hotmail.com | ACTION: DELETE | ENTITY: AuthorsServiceImpl | DETAILS: 30
+2025-05-28 11:21:22 [http-nio-8080-exec-9] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:21:22.037923900] USER: test12345@hotmail.com | ACTION: CREATE | ENTITY: LibrarysServiceImpl | DETAILS: 9
+2025-05-28 11:25:31 [http-nio-8080-exec-8] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:25:31.587539100] USER: test12345@hotmail.com | ACTION: CREATE | ENTITY: BooksServiceImpl | DETAILS: Love
+2025-05-28 11:25:49 [http-nio-8080-exec-1] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:25:49.455714600] USER: test12345@hotmail.com | ACTION: UPDATE | ENTITY: BooksServiceImpl | DETAILS: 64
+2025-05-28 11:25:55 [http-nio-8080-exec-9] INFO  o.g.k.Aspect.IslemKontrol - [2025-05-28T11:25:55.110240300] USER: test12345@hotmail.com | ACTION: DELETE | ENTITY: BooksServiceImpl | DETAILS: 64
+2025-05-28 11:29:09 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-28 11:29:09 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-28 11:29:09 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,6 +52,7 @@ public class LibrarysController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("deleteLibrary/{id}")
     public ResponseEntity<?> deleteLibrary(@PathVariable Long id) {
         try {
@@ -61,12 +63,14 @@ public class LibrarysController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/saveLibrary")
     public ResponseEntity<Librarys> saveLibrary(@RequestBody Librarys library)
     {
         return ResponseEntity.ok(libService.saveLibrary(library.getName(), library.getAddress()));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/updateLibrary/{id}")
     public ResponseEntity<?> updateLibrary(@PathVariable Long id, @RequestBody Librarys library) {
         try {

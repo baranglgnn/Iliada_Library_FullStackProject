@@ -13,7 +13,6 @@ import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.Borrowed_booksRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.CitizensRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Repositorys.LibrarysRepository;
 import org.glgnn.kutuphane_yonetim_sistemi.Services.Borrowed_booksService;
-import org.glgnn.kutuphane_yonetim_sistemi.Services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

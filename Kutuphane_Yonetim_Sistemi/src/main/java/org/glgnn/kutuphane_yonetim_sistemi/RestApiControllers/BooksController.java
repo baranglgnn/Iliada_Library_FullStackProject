@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,11 +61,13 @@ public class BooksController {
         return ResponseEntity.ok(bookService.GetBooksByAuthor(authorId));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addBook")
     public Books addBook(@RequestBody Books newBook) {
           return bookService.addBook(newBook.getTitle(),newBook.getAuthor().getId());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/deleteBook/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable Long id) {
         try {
@@ -74,6 +77,7 @@ public class BooksController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/updateBook/{id}")
     public ResponseEntity<?> updateBook(@PathVariable Long id, @RequestBody Books books) {
         try {

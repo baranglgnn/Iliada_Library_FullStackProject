@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,16 +42,19 @@ public class AuthorsController {
         return ResponseEntity.ok(authorPage);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/deleteAuthor/{id}")
     public ResponseEntity<Authors> deleteAuthor(@PathVariable Long id) {
         return ResponseEntity.ok(authorsService.deleteAuthor(id));
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/saveAuthor")
     public ResponseEntity<Authors> saveAuthor(@RequestBody Authors author)
     {
         Authors savedAuthor = new Authors(author.getName());
         return ResponseEntity.ok(authorsService.saveAuthor(savedAuthor));
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/updateAuthor/{id}")
     public ResponseEntity<Authors> updateAuthor(@PathVariable Long id, @RequestBody Authors author) {
         Authors updateAuthor = authorsService.getAuthorById(id);

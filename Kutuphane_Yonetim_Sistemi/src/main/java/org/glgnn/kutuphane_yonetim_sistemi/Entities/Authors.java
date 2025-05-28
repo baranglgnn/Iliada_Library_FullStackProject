@@ -11,7 +11,12 @@ import java.util.List;
 public class Authors {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_seq")
+    @SequenceGenerator(
+            name = "author_seq",
+            sequenceName = "author_sequence",
+            allocationSize = 1
+    )
     private Long id;
 
     @Column(name = "fullname", nullable = false)

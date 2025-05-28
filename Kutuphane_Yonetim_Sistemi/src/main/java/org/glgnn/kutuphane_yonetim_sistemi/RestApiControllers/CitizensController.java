@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,16 +43,19 @@ public class CitizensController {
         return ResponseEntity.ok(citizService.deletedCitizens());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/deleteCitzen/{id}")
     public Citizens deleteCitizen(@PathVariable Long id) {
         return citizService.deleteCitizen(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/saveCitizen")
     public Citizens addCitizen(@RequestBody Citizens citizen) {
-        return citizService.addCitizen(new Citizens(citizen.getTcNo(), citizen.getFullName(), citizen.getEmail()));
+        return citizService.addCitizen(new Citizens(citizen.getTcNo(), citizen.getFullName()));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/updateCitizen/{id}")
     public Citizens updateCitizen(@PathVariable Long id, @RequestBody Citizens citizen) {
         citizen.setTcNo(citizen.getTcNo());

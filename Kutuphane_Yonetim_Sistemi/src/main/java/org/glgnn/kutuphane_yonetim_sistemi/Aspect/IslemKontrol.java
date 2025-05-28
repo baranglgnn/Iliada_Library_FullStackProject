@@ -40,7 +40,7 @@ public class IslemKontrol {
     private void logAction(String actionType, JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         String details = (args.length > 0) ? args[0].toString() : "No details";
-        String username = getCurrentUsername(); // auth yoksa 'anonymous' yaz
+        String username = getCurrentUsername();
         String entity = joinPoint.getTarget().getClass().getSimpleName();
         String logEntry = String.format("[%s] USER: %s | ACTION: %s | ENTITY: %s | DETAILS: %s",
                 LocalDateTime.now(), username, actionType, entity, details);

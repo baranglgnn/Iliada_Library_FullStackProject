@@ -9,8 +9,14 @@ import java.time.LocalDate;
 public class Borrowed_books {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "borrowed_book_seq")
+    @SequenceGenerator(
+            name = "borrowed_book_seq",
+            sequenceName = "borrowed_book_sequence",
+            allocationSize = 1
+    )
     private Long id;
+
 
     @ManyToOne
     @JoinColumn(name = "citizen_id", nullable = false)

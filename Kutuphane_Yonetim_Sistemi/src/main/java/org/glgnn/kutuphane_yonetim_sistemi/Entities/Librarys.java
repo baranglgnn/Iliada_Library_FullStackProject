@@ -11,8 +11,14 @@ import java.util.List;
 public class Librarys {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "libraries_seq")
+    @SequenceGenerator(
+            name = "libraries_seq",
+            sequenceName = "libraries_sequence",
+            allocationSize = 1
+    )
     private Long id;
+
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;

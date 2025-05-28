@@ -10,8 +10,14 @@ import java.util.List;
 public class Books {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
+    @SequenceGenerator(
+            name = "book_seq",
+            sequenceName = "books_sequence",
+            allocationSize = 1
+    )
     private Long id;
+
 
     @Column(name = "title", nullable = false)
     private String title;

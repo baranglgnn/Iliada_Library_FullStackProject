@@ -9,8 +9,14 @@ import java.util.List;
 public class Citizens {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "citizen_seq")
+    @SequenceGenerator(
+            name = "citizen_seq",
+            sequenceName = "citizen_sequence",
+            allocationSize = 1
+    )
     private Long id;
+
 
     @Column(name = "tc_no", nullable = false, unique = true, length = 11)
     private String tcNo;
@@ -20,13 +26,12 @@ public class Citizens {
 
     @Column(name = "status", nullable = false)
     private boolean status = true;
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
 
-    public Citizens(String tcNo, String fullName, String email) {
+
+    public Citizens(String tcNo, String fullName) {
         this.tcNo = tcNo;
         this.fullName = fullName;
-        this.email = email;
+
     }
     public Citizens() {}
 
@@ -62,11 +67,5 @@ public class Citizens {
         this.status = status;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

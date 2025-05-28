@@ -67,7 +67,7 @@ public class CitizensServiceImpl implements CitizensService {
     @Override
     @Transactional
     public Citizens addCitizen(Citizens citizen) {
-        Citizens addCitizen = new Citizens(citizen.getTcNo(), citizen.getFullName(), citizen.getEmail());
+        Citizens addCitizen = new Citizens(citizen.getTcNo(), citizen.getFullName());
         return citizensRepo.save(addCitizen);
     }
     @Override

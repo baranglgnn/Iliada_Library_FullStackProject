@@ -11,9 +11,9 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY = "your-256-bit-long-secret-key-here"; // 256 bit uzunluğunda olduğundan emin olun
+    private static final String SECRET_KEY = "your-256-bit-long-secret-key-here";
     private Key key = new SecretKeySpec(SECRET_KEY.getBytes(StandardCharsets.UTF_8), SignatureAlgorithm.HS256.getJcaName());
-    private final long expirationMs = 3600000; // 1 saat
+    private final long expirationMs = 3600000;
 
     public String generateToken(String email) {
         return Jwts.builder()
